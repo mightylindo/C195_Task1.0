@@ -1,0 +1,8 @@
+module com.example.c195_task1 {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+
+    opens com.example.c195_task1 to javafx.fxml;
+    exports com.example.c195_task1;
+}
