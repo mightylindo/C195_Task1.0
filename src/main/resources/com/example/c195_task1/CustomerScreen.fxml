@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.c195_task1.CustomerScreenController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.CustomerScreenController">
+   <children>
+      <TableView layoutX="336.0" layoutY="85.0" prefHeight="600.0" prefWidth="600.0">
+        <columns>
+          <TableColumn prefWidth="117.0" text="Name" />
+          <TableColumn prefWidth="172.0" text="Address" />
+            <TableColumn prefWidth="83.0" text="Postal Code" />
+            <TableColumn prefWidth="109.0" text="Phone Number" />
+            <TableColumn prefWidth="118.0" text="CustomerID" />
+        </columns>
+      </TableView>
+      <TextField fx:id="nameTextField" layoutX="92.0" layoutY="136.0" promptText="Customer Name" />
+      <TextField fx:id="addressTextField" layoutX="92.0" layoutY="170.0" promptText="Address" />
+      <TextField fx:id="postalCodeTextField" layoutX="92.0" layoutY="204.0" promptText="Postal Code" />
+      <TextField fx:id="phoneNumberTextField" layoutX="92.0" layoutY="237.0" promptText="Phone Number" />
+      <TextField fx:id="customerIDTextField" disable="true" layoutX="92.0" layoutY="102.0" text="Customer ID" />
+      <Button fx:id="saveAndExitButton" layoutX="850.0" layoutY="747.0" mnemonicParsing="false" text="Save and Exit" />
+      <Button fx:id="deleteButton" layoutX="629.0" layoutY="734.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="addButton" layoutX="468.0" layoutY="734.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="Add" />
+      <Button fx:id="updateButton" layoutX="541.0" layoutY="734.0" mnemonicParsing="false" text="Update" />
+      <ComboBox fx:id="countryComboBox" layoutX="92.0" layoutY="269.0" prefWidth="150.0" promptText="Country" />
+      <ComboBox fx:id="stateComboBox" layoutX="92.0" layoutY="304.0" prefWidth="150.0" promptText="State/ Provience" />
+      <Label layoutX="92.0" layoutY="35.0" text="Customer Form">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
