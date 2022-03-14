@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.AppointmentScreenController">
    <children>
       <Label fx:id="titleLabel" layoutX="34.0" layoutY="53.0" text="Appointments Form">
@@ -34,7 +33,7 @@
       <Button fx:id="addButton" layoutX="389.0" layoutY="736.0" mnemonicParsing="false" text="Add" />
       <Button fx:id="updateButton" layoutX="440.0" layoutY="736.0" mnemonicParsing="false" text="Update" />
       <Button fx:id="deleteButton" layoutX="510.0" layoutY="736.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="saveAndExitButton" layoutX="849.0" layoutY="749.0" mnemonicParsing="false" text="Save and Exit" />
+      <Button fx:id="saveAndExitButton" layoutX="849.0" layoutY="749.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
       <RadioButton fx:id="weeklyRadioButton" layoutX="561.0" layoutY="70.0" mnemonicParsing="false" selected="true" text="Weekly" />
       <RadioButton fx:id="monthlyRadioButton" layoutX="635.0" layoutY="70.0" mnemonicParsing="false" text="Monthly" />
       <ComboBox fx:id="customerSelectComboBox" layoutX="25.0" layoutY="120.0" prefWidth="150.0" promptText="Select Customer" />

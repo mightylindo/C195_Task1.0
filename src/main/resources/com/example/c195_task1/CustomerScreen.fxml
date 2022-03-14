@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.CustomerScreenController">
    <children>
       <TableView layoutX="336.0" layoutY="85.0" prefHeight="600.0" prefWidth="600.0">
@@ -26,7 +25,7 @@
       <TextField fx:id="postalCodeTextField" layoutX="92.0" layoutY="204.0" promptText="Postal Code" />
       <TextField fx:id="phoneNumberTextField" layoutX="92.0" layoutY="237.0" promptText="Phone Number" />
       <TextField fx:id="customerIDTextField" disable="true" layoutX="92.0" layoutY="102.0" text="Customer ID" />
-      <Button fx:id="saveAndExitButton" layoutX="850.0" layoutY="747.0" mnemonicParsing="false" text="Save and Exit" />
+      <Button fx:id="saveAndExitButton" layoutX="850.0" layoutY="747.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
       <Button fx:id="deleteButton" layoutX="629.0" layoutY="734.0" mnemonicParsing="false" text="Delete" />
       <Button fx:id="addButton" layoutX="468.0" layoutY="734.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="Add" />
       <Button fx:id="updateButton" layoutX="541.0" layoutY="734.0" mnemonicParsing="false" text="Update" />

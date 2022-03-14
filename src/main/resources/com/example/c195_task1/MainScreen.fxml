@@ -5,12 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.MainScreenController">
    <children>
-      <Button fx:id="appointmentsButton" layoutX="254.0" layoutY="175.0" mnemonicParsing="false" text="Appointments" />
-      <Button fx:id="customerButton" layoutX="123.0" layoutY="175.0" mnemonicParsing="false" text="Customers" />
-      <Button fx:id="reportsButton" layoutX="401.0" layoutY="175.0" mnemonicParsing="false" text="Reports" />
+      <Button fx:id="appointmentsButton" layoutX="254.0" layoutY="175.0" mnemonicParsing="false" onAction="#appointments" text="Appointments" />
+      <Button fx:id="customerButton" layoutX="123.0" layoutY="175.0" mnemonicParsing="false" onAction="#customer" text="Customers" />
+      <Button fx:id="reportsButton" layoutX="401.0" layoutY="175.0" mnemonicParsing="false" onAction="#reports" text="Reports" />
       <Label fx:id="titleLabel" layoutX="123.0" layoutY="72.0" text="Welcome to C195 Tool">
          <font>
             <Font size="34.0" />

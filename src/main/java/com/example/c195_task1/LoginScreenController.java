@@ -9,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 
-
-
 import java.io.IOException;
 
 public class LoginScreenController {
@@ -25,7 +23,6 @@ public class LoginScreenController {
     @FXML
     public void loginClicked(ActionEvent actionEvent) throws IOException {
         System.out.println("It worked");
-        //nextScreen(Stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         Parent root = loader.load();
         MainScreenController controller = loader.getController();
@@ -35,13 +32,4 @@ public class LoginScreenController {
         stage.setScene(scene);
         stage.show();
     }
-
-    //public void nextScreen (Stage stage) throws IOException {
-       // FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainScreen.fxml"));
-        //MainScreenController controller = fxmlLoader.load();
-        //Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        //stage.setTitle("C195 Task1");
-        //stage.setScene(scene);
-        //stage.show();
-    //}
 }

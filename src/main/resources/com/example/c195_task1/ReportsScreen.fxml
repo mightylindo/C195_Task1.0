@@ -9,6 +9,6 @@
       <Button fx:id="report1Button" layoutX="274.0" layoutY="84.0" mnemonicParsing="false" text="Report 1" />
       <Button fx:id="report2Button" layoutX="274.0" layoutY="168.0" mnemonicParsing="false" text="Report 2" />
       <Button fx:id="report3Button" layoutX="274.0" layoutY="250.0" mnemonicParsing="false" text="Report 3" />
-      <Button fx:id="saveAndExitButton" layoutX="509.0" layoutY="347.0" mnemonicParsing="false" text="Save and Exit" />
+      <Button fx:id="saveAndExitButton" layoutX="509.0" layoutY="347.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
    </children>
 </AnchorPane>
