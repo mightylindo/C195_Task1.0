@@ -13,11 +13,11 @@
    <children>
       <TableView layoutX="336.0" layoutY="85.0" prefHeight="600.0" prefWidth="600.0">
         <columns>
-          <TableColumn prefWidth="117.0" text="Name" />
-          <TableColumn prefWidth="172.0" text="Address" />
-            <TableColumn prefWidth="83.0" text="Postal Code" />
-            <TableColumn prefWidth="109.0" text="Phone Number" />
-            <TableColumn prefWidth="118.0" text="CustomerID" />
+          <TableColumn fx:id="nameColumn" prefWidth="117.0" text="Name" />
+          <TableColumn fx:id="addressColumn" prefWidth="172.0" text="Address" />
+            <TableColumn fx:id="postalCodeColumn" prefWidth="83.0" text="Postal Code" />
+            <TableColumn fx:id="phoneColumn" prefWidth="109.0" text="Phone Number" />
+            <TableColumn fx:id="customerIDColumn" prefWidth="118.0" text="CustomerID" />
         </columns>
       </TableView>
       <TextField fx:id="nameTextField" layoutX="92.0" layoutY="136.0" promptText="Customer Name" />

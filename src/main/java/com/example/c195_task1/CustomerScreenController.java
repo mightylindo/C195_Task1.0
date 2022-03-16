@@ -4,6 +4,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -17,22 +18,21 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class CustomerScreenController implements Initializable {
+    public TableView customerTable;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Initialized");
-        /**testing user class
-        Users Bob = new Users(1, "Bob", "1234", "Jill", "Frank");
-        Bob.setUserID(2);
-        Bob.setUserName("Frank");
-        Bob.setPassword("4321");
-        Bob.setCreateBy("Bob");
-        Bob.setLastUpdatedBy("Jill");
-        System.out.println(Bob.getUserID());
-        System.out.println(Bob.getUserName());
-        System.out.println(Bob.getPassword());
-        System.out.println(Bob.getCreateBy());
+        Customers Bob = new Customers(1, "Bob", "123 W Good St", "12345",
+                "123-456-7890", "Jill", "Frank", 24);
+        System.out.println(Bob.getCustomerID());
+        System.out.println(Bob.getCustomerName());
+        System.out.println(Bob.getAddress());
+        System.out.println(Bob.getPostalCode());
+        System.out.println(Bob.getPhone());
+        System.out.println(Bob.getCreatedBy());
         System.out.println(Bob.getLastUpdatedBy());
-         */
+        System.out.println(Bob.getDivisionID());
     }
 
     @FXML
