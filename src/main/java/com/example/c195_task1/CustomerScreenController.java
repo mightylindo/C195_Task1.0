@@ -20,13 +20,19 @@ public class CustomerScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Initialized");
-        //testing user class
+        /**testing user class
         Users Bob = new Users(1, "Bob", "1234", "Jill", "Frank");
+        Bob.setUserID(2);
+        Bob.setUserName("Frank");
+        Bob.setPassword("4321");
+        Bob.setCreateBy("Bob");
+        Bob.setLastUpdatedBy("Jill");
         System.out.println(Bob.getUserID());
         System.out.println(Bob.getUserName());
         System.out.println(Bob.getPassword());
         System.out.println(Bob.getCreateBy());
         System.out.println(Bob.getLastUpdatedBy());
+         */
     }
 
     @FXML
