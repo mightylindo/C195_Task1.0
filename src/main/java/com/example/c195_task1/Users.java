@@ -13,13 +13,13 @@ public class Users {
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
 
-    public Users(int userID, String userName, String password, Date createDate, String createBy, Timestamp lastUpdate, String lastUpdatedBy){
+    public Users(int userID, String userName, String password, String createBy, String lastUpdatedBy){
         this.userID = userID;
         this.userName = userName;
         this.password = password;
-        this.createDate = createDate;
+        //this.createDate = createDate;
         this.createBy = createBy;
-        this.lastUpdate = lastUpdate;
+        //this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
     }
     /**
@@ -50,11 +50,11 @@ public class Users {
     /**
      * @return the createDate
      */
-    public Date getCreateDate(){return createDate;}
+    //public Date getCreateDate(){return createDate;}
     /**
      * @param createDate to createDate to set
      */
-    public void setCreateDate(Date createDate){this.createDate = createDate;}
+    //public void setCreateDate(Date createDate){this.createDate = createDate;}
     /**
      * @return the createBy
      */
@@ -66,11 +66,11 @@ public class Users {
     /**
      * @return the lastUpdate
      */
-    public Timestamp getLastUpdate(){return lastUpdate;}
+    //public Timestamp getLastUpdate(){return lastUpdate;}
     /**
      * @param lastUpdate to lastUpdate to set
      */
-    public void setLastUpdate(Timestamp lastUpdate){this.lastUpdate = lastUpdate;}
+    //public void setLastUpdate(Timestamp lastUpdate){this.lastUpdate = lastUpdate;}
     /**
      * @return the lastUpdatedBy
      */

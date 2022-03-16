@@ -1,5 +1,6 @@
 package com.example.c195_task1;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,9 +12,22 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 
+import java.net.URL;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
-public class CustomerScreenController {
+public class CustomerScreenController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        System.out.println("Initialized");
+        //testing user class
+        Users Bob = new Users(1, "Bob", "1234", "Jill", "Frank");
+        System.out.println(Bob.getUserID());
+        System.out.println(Bob.getUserName());
+        System.out.println(Bob.getPassword());
+        System.out.println(Bob.getCreateBy());
+        System.out.println(Bob.getLastUpdatedBy());
+    }
 
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
