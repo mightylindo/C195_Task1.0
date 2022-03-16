@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import java.io.IOException;
 
 public class CustomerScreenController {
+
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
