@@ -9,22 +9,22 @@ public class Customers {
     private String address;
     private String postalCode;
     private String phone;
-   //private Date createDate;
+    private Date createDate;
     private String createdBy;
-    //private Timestamp lastUpdate;
+    private Timestamp lastUpdate;
     private String lastUpdatedBy;
     private int divisionID;
 
-    public Customers(int customerID, String customerName, String address, String postalCode, String phone ,
-                     String createdBy , String lastUpdatedBy, int divisionID){
+    public Customers(int customerID, String customerName, String address, String postalCode, String phone, Date createDate,
+                     String createdBy , Timestamp lastUpdate, String lastUpdatedBy, int divisionID){
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-        //this.createDate = createDate;
+        this.createDate = createDate;
         this.createdBy = createdBy;
-        //this.lastUpdate = lastUpdate;
+        this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
     }
@@ -71,11 +71,11 @@ public class Customers {
     /**
      * @return createDate
      */
-    //public Date getCreateDate(){return createDate;}
+    public Date getCreateDate(){return createDate;}
     /**
      * @param createDate to createDate to set
      */
-    //public void setCreateDate(Date createDate) {this.createDate = createDate;}
+    public void setCreateDate(Date createDate) {this.createDate = createDate;}
     /**
      * @return createdBy
      */
@@ -87,11 +87,11 @@ public class Customers {
     /**
      * @return lastUpdate
      */
-    //public Timestamp getLastUpdate(){return lastUpdate;}
+    public Timestamp getLastUpdate(){return lastUpdate;}
     /**
      * @param lastUpdate to lastUpdate to set
      */
-    //public void setLastUpdate(Timestamp lastUpdate){this.lastUpdate = lastUpdate;}
+    public void setLastUpdate(Timestamp lastUpdate){this.lastUpdate = lastUpdate;}
     /**
      * @return lastUpdatedBy
      */

@@ -23,16 +23,6 @@ public class CustomerScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Initialized");
-        Customers Bob = new Customers(1, "Bob", "123 W Good St", "12345",
-                "123-456-7890", "Jill", "Frank", 24);
-        System.out.println(Bob.getCustomerID());
-        System.out.println(Bob.getCustomerName());
-        System.out.println(Bob.getAddress());
-        System.out.println(Bob.getPostalCode());
-        System.out.println(Bob.getPhone());
-        System.out.println(Bob.getCreatedBy());
-        System.out.println(Bob.getLastUpdatedBy());
-        System.out.println(Bob.getDivisionID());
     }
 
     @FXML
