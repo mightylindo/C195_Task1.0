@@ -1,6 +1,7 @@
 module com.example.c195_task1 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens com.example.c195_task1 to javafx.fxml;
