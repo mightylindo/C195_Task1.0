@@ -1,4 +1,4 @@
-package com.example.c195_task1;
+package Model;
 
 public class Contacts {
     private int contactID;

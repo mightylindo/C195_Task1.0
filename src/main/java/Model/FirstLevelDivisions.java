@@ -1,4 +1,4 @@
-package com.example.c195_task1;
+package Model;
 
 import java.security.Timestamp;
 import java.time.zone.ZoneOffsetTransitionRule;

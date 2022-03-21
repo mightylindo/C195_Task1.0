@@ -6,4 +6,6 @@ module com.example.c195_task1 {
 
     opens com.example.c195_task1 to javafx.fxml;
     exports com.example.c195_task1;
+    exports Model;
+    opens Model to javafx.fxml;
 }
