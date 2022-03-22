@@ -11,7 +11,7 @@ public class DBConnection {
 
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
-    private static final String ipAddress = "3306";
+    private static final String ipAddress = "//localhost:3306/";
     private static final String dbName = "client_schedule";
 
     private static final String jdbcURL = protocol + vendorName + ipAddress + dbName;
@@ -39,6 +39,7 @@ public class DBConnection {
     public static void closeConnection(){
         try{
             conn.close();
+            System.out.println("Connection Closed");
         }
         catch (Exception e){
             //do nothing
