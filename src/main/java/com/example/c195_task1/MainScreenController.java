@@ -1,5 +1,8 @@
 package com.example.c195_task1;
 
+import DBAccess.DBCountries;
+import Model.Countries;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -16,7 +19,13 @@ import java.io.IOException;
 
 public class MainScreenController {
 
-
+    @FXML
+    public void test(ActionEvent actionEvent){
+        ObservableList<Countries> clist = DBCountries.getCountries();
+        for(Countries c : clist){
+            System.out.println("Country ID : " + c.getCountryID() + " Country : " + c.getCountry());
+        }
+    }
 
     @FXML
     public void customer(ActionEvent actionEvent) throws IOException{

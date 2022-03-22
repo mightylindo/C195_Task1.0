@@ -11,12 +11,19 @@ public class Countries {
     private Timestamp lastUpdated;
     private String lastUpdatedBy;
 
-    public Countries(int countryID, String country, Date createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy){
+    public Countries(int countryID, String country){
         this.countryID = countryID;
         this.country = country;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdated = lastUpdated;
-        this.lastUpdatedBy = lastUpdatedBy;
+        //this.createDate = createDate;
+        //this.createdBy = createdBy;
+        //this.lastUpdated = lastUpdated;
+        //this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public int getCountryID(){
+        return countryID;
+    }
+    public String getCountry(){
+        return country;
     }
 }
