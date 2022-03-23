@@ -1,7 +1,9 @@
 package com.example.c195_task1;
 
 import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
 import Model.Countries;
+import Model.Customers;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
@@ -21,9 +23,10 @@ public class MainScreenController {
 
     @FXML
     public void test(ActionEvent actionEvent){
-        ObservableList<Countries> clist = DBCountries.getCountries();
-        for(Countries c : clist){
-            System.out.println("Country ID : " + c.getCountryID() + " Country : " + c.getCountry());
+       // ObservableList<Countries> clist = DBCountries.getCountries();
+        ObservableList<Customers> clist = DBCustomers.getCustomers();
+        for(Customers c : clist){
+            System.out.println("Customer ID : " + c.getCustomerID() + " Name : " + c.getCustomerName() + " Address: " + c.getAddress() + " Postal code: " + c.getPostalCode() + " phone: " + c.getPhone());
         }
     }
 

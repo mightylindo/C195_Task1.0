@@ -28,7 +28,6 @@ public class DBCountries {
             e.printStackTrace();
         }
 
-
         return clist;
     }
 }
