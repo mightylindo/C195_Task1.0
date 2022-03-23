@@ -67,6 +67,17 @@ public class CustomerScreenController implements Initializable {
     }
 
     @FXML
+    public void update(ActionEvent actionEvent) throws IOException {
+        Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
+        select.setCustomerName(nameTextField.getText());
+        select.setAddress(addressTextField.getText());
+        select.setPostalCode(postalCodeTextField.getText());
+        select.setPhone(phoneNumberTextField.getText());
+        DBCustomers.updateCustomer(select);
+        customerTable.setItems((DBCustomers.getCustomers()));
+    }
+
+    @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         Parent root = loader.load();
@@ -77,4 +88,5 @@ public class CustomerScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
 }

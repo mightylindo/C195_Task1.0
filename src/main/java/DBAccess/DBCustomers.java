@@ -62,4 +62,18 @@ public class DBCustomers {
             e.printStackTrace();
         }
     }
+    public static void updateCustomer(Customers selectedCustomer){
+
+        try{
+            String sqlCommand = "UPDATE Customers SET Customer_Name = '" + selectedCustomer.getCustomerName() + "', Address = '" + selectedCustomer.getAddress() +
+                    "', Postal_Code = '" + selectedCustomer.getPostalCode() + "', Phone = '" + selectedCustomer.getPhone() + "' WHERE Customer_ID = " +
+                    selectedCustomer.getCustomerID() + ";";
+            System.out.println(sqlCommand);
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sqlCommand);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
