@@ -32,7 +32,8 @@ public class CustomerScreenController implements Initializable {
     public TextField customerIDTextField;
     public Button addButton;
     public static int uniqueID = 3;
-    public static int division = 4;
+    public static int division = 1;
+
 
 
     @Override
@@ -53,8 +54,7 @@ public class CustomerScreenController implements Initializable {
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         int customerID = uniqueID + 1;
-        int divisionID = division + 1;
-        DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, divisionID));
+        DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, division));
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
     }
