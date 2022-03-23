@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DBCustomers {
-    private static ObservableList<Customers> allCustomers = FXCollections.observableArrayList();
 
     public static ObservableList<Customers> getCustomers(){
         ObservableList<Customers> clist = FXCollections.observableArrayList();
@@ -23,7 +22,8 @@ public class DBCustomers {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
-                Customers c = new Customers(customerID, customerName, address, postalCode, phone);
+                int division = rs.getInt("Division_ID");
+                Customers c = new Customers(customerID, customerName, address, postalCode, phone, division);
                 clist.add(c);
             }
         } catch (SQLException e) {
@@ -41,7 +41,7 @@ public class DBCustomers {
             String address = newCustomer.getAddress();
             String postalCode = newCustomer.getPostalCode();
             String phone = newCustomer.getPhone();
-            int divisionID = 4;
+            int divisionID = newCustomer.getDivisionID();
             String sql = sqlCommand + "'" + customerID + "', '" +customerName + "', '" + address + "', '" + postalCode + "', '" + phone + "', '" + divisionID + "');";
             System.out.println(sql);
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);

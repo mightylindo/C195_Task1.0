@@ -15,7 +15,7 @@ public class Customers {
     private String lastUpdatedBy;
     private int divisionID;
 
-    public Customers(int customerID, String customerName, String address, String postalCode, String phone){
+    public Customers(int customerID, String customerName, String address, String postalCode, String phone, int divisionID){
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
@@ -25,7 +25,7 @@ public class Customers {
         //this.createdBy = createdBy;
         //this.lastUpdate = lastUpdate;
         //this.lastUpdatedBy = lastUpdatedBy;
-        //this.divisionID = divisionID;
+        this.divisionID = divisionID;
     }
     /**
      * @return customerID
