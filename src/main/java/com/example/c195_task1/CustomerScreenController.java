@@ -1,5 +1,6 @@
 package com.example.c195_task1;
 import DBAccess.DBCustomers;
+import Model.Customers;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -29,6 +30,8 @@ public class CustomerScreenController implements Initializable {
     public TextField postalCodeTextField;
     public TextField phoneNumberTextField;
     public TextField customerIDTextField;
+    public Button addButton;
+    public static int uniqueID = 3;
 
 
     @Override
@@ -41,7 +44,17 @@ public class CustomerScreenController implements Initializable {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
     }
-
+    
+    @FXML
+    public void Add(ActionEvent actionEvent) throws IOException {
+        String name = nameTextField.getText();
+        String address = addressTextField.getText();
+        String postalCode = postalCodeTextField.getText();
+        String phone = phoneNumberTextField.getText();
+        int customerID = uniqueID + 1;
+        DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone));
+    }
+    
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));

@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DBCustomers {
+    private static ObservableList<Customers> allCustomers = FXCollections.observableArrayList();
 
     public static ObservableList<Customers> getCustomers(){
         ObservableList<Customers> clist = FXCollections.observableArrayList();
@@ -29,7 +30,25 @@ public class DBCustomers {
             e.printStackTrace();
         }
 
-
         return clist;
+    }
+    public static void addCustomer(Customers newCustomer){
+
+        try {
+            String sqlCommand = "INSERT INTO Customers(Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(";
+            int customerID = newCustomer.getCustomerID();
+            String customerName = newCustomer.getCustomerName();
+            String address = newCustomer.getAddress();
+            String postalCode = newCustomer.getPostalCode();
+            String phone = newCustomer.getPhone();
+            int divisionID = 4;
+            String sql = sqlCommand + "'" + customerID + "', '" +customerName + "', '" + address + "', '" + postalCode + "', '" + phone + "', '" + divisionID + "');";
+            System.out.println(sql);
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

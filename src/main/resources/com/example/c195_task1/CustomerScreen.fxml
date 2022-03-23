@@ -27,7 +27,7 @@
       <TextField fx:id="customerIDTextField" disable="true" layoutX="92.0" layoutY="102.0" text="Customer ID" />
       <Button fx:id="saveAndExitButton" layoutX="850.0" layoutY="747.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
       <Button fx:id="deleteButton" layoutX="629.0" layoutY="734.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="addButton" layoutX="468.0" layoutY="734.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="Add" />
+      <Button fx:id="addButton" layoutX="468.0" layoutY="734.0" mnemonicParsing="false" onAction="#Add" prefHeight="25.0" prefWidth="38.0" text="Add" />
       <Button fx:id="updateButton" layoutX="541.0" layoutY="734.0" mnemonicParsing="false" text="Update" />
       <ComboBox fx:id="countryComboBox" layoutX="92.0" layoutY="269.0" prefWidth="150.0" promptText="Country" />
       <ComboBox fx:id="stateComboBox" layoutX="92.0" layoutY="304.0" prefWidth="150.0" promptText="State/ Provience" />
