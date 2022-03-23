@@ -51,4 +51,15 @@ public class DBCustomers {
         }
 
     }
+    public static void deleteCustomer(Customers selectedCustomer){
+
+        try{
+            String sqlCommand = "DELETE FROM Customers WHERE Customer_ID = '" + selectedCustomer.getCustomerID() + "';";
+            System.out.println(sqlCommand);
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sqlCommand);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

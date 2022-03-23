@@ -31,7 +31,7 @@ public class CustomerScreenController implements Initializable {
     public TextField phoneNumberTextField;
     public TextField customerIDTextField;
     public Button addButton;
-    public static int uniqueID = 4;
+    public static int uniqueID = 3;
     public static int division = 4;
 
 
@@ -58,7 +58,14 @@ public class CustomerScreenController implements Initializable {
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
     }
-    
+
+    @FXML
+    public void delete(ActionEvent actionEvent) throws IOException {
+        Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
+        DBCustomers.deleteCustomer(select);
+        customerTable.setItems(DBCustomers.getCustomers());
+    }
+
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
