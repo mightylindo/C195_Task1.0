@@ -1,10 +1,10 @@
 package com.example.c195_task1;
+import DBAccess.DBCustomers;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -19,10 +19,27 @@ import java.util.ResourceBundle;
 
 public class CustomerScreenController implements Initializable {
     public TableView customerTable;
+    public TableColumn nameColumn;
+    public TableColumn addressColumn;
+    public TableColumn postalCodeColumn;
+    public TableColumn phoneColumn;
+    public TableColumn customerIDColumn;
+    public TextField nameTextField;
+    public TextField addressTextField;
+    public TextField postalCodeTextField;
+    public TextField phoneNumberTextField;
+    public TextField customerIDTextField;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Initialized");
+        customerTable.setItems(DBCustomers.getCustomers());
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("PostalCode"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
     }
 
     @FXML
