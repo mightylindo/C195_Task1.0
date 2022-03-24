@@ -1,15 +1,15 @@
 package com.example.c195_task1;
 import DBAccess.DBCustomers;
 import Model.Customers;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
@@ -33,7 +33,11 @@ public class CustomerScreenController implements Initializable {
     public Button addButton;
     public static int uniqueID = 3;
     public static int division = 1;
-
+    public Button saveAndExitButton;
+    public Button updateButton;
+    public Button deleteButton;
+    public ComboBox countryComboBox;
+    public ComboBox stateComboBox;
 
 
     @Override
@@ -61,9 +65,17 @@ public class CustomerScreenController implements Initializable {
 
     @FXML
     public void delete(ActionEvent actionEvent) throws IOException {
-        Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
-        DBCustomers.deleteCustomer(select);
-        customerTable.setItems(DBCustomers.getCustomers());
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Delete");
+        alert.setContentText("Do you really want to delete this customer?");
+
+        //Need to add a protection against deleting a customer that has an appointment
+        if(alert.showAndWait().get() == ButtonType.OK){
+            Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
+            DBCustomers.deleteCustomer(select);
+            customerTable.setItems(DBCustomers.getCustomers());
+        }
+
     }
 
     @FXML
@@ -89,4 +101,12 @@ public class CustomerScreenController implements Initializable {
         stage.show();
     }
 
+    public void select(MouseEvent mouseEvent) {
+        Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
+        customerIDTextField.setText(Integer.toString(select.getCustomerID()));
+        nameTextField.setText(select.getCustomerName());
+        addressTextField.setText(select.getAddress());
+        postalCodeTextField.setText(select.getPostalCode());
+        phoneNumberTextField.setText(select.getPhone());
+    }
 }
