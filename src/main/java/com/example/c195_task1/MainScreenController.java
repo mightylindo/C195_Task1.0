@@ -26,10 +26,10 @@ public class MainScreenController {
     @FXML
     public void test(ActionEvent actionEvent){
 
-        ObservableList<FirstLevelDivisions> clist = DBFirstLevelDivisions.getFirstLevel();
-        for(FirstLevelDivisions c : clist){
-            System.out.println("DivisionID: " + c.getDivisionID() + " Division: " + c.getDivision() + " CountryID: " + c.getCountryID());
-        }
+        //ObservableList<FirstLevelDivisions> clist = DBFirstLevelDivisions.getFirstLevel();
+        //for(FirstLevelDivisions c : clist){
+         //   System.out.println("DivisionID: " + c.getDivisionID() + " Division: " + c.getDivision() + " CountryID: " + c.getCountryID());
+        //}
     }
 
     @FXML

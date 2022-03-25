@@ -29,8 +29,8 @@
       <Button fx:id="deleteButton" layoutX="629.0" layoutY="734.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
       <Button fx:id="addButton" layoutX="468.0" layoutY="734.0" mnemonicParsing="false" onAction="#Add" prefHeight="25.0" prefWidth="38.0" text="Add" />
       <Button fx:id="updateButton" layoutX="541.0" layoutY="734.0" mnemonicParsing="false" onAction="#update" text="Update" />
-      <ComboBox fx:id="countryComboBox" layoutX="92.0" layoutY="269.0" prefWidth="150.0" promptText="Country" />
-      <ComboBox fx:id="stateComboBox" layoutX="92.0" layoutY="304.0" prefWidth="150.0" promptText="State/ Provience" />
+      <ComboBox fx:id="countryComboBox" layoutX="92.0" layoutY="269.0" onAction="#selectedCountry" prefWidth="150.0" promptText="Country" />
+      <ComboBox fx:id="stateComboBox" layoutX="92.0" layoutY="304.0" onMouseClicked="#divisions" prefWidth="150.0" promptText="State/ Provience" />
       <Label layoutX="92.0" layoutY="35.0" text="Customer Form">
          <font>
             <Font size="34.0" />

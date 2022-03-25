@@ -1,9 +1,12 @@
 package com.example.c195_task1;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
+import DBAccess.DBFirstLevelDivisions;
 import Model.Countries;
 import Model.Customers;
 
+import Model.FirstLevelDivisions;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -40,7 +43,8 @@ public class CustomerScreenController implements Initializable {
     public Button updateButton;
     public Button deleteButton;
     public ComboBox<Countries> countryComboBox;
-    public ComboBox stateComboBox;
+    public ComboBox<FirstLevelDivisions> stateComboBox;
+    public int countryID = 1;
 
 
     @Override
@@ -113,5 +117,29 @@ public class CustomerScreenController implements Initializable {
         addressTextField.setText(select.getAddress());
         postalCodeTextField.setText(select.getPostalCode());
         phoneNumberTextField.setText(select.getPhone());
+    }
+
+    public void divisions(MouseEvent actionEvent) {
+        //ObservableList<FirstLevelDivisions> dlist = DBFirstLevelDivisions.getFirstLevel();
+        if(countryID == 1){
+            System.out.println(countryID);
+            ObservableList<FirstLevelDivisions> dlist = DBFirstLevelDivisions.getFirstLevel1();
+            stateComboBox.setItems(dlist);
+        }
+        else if(countryID == 2){
+            ObservableList<FirstLevelDivisions> dlist = DBFirstLevelDivisions.getFirstLevel2();
+            System.out.println(countryID);
+            stateComboBox.setItems(dlist);
+        }
+        else{
+            ObservableList<FirstLevelDivisions> dlist = DBFirstLevelDivisions.getFirstLevel3();
+            System.out.println(countryID);
+            stateComboBox.setItems(dlist);
+        }
+    }
+
+    public void selectedCountry(ActionEvent actionEvent) {
+        Countries select = (Countries) countryComboBox.getSelectionModel().getSelectedItem();
+        countryID = select.getCountryID();
     }
 }
