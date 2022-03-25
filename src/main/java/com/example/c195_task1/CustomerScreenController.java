@@ -44,7 +44,7 @@ public class CustomerScreenController implements Initializable {
     public Button deleteButton;
     public ComboBox<Countries> countryComboBox;
     public ComboBox<FirstLevelDivisions> stateComboBox;
-    public int countryID = 1;
+    public int countryID = 0;
 
 
     @Override
@@ -120,8 +120,13 @@ public class CustomerScreenController implements Initializable {
     }
 
     public void divisions(MouseEvent actionEvent) {
-        //ObservableList<FirstLevelDivisions> dlist = DBFirstLevelDivisions.getFirstLevel();
-        if(countryID == 1){
+        if(countryID == 0){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please select from country combo box first.");
+            alert.showAndWait();
+        }
+        else if(countryID == 1){
             System.out.println(countryID);
             ObservableList<FirstLevelDivisions> dlist = DBFirstLevelDivisions.getFirstLevel1();
             stateComboBox.setItems(dlist);
