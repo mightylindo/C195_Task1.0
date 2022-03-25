@@ -1,7 +1,10 @@
 package com.example.c195_task1;
+import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
+import Model.Countries;
 import Model.Customers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -36,7 +39,7 @@ public class CustomerScreenController implements Initializable {
     public Button saveAndExitButton;
     public Button updateButton;
     public Button deleteButton;
-    public ComboBox countryComboBox;
+    public ComboBox<Countries> countryComboBox;
     public ComboBox stateComboBox;
 
 
@@ -49,6 +52,8 @@ public class CustomerScreenController implements Initializable {
         postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("PostalCode"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
+        ObservableList<Countries> clist = DBCountries.getCountries();
+        countryComboBox.setItems(clist);
     }
     
     @FXML
