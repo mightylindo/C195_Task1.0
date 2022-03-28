@@ -54,4 +54,15 @@ public class DBAppointments {
             e.printStackTrace();
         }
     }
+
+    public static void deleteAppointment(Appointments selectedAppointment){
+        try{
+            String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = "+ selectedAppointment.getAppointmentID() + ";";
+            System.out.println(sql);
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

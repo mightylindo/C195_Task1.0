@@ -93,4 +93,10 @@ public class AppointmentScreenController implements Initializable {
 
 
     }
+
+    public void deleteButton(ActionEvent actionEvent) throws IOException {
+        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+        DBAppointments.deleteAppointment(select);
+        appointmentsTableview.setItems(DBAppointments.getAppointments());
+    }
 }
