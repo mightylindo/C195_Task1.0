@@ -1,8 +1,10 @@
 package com.example.c195_task1;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBFirstLevelDivisions;
+import Model.Appointments;
 import Model.Countries;
 import Model.Customers;
 import Model.FirstLevelDivisions;
@@ -26,10 +28,10 @@ public class MainScreenController {
     @FXML
     public void test(ActionEvent actionEvent){
 
-        //ObservableList<FirstLevelDivisions> clist = DBFirstLevelDivisions.getFirstLevel();
-        //for(FirstLevelDivisions c : clist){
-         //   System.out.println("DivisionID: " + c.getDivisionID() + " Division: " + c.getDivision() + " CountryID: " + c.getCountryID());
-        //}
+        ObservableList<Appointments> alist = DBAppointments.getAppointments();
+        for(Appointments a : alist){
+            System.out.println("AppointmentID: " + a.getAppointmentID() + " Title: " + a.getTitle() + " Description: " + a.getDescription() + " UserID: " + a.getUserID());
+        }
     }
 
     @FXML

@@ -19,19 +19,19 @@ public class Appointments {
     private int userID;
     private int contactID;
 
-    public Appointments(int appointmentID, String title, String description, String location, String type, Date start, Date end, Date createDate,
-                        String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
+    public Appointments(int appointmentID, String title, String description, String location, String type,
+                         int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
-        this.start = start;
-        this.end = end;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdatedBy = lastUpdatedBy;
+        //this.start = start;
+        //this.end = end;
+        //this.createDate = createDate;
+        //this.createdBy = createdBy;
+        //this.lastUpdate = lastUpdate;
+        //this.lastUpdatedBy = lastUpdatedBy;
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
