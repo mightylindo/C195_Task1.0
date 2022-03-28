@@ -77,7 +77,7 @@ public class AppointmentScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    @FXML
     public void addButton(ActionEvent actionEvent) throws IOException{
         Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
         int customerID = customer.getCustomerID();
@@ -93,10 +93,20 @@ public class AppointmentScreenController implements Initializable {
 
 
     }
-
+    @FXML
     public void deleteButton(ActionEvent actionEvent) throws IOException {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
         DBAppointments.deleteAppointment(select);
+        appointmentsTableview.setItems(DBAppointments.getAppointments());
+    }
+    @FXML
+    public void updateButton(ActionEvent actionEvent) throws IOException {
+        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+        select.setDescription(appointmentDescriptionTextField.getText());
+        select.setLocation(locationTextField.getText());
+        select.setType(typeTextField.getText());
+        select.setContactID(Integer.parseInt(contactTextField.getText()));
+        DBAppointments.updateAppointment(select);
         appointmentsTableview.setItems(DBAppointments.getAppointments());
     }
 }

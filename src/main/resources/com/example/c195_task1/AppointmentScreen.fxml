@@ -31,7 +31,7 @@
         </columns>
       </TableView>
       <Button fx:id="addButton" layoutX="389.0" layoutY="736.0" mnemonicParsing="false" onAction="#addButton" text="Add" />
-      <Button fx:id="updateButton" layoutX="440.0" layoutY="736.0" mnemonicParsing="false" text="Update" />
+      <Button fx:id="updateButton" layoutX="440.0" layoutY="736.0" mnemonicParsing="false" onAction="#updateButton" text="Update" />
       <Button fx:id="deleteButton" layoutX="510.0" layoutY="736.0" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
       <Button fx:id="saveAndExitButton" layoutX="849.0" layoutY="749.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
       <RadioButton fx:id="weeklyRadioButton" layoutX="561.0" layoutY="70.0" mnemonicParsing="false" selected="true" text="Weekly" />

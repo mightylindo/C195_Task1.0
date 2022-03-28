@@ -65,4 +65,17 @@ public class DBAppointments {
             e.printStackTrace();
         }
     }
+
+    public static void updateAppointment(Appointments selectedAppointment){
+        try{
+            String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Location = '" +
+                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Contact_ID = '" + selectedAppointment.getContactID() + "' WHERE Appointment_ID = '" +
+                    selectedAppointment.getAppointmentID() + "';";
+            System.out.println(sqlCommand);
+            PreparedStatement ps =DBConnection.getConnection().prepareStatement(sqlCommand);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
