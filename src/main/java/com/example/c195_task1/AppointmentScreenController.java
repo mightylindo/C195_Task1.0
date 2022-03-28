@@ -1,8 +1,14 @@
 package com.example.c195_task1;
+import DBAccess.DBAppointments;
+import DBAccess.DBCustomers;
+import Model.Appointments;
+import Model.Customers;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -12,8 +18,53 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AppointmentScreenController {
+public class AppointmentScreenController implements Initializable {
+    public Label titleLabel;
+    public TableColumn appointmentIDColumn;
+    public TableColumn descriptionColumn;
+    public TableColumn locationColumn;
+    public TableColumn contactColumn;
+    public TableColumn typeColumn;
+    public TableColumn startColumn;
+    public TableColumn endColumn;
+    public TableColumn customerIDColumn;
+    public TableColumn userIDColumn;
+    public Button addButton;
+    public Button updateButton;
+    public Button deleteButton;
+    public Button saveAndExitButton;
+    public RadioButton weeklyRadioButton;
+    public RadioButton monthlyRadioButton;
+    public ComboBox customerSelectComboBox;
+    public TextField appointmentIDTextField;
+    public TextField locationTextField;
+    public TextField contactTextField;
+    public TextField startDateAndTimeTextField;
+    public TextField endDateAndTimeTextField;
+    public TextField customerIDTextField;
+    public TextField userIDTextField;
+    public TextField typeTextField;
+    public TextField appointmentDescriptionTextField;
+    public TableView appointmentsTableview;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        System.out.println("initialized!");
+        appointmentsTableview.setItems(DBAppointments.getAppointments());
+        appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("Location"));
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
+        userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
+        ObservableList<Customers> clist = DBCustomers.getCustomers();
+        customerSelectComboBox.setItems(clist);
+    }
+
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));

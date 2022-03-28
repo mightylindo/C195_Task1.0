@@ -17,7 +17,7 @@
             <Font size="34.0" />
          </font>
       </Label>
-      <TableView layoutX="191.0" layoutY="100.0" prefHeight="600.0" prefWidth="800.0">
+      <TableView fx:id="appointmentsTableview" layoutX="191.0" layoutY="100.0" prefHeight="600.0" prefWidth="800.0">
         <columns>
           <TableColumn fx:id="appointmentIDColumn" prefWidth="99.0" text="AppointmentID" />
           <TableColumn fx:id="descriptionColumn" prefWidth="90.0" text="Description" />
@@ -38,10 +38,10 @@
       <RadioButton fx:id="monthlyRadioButton" layoutX="635.0" layoutY="70.0" mnemonicParsing="false" text="Monthly" />
       <ComboBox fx:id="customerSelectComboBox" layoutX="25.0" layoutY="120.0" prefWidth="150.0" promptText="Select Customer" />
       <TextField fx:id="appointmentIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="152.0" promptText="Appointment ID" />
-      <TextField fx:id="apoointmentDescriptionTextField" layoutX="26.0" layoutY="188.0" promptText="Appointment Description" />
+      <TextField fx:id="appointmentDescriptionTextField" layoutX="26.0" layoutY="188.0" promptText="Appointment Description" />
       <TextField fx:id="locationTextField" layoutX="26.0" layoutY="225.0" promptText="Location" />
       <TextField fx:id="contactTextField" layoutX="26.0" layoutY="264.0" promptText="Contact" />
-      <TextField fx:id="typeTextFeild" layoutX="26.0" layoutY="299.0" promptText="Type" />
+      <TextField fx:id="typeTextField" layoutX="26.0" layoutY="299.0" promptText="Type" />
       <TextField fx:id="startDateAndTimeTextField" layoutX="26.0" layoutY="332.0" promptText="Start Date and Time" />
       <TextField fx:id="endDateAndTimeTextField" layoutX="26.0" layoutY="367.0" promptText="End Date and Time" />
       <TextField fx:id="customerIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="400.0" promptText="Customer ID" />

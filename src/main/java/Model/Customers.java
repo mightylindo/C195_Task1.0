@@ -27,6 +27,11 @@ public class Customers {
         //this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
     }
+
+    @Override
+    public String toString(){
+        return customerName;
+    }
     /**
      * @return customerID
      */
