@@ -19,10 +19,10 @@ public class Appointments {
     private int userID;
     private int contactID;
 
-    public Appointments(int appointmentID, String title, String description, String location, String type,
+    public Appointments(int appointmentID, String description, String location, String type,
                          int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
-        this.title = title;
+        //this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;

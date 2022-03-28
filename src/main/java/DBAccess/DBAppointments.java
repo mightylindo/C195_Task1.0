@@ -26,7 +26,7 @@ public class DBAppointments {
                 int customerID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
                 int contactID = rs.getInt("Contact_ID");
-                Appointments a = new Appointments(appointmentID, title, description, location, type, customerID, userID, contactID);
+                Appointments a = new Appointments(appointmentID, description, location, type, customerID, userID, contactID);
                 alist.add(a);
 
             }
@@ -34,5 +34,24 @@ public class DBAppointments {
             e.printStackTrace();
         }
         return alist;
+    }
+
+    public static void addAppointment(Appointments newAppointment){
+        try{
+            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Description, Location, Type, Customer_ID, User_ID, Contact_ID) VALUES(";
+            int appointmentID = newAppointment.getAppointmentID();
+            String description = newAppointment.getDescription();
+            String location = newAppointment.getLocation();
+            String type = newAppointment.getType();
+            int customerID = newAppointment.getCustomerID();
+            int userID = newAppointment.getUserID();
+            int contactID = newAppointment.getContactID();
+            String sql = sqlCommand + "'" + appointmentID + "', '" + description + "', '" + location + "', '" + type + "', '" + customerID + "', '" + userID + "', '" + contactID + "');";
+            System.out.println(sql);
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

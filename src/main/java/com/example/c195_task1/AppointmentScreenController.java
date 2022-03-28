@@ -49,6 +49,7 @@ public class AppointmentScreenController implements Initializable {
     public TextField typeTextField;
     public TextField appointmentDescriptionTextField;
     public TableView appointmentsTableview;
+    public int aID = 2;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -75,5 +76,21 @@ public class AppointmentScreenController implements Initializable {
         stage.setTitle("C195 Task1");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void addButton(ActionEvent actionEvent) throws IOException{
+        Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
+        int customerID = customer.getCustomerID();
+        String description = appointmentDescriptionTextField.getText();
+        String location = locationTextField.getText();
+        int contactID = Integer.parseInt(contactTextField.getText());
+        String type = typeTextField.getText();
+        int userID = 1;
+        int appointmentID = aID + 1;
+        DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, customerID, userID, contactID));
+        appointmentsTableview.setItems(DBAppointments.getAppointments());
+        aID = aID + 1;
+
+
     }
 }
