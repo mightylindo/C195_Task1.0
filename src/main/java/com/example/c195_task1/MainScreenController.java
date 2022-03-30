@@ -1,13 +1,7 @@
 package com.example.c195_task1;
 
-import DBAccess.DBAppointments;
-import DBAccess.DBCountries;
-import DBAccess.DBCustomers;
-import DBAccess.DBFirstLevelDivisions;
-import Model.Appointments;
-import Model.Countries;
-import Model.Customers;
-import Model.FirstLevelDivisions;
+import DBAccess.*;
+import Model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
@@ -29,9 +23,10 @@ public class MainScreenController {
     @FXML
     public void test(ActionEvent actionEvent){
 
-        ObservableList<Appointments> alist = DBAppointments.getAppointments();
-        for(Appointments a : alist){
-            System.out.println("AppointmentID: " + a.getAppointmentID() + " Title: " + a.getTitle() + " Description: " + a.getDescription() + " UserID: " + a.getUserID());
+        ObservableList<Users> ulist = DBUsers.getUsers();
+        for(Users u : ulist){
+            System.out.println("UserID: " + u.getUserID()+ " UserName: " + u.getUserName() + " Password: " + u.getPassword() + " Created By: " + u.getCreateBy() +" Last Update By: " +
+                    u.getLastUpdatedBy());
         }
     }
 
