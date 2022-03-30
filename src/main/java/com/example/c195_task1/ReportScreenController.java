@@ -41,4 +41,26 @@ public class ReportScreenController {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void report2(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Report2.fxml"));
+        Parent root = loader.load();
+        Report2Controller controller = loader.getController();
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1000, 800);
+        stage.setTitle("C195 Task1");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void report3(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Report3.fxml"));
+        Parent root = loader.load();
+        Report3Controller controller = loader.getController();
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1000, 800);
+        stage.setTitle("C195 Task1");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
