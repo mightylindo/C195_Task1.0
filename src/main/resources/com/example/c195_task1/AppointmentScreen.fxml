@@ -17,7 +17,7 @@
             <Font size="34.0" />
          </font>
       </Label>
-      <TableView fx:id="appointmentsTableview" layoutX="191.0" layoutY="100.0" prefHeight="600.0" prefWidth="800.0">
+      <TableView fx:id="appointmentsTableview" layoutX="191.0" layoutY="100.0" onMouseClicked="#selectAppointment" prefHeight="600.0" prefWidth="800.0">
         <columns>
           <TableColumn fx:id="appointmentIDColumn" prefWidth="99.0" text="AppointmentID" />
           <TableColumn fx:id="descriptionColumn" prefWidth="90.0" text="Description" />

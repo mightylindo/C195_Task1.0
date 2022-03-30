@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -49,7 +50,8 @@ public class AppointmentScreenController implements Initializable {
     public TextField typeTextField;
     public TextField appointmentDescriptionTextField;
     public TableView appointmentsTableview;
-    public int aID = 2;
+    public ObservableList<Appointments> alist = DBAppointments.getAppointments();
+    public int aID = alist.size() + 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -86,7 +88,7 @@ public class AppointmentScreenController implements Initializable {
         int contactID = Integer.parseInt(contactTextField.getText());
         String type = typeTextField.getText();
         int userID = 1;
-        int appointmentID = aID + 1;
+        int appointmentID = aID;
         DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, customerID, userID, contactID));
         appointmentsTableview.setItems(DBAppointments.getAppointments());
         aID = aID + 1;
@@ -108,5 +110,18 @@ public class AppointmentScreenController implements Initializable {
         select.setContactID(Integer.parseInt(contactTextField.getText()));
         DBAppointments.updateAppointment(select);
         appointmentsTableview.setItems(DBAppointments.getAppointments());
+    }
+
+    public void selectAppointment(MouseEvent mouseEvent) {
+        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+        appointmentIDTextField.setText(Integer.toString(select.getAppointmentID()));
+        appointmentDescriptionTextField.setText(select.getDescription());
+        locationTextField.setText(select.getLocation());
+        typeTextField.setText(select.getType());
+        contactTextField.setText(Integer.toString(select.getContactID()));
+        customerIDTextField.setText(Integer.toString(select.getCustomerID()));
+        userIDTextField.setText(Integer.toString(select.getUserID()));
+        Customers c = DBCustomers.getSpecificCustomer(select.getCustomerID());
+        customerSelectComboBox.setValue(c);
     }
 }

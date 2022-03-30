@@ -8,6 +8,28 @@ import javafx.collections.ObservableList;
 
 public class DBCustomers {
 
+    public static Customers getSpecificCustomer(int customerID){
+        try{
+            String sql = "SELECT * FROM Customers WHERE  Customer_ID = '" + customerID + "';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int cID = rs.getInt("Customer_ID");
+                String customerName = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("Postal_Code");
+                String phone = rs.getString("Phone");
+                int division = rs.getInt("Division_ID");
+                Customers c = new Customers(cID, customerName, address, postalCode, phone, division);
+                return c;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static ObservableList<Customers> getCustomers(){
         ObservableList<Customers> clist = FXCollections.observableArrayList();
 
