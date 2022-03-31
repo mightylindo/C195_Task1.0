@@ -38,8 +38,9 @@ public class LoginScreenController {
         passWord = password.getText();
         Boolean uvalid = DBUsers.testUsername(userName);
         System.out.println(uvalid);
-
-        if(uvalid == true){
+        Boolean pvalid = DBUsers.testPassword(passWord);
+        System.out.println(pvalid);
+        if(uvalid == true && pvalid == true){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
             MainScreenController controller = loader.getController();

@@ -55,4 +55,26 @@ public class DBUsers {
         }
         return valid;
     }
+    public static boolean testPassword(String password) {
+        boolean valid = false;
+        try {
+            String sql = "Select * FROM users WHERE Password ='" + password + "';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                int userID = rs.getInt("User_ID");
+                String username = rs.getString("User_Name");
+                String passWord = rs.getString("Password");
+                String createBy = rs.getString("Created_By");
+                String lastUpdateBy = rs.getString("Last_Updated_By");
+                Users u = new Users(userID, username, passWord, createBy, lastUpdateBy);
+                if (u.getPassword().contains(password)) {
+                    valid = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return valid;
+    }
 }
