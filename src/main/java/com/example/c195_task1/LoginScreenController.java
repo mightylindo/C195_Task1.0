@@ -36,30 +36,10 @@ public class LoginScreenController {
     public void loginClicked(ActionEvent actionEvent) throws IOException {
         userName = username.getText();
         passWord = password.getText();
-        ObservableList<Users> ulist = DBUsers.getUsers();
-        for(Users u : ulist){
-            String DBuser = u.getUserName();
-            //Need to find a better comparitor for some reason it is not finding test to == test
-            if(userName == DBuser){
-                uvalid = true;
-            }
-            else if(userName != DBuser) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Username not found");
-                alert.show();
-            }
-            else if(passWord == u.getPassword()){
-                pvalid = true;
-                }
-            else if(passWord != u.getPassword()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Username or Password Incorrect or not found.");
-            }
-        }
-        if(uvalid == true && pvalid == true){
-            valid = true;
-        }
-        if(valid == true){
+        Boolean uvalid = DBUsers.testUsername(userName);
+        System.out.println(uvalid);
+
+        if(uvalid == true){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
             MainScreenController controller = loader.getController();
