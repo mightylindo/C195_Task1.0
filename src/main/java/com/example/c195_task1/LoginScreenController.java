@@ -23,24 +23,18 @@ public class LoginScreenController {
     private String userName = "";
     private String passWord = "";
     private boolean uvalid = false;
-    private boolean pvalid = false;
-    private boolean valid = false;
+
     /**
      * @param actionEvent
      * @throws IOException
      */
-
-    //Need to add functionality that will check Username and Password against database
-
     @FXML
     public void loginClicked(ActionEvent actionEvent) throws IOException {
         userName = username.getText();
         passWord = password.getText();
-        Boolean uvalid = DBUsers.testUsername(userName);
-        System.out.println(uvalid);
-        Boolean pvalid = DBUsers.testPassword(passWord);
-        System.out.println(pvalid);
-        if(uvalid == true && pvalid == true){
+        Boolean uvalid = DBUsers.testUsername(userName, passWord);
+        //System.out.println(uvalid);
+        if(uvalid == true){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
             MainScreenController controller = loader.getController();

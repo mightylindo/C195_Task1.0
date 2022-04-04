@@ -16,7 +16,6 @@ public class DBUsers {
             String sql = "SELECT * FROM Users";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-
             while(rs.next()){
                 int userID = rs.getInt("User_ID");
                 String userName = rs.getString("User_Name");
@@ -29,11 +28,10 @@ public class DBUsers {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return ulist;
     }
 
-    public static boolean testUsername(String username) {
+    public static boolean testUsername(String username, String password) {
         boolean valid = false;
         try {
             String sql = "Select * FROM users WHERE User_Name ='" + username + "';";
@@ -42,33 +40,11 @@ public class DBUsers {
             while(rs.next()) {
                 int userID = rs.getInt("User_ID");
                 String userName = rs.getString("User_Name");
-                String password = rs.getString("Password");
-                String createBy = rs.getString("Created_By");
-                String lastUpdateBy = rs.getString("Last_Updated_By");
-                Users u = new Users(userID, userName, password, createBy, lastUpdateBy);
-                if (u.getUserName().contains(username)) {
-                    valid = true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return valid;
-    }
-    public static boolean testPassword(String password) {
-        boolean valid = false;
-        try {
-            String sql = "Select * FROM users WHERE Password ='" + password + "';";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                int userID = rs.getInt("User_ID");
-                String username = rs.getString("User_Name");
                 String passWord = rs.getString("Password");
                 String createBy = rs.getString("Created_By");
                 String lastUpdateBy = rs.getString("Last_Updated_By");
-                Users u = new Users(userID, username, passWord, createBy, lastUpdateBy);
-                if (u.getPassword().contains(password)) {
+                Users u = new Users(userID, userName, passWord, createBy, lastUpdateBy);
+                if (u.getUserName().contains(username) && u.getPassword().contains(password)) {
                     valid = true;
                 }
             }
