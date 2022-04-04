@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -14,9 +15,12 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.ZoneId;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class LoginScreenController {
+public class LoginScreenController implements Initializable {
     public Button loginButton;
     public TextField username;
     public TextField password;
@@ -24,6 +28,7 @@ public class LoginScreenController {
     private String userName = "";
     private String passWord = "";
     private boolean uvalid = false;
+
 
     /**
      * @param actionEvent
@@ -45,10 +50,18 @@ public class LoginScreenController {
             stage.setScene(scene);
             stage.show();
         }
-        //need to add an if statement that if uvalid is flase then an error message displays
+        else if(uvalid == false){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Error");
+            alert.setContentText("Username or Password incorrect, please try again.");
+            alert.showAndWait();
+        }
     }
 
-    //need to add a label that displays the zoneID and write code that pulls the zoneID.
-    //Along with the zoneID code I need to add code that displays the login in french or english depending on sys data.
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        zoneIDLabel.setText(ZoneId.systemDefault().getId());
+        //Along with the zoneID code I need to add code that displays the login in french or english depending on sys data.
+    }
 }
 
