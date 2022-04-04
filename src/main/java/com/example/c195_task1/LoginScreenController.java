@@ -20,6 +20,7 @@ public class LoginScreenController {
     public Button loginButton;
     public TextField username;
     public TextField password;
+    public Label zoneIDLabel;
     private String userName = "";
     private String passWord = "";
     private boolean uvalid = false;
@@ -44,6 +45,10 @@ public class LoginScreenController {
             stage.setScene(scene);
             stage.show();
         }
+        //need to add an if statement that if uvalid is flase then an error message displays
     }
+
+    //need to add a label that displays the zoneID and write code that pulls the zoneID.
+    //Along with the zoneID code I need to add code that displays the login in french or english depending on sys data.
 }
 
