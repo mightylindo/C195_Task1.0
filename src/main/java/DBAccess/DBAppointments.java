@@ -41,7 +41,7 @@ public class DBAppointments {
 
     public static void addAppointment(Appointments newAppointment){
         try{
-            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Description, Location, Type, Customer_ID, User_ID, Contact_ID) VALUES(";
+            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(";
             int appointmentID = newAppointment.getAppointmentID();
             String description = newAppointment.getDescription();
             String location = newAppointment.getLocation();
@@ -49,7 +49,10 @@ public class DBAppointments {
             int customerID = newAppointment.getCustomerID();
             int userID = newAppointment.getUserID();
             int contactID = newAppointment.getContactID();
-            String sql = sqlCommand + "'" + appointmentID + "', '" + description + "', '" + location + "', '" + type + "', '" + customerID + "', '" + userID + "', '" + contactID + "');";
+            Timestamp start = Timestamp.valueOf(newAppointment.getStart());
+            Timestamp end = Timestamp.valueOf(newAppointment.getEnd());
+            String sql = sqlCommand + "'" + appointmentID + "', '" + description + "', '" + location + "', '" + type + "', '" + start + "', '" + end + "', '"
+                    + customerID + "', '" + userID + "', '" + contactID + "');";
             System.out.println(sql);
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.execute();
