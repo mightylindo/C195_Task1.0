@@ -69,6 +69,7 @@ public class CustomerScreenController implements Initializable {
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         //String createdBy = Users.getUserName();
+        LocalDateTime createDate = LocalDateTime.now();
         int customerID = uniqueID + 1;
         //DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createdBy, division));
         customerTable.setItems(DBCustomers.getCustomers());
@@ -97,6 +98,7 @@ public class CustomerScreenController implements Initializable {
         select.setAddress(addressTextField.getText());
         select.setPostalCode(postalCodeTextField.getText());
         select.setPhone(phoneNumberTextField.getText());
+        //select.setLastUpdate(LocalDateTime.now());
         DBCustomers.updateCustomer(select);
         customerTable.setItems((DBCustomers.getCustomers()));
     }

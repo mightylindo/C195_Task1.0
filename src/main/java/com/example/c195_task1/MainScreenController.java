@@ -14,20 +14,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
-
-
 import java.io.IOException;
 
 public class MainScreenController {
+    private String username;
+
+    public void username(String username){this.username = username;}
 
     @FXML
     public void test(ActionEvent actionEvent){
-
-        ObservableList<Users> ulist = DBUsers.getUsers();
-        for(Users u : ulist){
+        /**
+        getUser()
             System.out.println("UserID: " + u.getUserID()+ " UserName: " + u.getUserName() + " Password: " + u.getPassword() + " Created By: " + u.getCreateBy() +" Last Update By: " +
                     u.getLastUpdatedBy());
         }
+         **/
     }
 
     @FXML
@@ -47,6 +48,7 @@ public class MainScreenController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentScreen.fxml"));
         Parent root = loader.load();
         AppointmentScreenController controller = loader.getController();
+        controller.username(username);
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1000, 800);
         stage.setTitle("C195 Task1");

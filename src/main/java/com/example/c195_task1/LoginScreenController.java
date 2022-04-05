@@ -1,9 +1,6 @@
 package com.example.c195_task1;
 
 import DBAccess.DBUsers;
-import Model.Users;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,12 +10,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginScreenController implements Initializable {
@@ -30,21 +25,17 @@ public class LoginScreenController implements Initializable {
     private String passWord = "";
     private boolean uvalid = false;
 
-
-    /**
-     * @param actionEvent
-     * @throws IOException
-     */
     @FXML
     public void loginClicked(ActionEvent actionEvent) throws IOException {
         userName = username.getText();
         passWord = password.getText();
-        Boolean uvalid = DBUsers.testUsername(userName, passWord);
+        uvalid = DBUsers.testUsername(userName, passWord);
         //System.out.println(uvalid);
         if(uvalid == true){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
             MainScreenController controller = loader.getController();
+            controller.username(userName);
             Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(root, 600, 400);
             stage.setTitle("C195 Task1");

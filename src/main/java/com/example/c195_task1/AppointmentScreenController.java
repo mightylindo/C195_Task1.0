@@ -1,8 +1,10 @@
 package com.example.c195_task1;
 import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
+import DBAccess.DBUsers;
 import Model.Appointments;
 import Model.Customers;
+import Model.Users;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -53,6 +55,9 @@ public class AppointmentScreenController implements Initializable {
     public TableView appointmentsTableview;
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
     public int aID = alist.size() + 1;
+    private String username;
+
+    public void username(String username){this.username = username;}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -92,7 +97,7 @@ public class AppointmentScreenController implements Initializable {
         String type = typeTextField.getText();
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        int userID = 1;
+        int userID = DBUsers.getUser(username);
         int appointmentID = aID;
         DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, customerID, userID, contactID));
         appointmentsTableview.setItems(DBAppointments.getAppointments());

@@ -10,6 +10,19 @@ import javafx.fxml.FXML;
 
 public class DBUsers {
 
+    public static int getUser(String userName){
+        int userID = 1;
+        try {
+            String sql = "Select * FROM users WHERE User_Name ='" + userName + "';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            userID = rs.getInt("User_ID");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return userID;
+    }
+
     public static ObservableList<Users> getUsers(){
         ObservableList<Users> ulist = FXCollections.observableArrayList();
         try{
