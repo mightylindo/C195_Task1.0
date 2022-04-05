@@ -1,7 +1,10 @@
 package Model;
 
 import java.security.Timestamp;
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 public class Customers {
     private int customerID;
@@ -11,20 +14,21 @@ public class Customers {
     private String phone;
     private Date createDate;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private Time lastUpdate;
     private String lastUpdatedBy;
     private int divisionID;
 
-    public Customers(int customerID, String customerName, String address, String postalCode, String phone, int divisionID){
+    public Customers(int customerID, String customerName, String address, String postalCode, String phone, Date createDate,
+                     String createdBy, Time lastUpdate, String lastUpdatedBy, int divisionID){
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
-        //this.createDate = createDate;
-        //this.createdBy = createdBy;
-        //this.lastUpdate = lastUpdate;
-        //this.lastUpdatedBy = lastUpdatedBy;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
         this.divisionID = divisionID;
     }
 
@@ -91,11 +95,11 @@ public class Customers {
     /**
      * @return lastUpdate
      */
-    public Timestamp getLastUpdate(){return lastUpdate;}
+    public Time getLastUpdate(){return lastUpdate;}
     /**
      * @param lastUpdate to lastUpdate to set
      */
-    public void setLastUpdate(Timestamp lastUpdate){this.lastUpdate = lastUpdate;}
+    public void setLastUpdate(Time lastUpdate){this.lastUpdate = lastUpdate;}
     /**
      * @return lastUpdatedBy
      */

@@ -20,6 +20,7 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class AppointmentScreenController implements Initializable {
@@ -62,6 +63,8 @@ public class AppointmentScreenController implements Initializable {
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("Location"));
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("Start"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("End"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
         ObservableList<Customers> clist = DBCustomers.getCustomers();
@@ -87,9 +90,11 @@ public class AppointmentScreenController implements Initializable {
         String location = locationTextField.getText();
         int contactID = Integer.parseInt(contactTextField.getText());
         String type = typeTextField.getText();
+        LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
+        LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
         int userID = 1;
         int appointmentID = aID;
-        DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, customerID, userID, contactID));
+        DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, customerID, userID, contactID));
         appointmentsTableview.setItems(DBAppointments.getAppointments());
         aID = aID + 1;
 

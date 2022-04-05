@@ -1,7 +1,9 @@
 package Model;
 
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 public class Appointments {
     private int appointmentID;
@@ -9,8 +11,8 @@ public class Appointments {
     private String description;
     private String location;
     private String type;
-    private Date start;
-    private Date end;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private Date createDate;
     private String createdBy;
     private Timestamp lastUpdate;
@@ -19,15 +21,15 @@ public class Appointments {
     private int userID;
     private int contactID;
 
-    public Appointments(int appointmentID, String description, String location, String type,
+    public Appointments(int appointmentID, String description, String location, String type, LocalDateTime start, LocalDateTime end,
                          int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         //this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
-        //this.start = start;
-        //this.end = end;
+        this.start = start;
+        this.end = end;
         //this.createDate = createDate;
         //this.createdBy = createdBy;
         //this.lastUpdate = lastUpdate;
@@ -79,19 +81,19 @@ public class Appointments {
     /**
      * @return start
      */
-    public Date getStart() {return start;}
+    public LocalDateTime getStart() {return start;}
     /**
      * @param start to start to set
      */
-    public void setStart(Date start) {this.start = start;}
+    public void setStart(LocalDateTime start) {this.start = start;}
     /**
      * @return end
      */
-    public Date getEnd() {return end;}
+    public LocalDateTime getEnd() {return end;}
     /**
      * @param end to end to set
      */
-    public void setEnd(Date end) {this.end = end;}
+    public void setEnd(LocalDateTime end) {this.end = end;}
     /**
      * @return createDate
      */

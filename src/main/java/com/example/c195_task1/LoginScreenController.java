@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -62,6 +63,11 @@ public class LoginScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zoneIDLabel.setText(ZoneId.systemDefault().getId());
         //Along with the zoneID code I need to add code that displays the login in french or english depending on sys data.
+        //ResourceBundle rb = ResourceBundle.getBundle("com/example/c195_task1/NAT_" + Locale.getDefault());
+        System.out.println(Locale.getDefault());
+       if(Locale.getDefault().equals("fr_FR")){
+            System.out.println(Locale.getDefault());
+       }
     }
 }
 

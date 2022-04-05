@@ -1,6 +1,7 @@
 package DBAccess;
 import Database.DBConnection;
 import java.sql.*;
+import java.time.LocalDateTime;
 
 import Model.Customers;
 import javafx.collections.FXCollections;
@@ -20,8 +21,12 @@ public class DBCustomers {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
+                Date createDate = rs.getDate("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Time lastUpdate = rs.getTime("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int division = rs.getInt("Division_ID");
-                Customers c = new Customers(cID, customerName, address, postalCode, phone, division);
+                Customers c = new Customers(cID, customerName, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division);
                 return c;
             }
         } catch (SQLException e) {
@@ -44,8 +49,12 @@ public class DBCustomers {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
+                Date createDate = rs.getDate("Create_Date");
+                String createdBy = rs.getString("Created_By");
+                Time lastUpdate = rs.getTime("Last_Update");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int division = rs.getInt("Division_ID");
-                Customers c = new Customers(customerID, customerName, address, postalCode, phone, division);
+                Customers c = new Customers(customerID, customerName, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division);
                 clist.add(c);
             }
         } catch (SQLException e) {

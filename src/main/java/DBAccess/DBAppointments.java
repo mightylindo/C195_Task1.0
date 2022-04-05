@@ -2,6 +2,7 @@ package DBAccess;
 
 import Database.DBConnection;
 import java.sql.*;
+import java.time.LocalDateTime;
 
 import Model.Appointments;
 import javafx.collections.FXCollections;
@@ -26,7 +27,9 @@ public class DBAppointments {
                 int customerID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
                 int contactID = rs.getInt("Contact_ID");
-                Appointments a = new Appointments(appointmentID, description, location, type, customerID, userID, contactID);
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+                Appointments a = new Appointments(appointmentID, description, location, type, start, end, customerID, userID, contactID);
                 alist.add(a);
 
             }

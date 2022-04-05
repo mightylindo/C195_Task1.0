@@ -6,6 +6,7 @@ import Model.Countries;
 import Model.Customers;
 
 import Model.FirstLevelDivisions;
+import Model.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.Node;
 
 import java.net.URL;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class CustomerScreenController implements Initializable {
@@ -66,8 +68,9 @@ public class CustomerScreenController implements Initializable {
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
+        //String createdBy = Users.getUserName();
         int customerID = uniqueID + 1;
-        DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, division));
+        //DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createdBy, division));
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
     }
