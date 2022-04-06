@@ -1,13 +1,11 @@
 package com.example.c195_task1;
+
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBFirstLevelDivisions;
 import Model.Countries;
 import Model.Customers;
-
 import Model.FirstLevelDivisions;
-import Model.Users;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -20,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
-
 import java.net.URL;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -71,7 +68,7 @@ public class CustomerScreenController implements Initializable {
         String name = nameTextField.getText();
         String country = (String)countryComboBox.getSelectionModel().getSelectedItem().toString();
         String state = (String)stateComboBox.getSelectionModel().getSelectedItem().toString();
-        String address = addressTextField.getText() + ", " + state + ", " + country; // need to figure out how to make it display the choice
+        String address = addressTextField.getText() + ", " + state + ", " + country;
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         String createdBy =  username;
@@ -90,7 +87,6 @@ public class CustomerScreenController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete");
         alert.setContentText("Do you really want to delete this customer?");
-
         //Need to add a protection against deleting a customer that has an appointment
         if(alert.showAndWait().get() == ButtonType.OK){
             Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
@@ -107,7 +103,9 @@ public class CustomerScreenController implements Initializable {
         select.setAddress(addressTextField.getText());
         select.setPostalCode(postalCodeTextField.getText());
         select.setPhone(phoneNumberTextField.getText());
-        //select.setLastUpdate(LocalDateTime.now());
+        select.setLastUpdate(LocalDateTime.now());
+        select.setLastUpdatedBy(username);
+        select.setDivisionID(division = stateComboBox.getSelectionModel().getSelectedIndex() + 1);
         DBCustomers.updateCustomer(select);
         customerTable.setItems((DBCustomers.getCustomers()));
     }
