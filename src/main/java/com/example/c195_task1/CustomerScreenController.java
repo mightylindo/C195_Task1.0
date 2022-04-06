@@ -39,8 +39,8 @@ public class CustomerScreenController implements Initializable {
     public TextField phoneNumberTextField;
     public TextField customerIDTextField;
     public Button addButton;
-    public static int uniqueID = 3;
-    public static int division = 1;
+    public static int uniqueID;
+    public static int division;
     public Button saveAndExitButton;
     public Button updateButton;
     public Button deleteButton;
@@ -61,13 +61,17 @@ public class CustomerScreenController implements Initializable {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         ObservableList<Countries> clist = DBCountries.getCountries();
+        uniqueID = DBCustomers.getCustomers().size();
+        System.out.println(uniqueID);
         countryComboBox.setItems(clist);
     }
     
     @FXML
     public void Add(ActionEvent actionEvent) throws IOException {
         String name = nameTextField.getText();
-        String address = addressTextField.getText(); // + " " + stateComboBox.toString() + " " + countryComboBox.toString() ; // need to figure out how to make it display the choice
+        String country = (String)countryComboBox.getSelectionModel().getSelectedItem().toString();
+        String state = (String)stateComboBox.getSelectionModel().getSelectedItem().toString();
+        String address = addressTextField.getText() + ", " + state + ", " + country; // need to figure out how to make it display the choice
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         String createdBy =  username;
