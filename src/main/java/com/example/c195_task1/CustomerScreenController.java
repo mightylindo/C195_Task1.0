@@ -67,7 +67,7 @@ public class CustomerScreenController implements Initializable {
     @FXML
     public void Add(ActionEvent actionEvent) throws IOException {
         String name = nameTextField.getText();
-        String address = addressTextField.getText();
+        String address = addressTextField.getText(); // + " " + stateComboBox.toString() + " " + countryComboBox.toString() ; // need to figure out how to make it display the choice
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         String createdBy =  username;
@@ -75,6 +75,7 @@ public class CustomerScreenController implements Initializable {
         String lastUpdatedBy = username;
         LocalDateTime lastUpdate = LocalDateTime.now();
         int customerID = uniqueID + 1;
+        division = stateComboBox.getSelectionModel().getSelectedIndex() + 1;
         DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division));
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
