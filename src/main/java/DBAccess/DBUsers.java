@@ -11,12 +11,14 @@ import javafx.fxml.FXML;
 public class DBUsers {
 
     public static int getUser(String userName){
-        int userID = 1;
+        int userID = 0;
         try {
             String sql = "Select * FROM users WHERE User_Name ='" + userName + "';";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            userID = rs.getInt("User_ID");
+            while(rs.next()){
+                userID = rs.getInt("User_ID");
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }
