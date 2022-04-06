@@ -29,9 +29,12 @@ public class DBAppointments {
                 int contactID = rs.getInt("Contact_ID");
                 LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-                Appointments a = new Appointments(appointmentID, description, location, type, start, end, customerID, userID, contactID);
+                String createdBy = rs.getString("Created_By");
+                LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
+                Appointments a = new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy,customerID, userID, contactID);
                 alist.add(a);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,7 +44,8 @@ public class DBAppointments {
 
     public static void addAppointment(Appointments newAppointment){
         try{
-            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(";
+            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Description, Location, Type, Start, End, Create_Date, Created_By, " +
+                    "Last_Update, Last_Updated_By,Customer_ID, User_ID, Contact_ID) VALUES(";
             int appointmentID = newAppointment.getAppointmentID();
             String description = newAppointment.getDescription();
             String location = newAppointment.getLocation();
@@ -51,8 +55,12 @@ public class DBAppointments {
             int contactID = newAppointment.getContactID();
             Timestamp start = Timestamp.valueOf(newAppointment.getStart());
             Timestamp end = Timestamp.valueOf(newAppointment.getEnd());
+            Timestamp createDate = Timestamp.valueOf(newAppointment.getCreateDate());
+            String createdBy = newAppointment.getCreatedBy();
+            Timestamp lastUpdate = Timestamp.valueOf(newAppointment.getLastUpdate());
+            String lastUpdatedBy = newAppointment.getLastUpdatedBy();
             String sql = sqlCommand + "'" + appointmentID + "', '" + description + "', '" + location + "', '" + type + "', '" + start + "', '" + end + "', '"
-                    + customerID + "', '" + userID + "', '" + contactID + "');";
+                   + createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdatedBy + "', '" + customerID + "', '" + userID + "', '" + contactID + "');";
             System.out.println(sql);
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.execute();

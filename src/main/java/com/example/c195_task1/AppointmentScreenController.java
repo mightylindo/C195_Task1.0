@@ -1,10 +1,10 @@
 package com.example.c195_task1;
+
 import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
 import Model.Appointments;
 import Model.Customers;
-import Model.Users;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -12,14 +12,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -97,9 +94,13 @@ public class AppointmentScreenController implements Initializable {
         String type = typeTextField.getText();
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
+        LocalDateTime createDate = LocalDateTime.now();
+        String createdBy = username;
+        LocalDateTime lastUpdate = LocalDateTime.now();
+        String lastUpdatedBy = username;
         int userID = DBUsers.getUser(username);
         int appointmentID = aID;
-        DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, customerID, userID, contactID));
+        DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
         appointmentsTableview.setItems(DBAppointments.getAppointments());
         aID = aID + 1;
 
@@ -131,6 +132,7 @@ public class AppointmentScreenController implements Initializable {
         contactTextField.setText(Integer.toString(select.getContactID()));
         customerIDTextField.setText(Integer.toString(select.getCustomerID()));
         userIDTextField.setText(Integer.toString(select.getUserID()));
+        // startDateAndTimeTextField.setText; //Need to figure out the formatter to get this to work
         Customers c = DBCustomers.getSpecificCustomer(select.getCustomerID());
         customerSelectComboBox.setValue(c);
     }

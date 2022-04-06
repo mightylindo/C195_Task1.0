@@ -36,6 +36,7 @@ public class MainScreenController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerScreen.fxml"));
         Parent root = loader.load();
         CustomerScreenController controller = loader.getController();
+        controller.username(username);
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1000, 800);
         stage.setTitle("C195 Task1");

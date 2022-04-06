@@ -47,7 +47,9 @@ public class CustomerScreenController implements Initializable {
     public ComboBox<Countries> countryComboBox;
     public ComboBox<FirstLevelDivisions> stateComboBox;
     public int countryID = 0;
+    private String username;
 
+    public void username(String username){this.username = username;}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -68,10 +70,11 @@ public class CustomerScreenController implements Initializable {
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
-        //String createdBy = Users.getUserName();
+        String createdBy =  username;
+        System.out.println(createdBy);
         LocalDateTime createDate = LocalDateTime.now();
         int customerID = uniqueID + 1;
-        //DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createdBy, division));
+        //DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createdBy,createDate, division));
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
     }

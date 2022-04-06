@@ -13,16 +13,16 @@ public class Appointments {
     private String type;
     private LocalDateTime start;
     private LocalDateTime end;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
     private int customerID;
     private int userID;
     private int contactID;
 
-    public Appointments(int appointmentID, String description, String location, String type, LocalDateTime start, LocalDateTime end,
-                         int customerID, int userID, int contactID) {
+    public Appointments(int appointmentID, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate,
+                         String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy,int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         //this.title = title;
         this.description = description;
@@ -30,10 +30,10 @@ public class Appointments {
         this.type = type;
         this.start = start;
         this.end = end;
-        //this.createDate = createDate;
-        //this.createdBy = createdBy;
-        //this.lastUpdate = lastUpdate;
-        //this.lastUpdatedBy = lastUpdatedBy;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
@@ -97,11 +97,11 @@ public class Appointments {
     /**
      * @return createDate
      */
-    public Date getCreateDate() {return createDate;}
+    public LocalDateTime getCreateDate() {return createDate;}
     /**
      * @param createDate to createDate to set
      */
-    public void setCreateDate(Date createDate) {this.createDate = createDate;}
+    public void setCreateDate(LocalDateTime createDate) {this.createDate = createDate;}
     /**
      * @return createdBy
      */
@@ -113,11 +113,11 @@ public class Appointments {
     /**
      * @return lastUpdate
      */
-    public Timestamp getLastUpdate() {return lastUpdate;}
+    public LocalDateTime getLastUpdate() {return lastUpdate;}
     /**
      * @param lastUpdate to lastUpdate to set
      */
-    public void setLastUpdate(Timestamp lastUpdate) {this.lastUpdate = lastUpdate;}
+    public void setLastUpdate(LocalDateTime lastUpdate) {this.lastUpdate = lastUpdate;}
     /**
      * @return lastUpdatedBy
      */
