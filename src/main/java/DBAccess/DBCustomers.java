@@ -21,9 +21,9 @@ public class DBCustomers {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
-                Date createDate = rs.getDate("Create_Date");
+                LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
                 String createdBy = rs.getString("Created_By");
-                Time lastUpdate = rs.getTime("Last_Update");
+                LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int division = rs.getInt("Division_ID");
                 Customers c = new Customers(cID, customerName, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division);
@@ -49,9 +49,9 @@ public class DBCustomers {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
-                Date createDate = rs.getDate("Create_Date");
+                LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
                 String createdBy = rs.getString("Created_By");
-                Time lastUpdate = rs.getTime("Last_Update");
+                LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int division = rs.getInt("Division_ID");
                 Customers c = new Customers(customerID, customerName, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division);
@@ -66,14 +66,19 @@ public class DBCustomers {
     public static void addCustomer(Customers newCustomer){
 
         try {
-            String sqlCommand = "INSERT INTO Customers(Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(";
+            String sqlCommand = "INSERT INTO Customers(Customer_ID, Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES(";
             int customerID = newCustomer.getCustomerID();
             String customerName = newCustomer.getCustomerName();
             String address = newCustomer.getAddress();
             String postalCode = newCustomer.getPostalCode();
             String phone = newCustomer.getPhone();
             int divisionID = newCustomer.getDivisionID();
-            String sql = sqlCommand + "'" + customerID + "', '" +customerName + "', '" + address + "', '" + postalCode + "', '" + phone + "', '" + divisionID + "');";
+            Timestamp createDate =  Timestamp.valueOf(newCustomer.getCreateDate());
+            String createdBy = newCustomer.getCreatedBy();
+            Timestamp lastUpdate = Timestamp.valueOf(newCustomer.getLastUpdate());
+            String lastUpdatedBy = newCustomer.getLastUpdatedBy();
+            String sql = sqlCommand + "'" + customerID + "', '" +customerName + "', '" + address + "', '" + postalCode + "', '" + phone + "', '"
+                    + createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdatedBy + "', '" + divisionID + "');";
             System.out.println(sql);
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.execute();

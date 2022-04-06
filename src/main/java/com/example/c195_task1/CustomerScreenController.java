@@ -71,10 +71,11 @@ public class CustomerScreenController implements Initializable {
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         String createdBy =  username;
-        System.out.println(createdBy);
         LocalDateTime createDate = LocalDateTime.now();
+        String lastUpdatedBy = username;
+        LocalDateTime lastUpdate = LocalDateTime.now();
         int customerID = uniqueID + 1;
-        //DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createdBy,createDate, division));
+        DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division));
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
     }

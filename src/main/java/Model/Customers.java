@@ -12,14 +12,14 @@ public class Customers {
     private String address;
     private String postalCode;
     private String phone;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createdBy;
-    private Time lastUpdate;
+    private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
     private int divisionID;
 
-    public Customers(int customerID, String customerName, String address, String postalCode, String phone, Date createDate,
-                     String createdBy, Time lastUpdate, String lastUpdatedBy, int divisionID){
+    public Customers(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime createDate,
+                     String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID){
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
@@ -79,11 +79,11 @@ public class Customers {
     /**
      * @return createDate
      */
-    public Date getCreateDate(){return createDate;}
+    public LocalDateTime getCreateDate(){return createDate;}
     /**
      * @param createDate to createDate to set
      */
-    public void setCreateDate(Date createDate) {this.createDate = createDate;}
+    public void setCreateDate(LocalDateTime createDate) {this.createDate = createDate;}
     /**
      * @return createdBy
      */
@@ -95,11 +95,11 @@ public class Customers {
     /**
      * @return lastUpdate
      */
-    public Time getLastUpdate(){return lastUpdate;}
+    public LocalDateTime getLastUpdate(){return lastUpdate;}
     /**
      * @param lastUpdate to lastUpdate to set
      */
-    public void setLastUpdate(Time lastUpdate){this.lastUpdate = lastUpdate;}
+    public void setLastUpdate(LocalDateTime lastUpdate){this.lastUpdate = lastUpdate;}
     /**
      * @return lastUpdatedBy
      */
