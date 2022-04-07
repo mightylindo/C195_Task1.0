@@ -94,18 +94,47 @@ public class AppointmentScreenController implements Initializable {
         String type = typeTextField.getText();
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        LocalDateTime createDate = LocalDateTime.now();
-        String createdBy = username;
-        LocalDateTime lastUpdate = LocalDateTime.now();
-        String lastUpdatedBy = username;
-        int userID = DBUsers.getUser(username);
-        int appointmentID = aID;
-        DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
-        appointmentsTableview.setItems(DBAppointments.getAppointments());
-        aID = aID + 1;
-
+        ObservableList<Appointments> alist = DBAppointments.getAppointments();
+        boolean noOverlap = false;
+        for(Appointments a : alist){
+            if(a.getCustomerID() == customerID){
+                if((start.isAfter(a.getStart()) || start.isEqual(a.getStart())) && start.isBefore(a.getEnd())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap1: Please select a different time.");
+                    alert.showAndWait();
+                }
+                else if(end.isAfter(a.getStart()) && (end.isBefore(a.getEnd()) || end.isEqual(a.getEnd()))){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap2: Please select a different time.");
+                    alert.showAndWait();
+                }
+                else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart())) && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap3: Please select a different time.");
+                    alert.showAndWait();
+                }
+            }
+            else{
+                noOverlap = true;
+            }
+        }
+        if(noOverlap == true){
+            LocalDateTime createDate = LocalDateTime.now();
+            String createdBy = username;
+            LocalDateTime lastUpdate = LocalDateTime.now();
+            String lastUpdatedBy = username;
+            int userID = DBUsers.getUser(username);
+            int appointmentID = aID;
+            DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
+            appointmentsTableview.setItems(DBAppointments.getAppointments());
+            aID = aID + 1;
+        }
 
     }
+
     @FXML
     public void deleteButton(ActionEvent actionEvent) throws IOException {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
