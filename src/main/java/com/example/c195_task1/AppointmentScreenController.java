@@ -19,7 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class AppointmentScreenController implements Initializable {
@@ -53,7 +55,8 @@ public class AppointmentScreenController implements Initializable {
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
     public int aID = alist.size() + 1;
     private String username;
-
+    private LocalDateTime open = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,00));
+    private LocalDateTime close = LocalDateTime.of(LocalDate.now(), LocalTime.of(22,00));
     public void username(String username){this.username = username;}
 
     @Override
@@ -93,7 +96,17 @@ public class AppointmentScreenController implements Initializable {
         int contactID = Integer.parseInt(contactTextField.getText());
         String type = typeTextField.getText();
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
+        if(start.isBefore(open) || start.isAfter(close)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Appointment outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.showAndWait();
+        }
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
+        if(end.isBefore(open) || end.isAfter(close)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Appointment outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.showAndWait();
+        }
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
         for(Appointments a : alist){
