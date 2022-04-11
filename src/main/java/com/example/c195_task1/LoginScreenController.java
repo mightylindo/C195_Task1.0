@@ -1,5 +1,6 @@
 package com.example.c195_task1;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBUsers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +25,7 @@ public class LoginScreenController implements Initializable {
     private String userName = "";
     private String passWord = "";
     private boolean uvalid = false;
+    private boolean check = false;
 
     @FXML
     public void loginClicked(ActionEvent actionEvent) throws IOException {
@@ -41,6 +43,7 @@ public class LoginScreenController implements Initializable {
             stage.setTitle("C195 Task1");
             stage.setScene(scene);
             stage.show();
+            DBAppointments.checkAppointments();
         }
         else if(uvalid == false){
             Alert alert = new Alert(Alert.AlertType.ERROR);

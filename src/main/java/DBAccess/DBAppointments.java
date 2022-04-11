@@ -3,10 +3,12 @@ package DBAccess;
 import Database.DBConnection;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import Model.Appointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 public class DBAppointments {
 
@@ -90,6 +92,34 @@ public class DBAppointments {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void checkAppointments(){
+        System.out.println("Hello it is initialized!");
+        ObservableList<Appointments> alist = DBAppointments.getAppointments();
+        boolean myAptmt = true;
+        for(Appointments a : alist){
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime startTime = a.getStart();
+            long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
+            System.out.println(timeDifference);
+            if(timeDifference < 15 && timeDifference >= 0){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Appointment Imminent");
+                alert.setContentText("Appointment: " + a.getAppointmentID() + " starts at: " + a.getStart());
+                alert.showAndWait();
+                myAptmt = true;
+            }
+            else{
+                myAptmt = false;
+            }
+        }
+        if(myAptmt == false) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Appointment Imminent");
+            alert.setContentText("No Appointments within 15 Minutes.");
+            alert.showAndWait();
         }
     }
 }

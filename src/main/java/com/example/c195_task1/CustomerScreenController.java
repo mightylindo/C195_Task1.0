@@ -49,6 +49,7 @@ public class CustomerScreenController implements Initializable {
     public int countryID = 0;
     private String username;
 
+
     public void username(String username){this.username = username;}
 
     @Override

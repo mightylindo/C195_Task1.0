@@ -61,6 +61,7 @@ public class AppointmentScreenController implements Initializable {
     private LocalTime open = LocalTime.of(8,00);
     //private LocalDateTime close = LocalDateTime.of(LocalDate.now(), LocalTime.of(22,00));
     private LocalTime close = LocalTime.of(22,00);
+
     public void username(String username){this.username = username;}
 
     @Override

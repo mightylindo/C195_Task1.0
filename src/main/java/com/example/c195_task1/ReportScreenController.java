@@ -19,6 +19,7 @@ public class ReportScreenController {
     public Button report3Button;
     public Button saveAndExitButton;
 
+
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));

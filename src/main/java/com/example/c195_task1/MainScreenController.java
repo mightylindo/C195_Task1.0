@@ -22,39 +22,12 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-public class MainScreenController implements Initializable {
+
+public class MainScreenController{
     private String username;
 
-    public void username(String username){this.username = username;}
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-        System.out.println("Hello it is initialized!");
-        ObservableList<Appointments> alist = DBAppointments.getAppointments();
-        boolean myAptmt = true;
-        for(Appointments a : alist){
-            LocalDateTime currentTime = LocalDateTime.now();
-            LocalDateTime startTime = a.getStart();
-            long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
-            System.out.println(timeDifference);
-            if(timeDifference < 15 && timeDifference >= 0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Appointment Imminent");
-                alert.setContentText("Appointment: " + a.getAppointmentID() + " starts at: " + a.getStart());
-                alert.showAndWait();
-                myAptmt = true;
-            }
-            else{
-                myAptmt = false;
-            }
-        }
-        if(myAptmt == false) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No Appointment Imminent");
-            alert.setContentText("No Appointments within 15 Minutes.");
-            alert.showAndWait();
-        }
-    }
+    public void username(String username){this.username = username;}
 
     @FXML
     public void test(ActionEvent actionEvent){
