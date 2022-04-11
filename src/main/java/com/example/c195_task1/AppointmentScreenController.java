@@ -55,8 +55,10 @@ public class AppointmentScreenController implements Initializable {
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
     public int aID = alist.size() + 1;
     private String username;
-    private LocalDateTime open = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,00));
-    private LocalDateTime close = LocalDateTime.of(LocalDate.now(), LocalTime.of(22,00));
+    //private LocalDateTime open = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,00));
+    private LocalTime open = LocalTime.of(8,00);
+    //private LocalDateTime close = LocalDateTime.of(LocalDate.now(), LocalTime.of(22,00));
+    private LocalTime close = LocalTime.of(22,00);
     public void username(String username){this.username = username;}
 
     @Override
@@ -95,17 +97,26 @@ public class AppointmentScreenController implements Initializable {
         String location = locationTextField.getText();
         int contactID = Integer.parseInt(contactTextField.getText());
         String type = typeTextField.getText();
+        boolean bhours = false;
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
-        if(start.isBefore(open) || start.isAfter(close)){
+        if(start.toLocalTime().isBefore(open) || start.toLocalTime().isAfter(close)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment outside business hours. Please select hours within the hours of 8AM and 10PM.");
             alert.showAndWait();
+            bhours = false;
+        }
+        else{
+            bhours = true;
         }
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        if(end.isBefore(open) || end.isAfter(close)){
+        if(end.toLocalTime().isBefore(open) || end.toLocalTime().isAfter(close)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment outside business hours. Please select hours within the hours of 8AM and 10PM.");
             alert.showAndWait();
+            bhours = false;
+        }
+        else{
+            bhours = true;
         }
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
@@ -134,7 +145,7 @@ public class AppointmentScreenController implements Initializable {
                 noOverlap = true;
             }
         }
-        if(noOverlap == true){
+        if(noOverlap == true && bhours == true){ //still has some errors let the system create an appointment even though noOverlap was false.
             LocalDateTime createDate = LocalDateTime.now();
             String createdBy = username;
             LocalDateTime lastUpdate = LocalDateTime.now();
