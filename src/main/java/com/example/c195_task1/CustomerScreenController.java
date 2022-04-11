@@ -128,6 +128,7 @@ public class CustomerScreenController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         Parent root = loader.load();
         MainScreenController controller = loader.getController();
+        controller.username(username);
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("C195 Task1");

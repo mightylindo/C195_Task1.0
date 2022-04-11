@@ -85,6 +85,7 @@ public class AppointmentScreenController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
         Parent root = loader.load();
         MainScreenController controller = loader.getController();
+        controller.username(username);
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("C195 Task1");
@@ -153,7 +154,6 @@ public class AppointmentScreenController implements Initializable {
             LocalDateTime lastUpdate = LocalDateTime.now();
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
-            System.out.println(userID);
             int appointmentID = aID;
             DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
