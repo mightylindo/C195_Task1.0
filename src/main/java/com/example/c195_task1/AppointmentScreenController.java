@@ -5,6 +5,7 @@ import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
 import Model.Appointments;
 import Model.Customers;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -54,6 +55,7 @@ public class AppointmentScreenController implements Initializable {
     public TableView appointmentsTableview;
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
     public int aID = alist.size() + 1;
+    public ToggleGroup DateRange;
     private String username;
     //private LocalDateTime open = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,00));
     private LocalTime open = LocalTime.of(8,00);
@@ -192,10 +194,26 @@ public class AppointmentScreenController implements Initializable {
 
     public void selectRadioButton(ActionEvent actionEvent) {
         if(weeklyRadioButton.isSelected()){
-            appointmentsTableview.setItems(DBAppointments.getAppointments());
+            ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
+            ObservableList<Appointments> weekAppointments = FXCollections.observableArrayList();
+            for(Appointments a : allAppointments){
+                if(a.getStart().isAfter(a.getStart().minusDays(7)) || a.getStart().isEqual(a.getStart().minusDays(7))){
+                weekAppointments.add(a);
+                }
+            }
+            appointmentsTableview.setItems(weekAppointments);
+            System.out.println("Week");
         }
         else if(monthlyRadioButton.isSelected()){
-            appointmentsTableview.setItems(DBAppointments.getAppointments());
+            ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
+            ObservableList<Appointments> monthAppointments = FXCollections.observableArrayList();
+            for(Appointments a : allAppointments){
+                if(a.getStart().isAfter(a.getStart().minusDays(31)) || a.getStart().isEqual(a.getStart().minusDays(31))){
+                    monthAppointments.add(a);
+                }
+            }
+            appointmentsTableview.setItems(monthAppointments);
+            System.out.println("Month");
         }
     }
 }
