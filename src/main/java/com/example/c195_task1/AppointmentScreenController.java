@@ -189,4 +189,13 @@ public class AppointmentScreenController implements Initializable {
         Customers c = DBCustomers.getSpecificCustomer(select.getCustomerID());
         customerSelectComboBox.setValue(c);
     }
+
+    public void selectRadioButton(ActionEvent actionEvent) {
+        if(weeklyRadioButton.isSelected()){
+            appointmentsTableview.setItems(DBAppointments.getAppointments());
+        }
+        else if(monthlyRadioButton.isSelected()){
+            appointmentsTableview.setItems(DBAppointments.getAppointments());
+        }
+    }
 }
