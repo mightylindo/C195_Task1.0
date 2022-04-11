@@ -8,6 +8,7 @@ import Model.Appointments;
 import Model.Countries;
 import Model.Customers;
 import Model.FirstLevelDivisions;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -92,14 +93,31 @@ public class CustomerScreenController implements Initializable {
         if(alert.showAndWait().get() == ButtonType.OK){
             Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
             ObservableList<Appointments> alist = DBAppointments.getAppointments();
+            ObservableList<Appointments> clist = FXCollections.observableArrayList();
+            int count = 0;
             for(Appointments a : alist){
                 if(a.getCustomerID() == select.getCustomerID()){
-                    Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert2.setTitle("Appointment Exists");
-                    alert2.setContentText("Appointment exists for this customer. Delete appointment for this customer?");
-                    alert2.showAndWait();
-                    if(alert2.showAndWait().get() == ButtonType.OK){
-                        DBAppointments.deleteAppointment(a);
+                    count = count + 1;
+                    clist.add(a);
+                }
+            }
+            if (count == 1) {
+                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert2.setTitle("Appointment Error");
+                alert2.setContentText("Appointment exists for this customer. Delete appointment for this customer?");
+                if(alert2.showAndWait().get() == ButtonType.OK){
+                    for(Appointments c : clist){
+                        DBAppointments.deleteAppointment(c);
+                    }
+                }
+            }
+            else if(count > 1){
+                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert2.setTitle("Appointment Errors");
+                alert2.setContentText(count + " appointments exists for this customer. Delete all appointments for this customer?");
+                if(alert2.showAndWait().get() == ButtonType.OK){
+                    for(Appointments c : clist){
+                        DBAppointments.deleteAppointment(c);
                     }
                 }
             }
