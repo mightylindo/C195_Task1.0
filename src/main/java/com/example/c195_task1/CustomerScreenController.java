@@ -1,8 +1,10 @@
 package com.example.c195_task1;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBFirstLevelDivisions;
+import Model.Appointments;
 import Model.Countries;
 import Model.Customers;
 import Model.FirstLevelDivisions;
@@ -87,9 +89,20 @@ public class CustomerScreenController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete");
         alert.setContentText("Do you really want to delete this customer?");
-        //Need to add a protection against deleting a customer that has an appointment
         if(alert.showAndWait().get() == ButtonType.OK){
             Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
+            ObservableList<Appointments> alist = DBAppointments.getAppointments();
+            for(Appointments a : alist){
+                if(a.getCustomerID() == select.getCustomerID()){
+                    Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert2.setTitle("Appointment Exists");
+                    alert2.setContentText("Appointment exists for this customer. Delete appointment for this customer?");
+                    alert2.showAndWait();
+                    if(alert2.showAndWait().get() == ButtonType.OK){
+                        DBAppointments.deleteAppointment(a);
+                    }
+                }
+            }
             DBCustomers.deleteCustomer(select);
             customerTable.setItems(DBCustomers.getCustomers());
         }

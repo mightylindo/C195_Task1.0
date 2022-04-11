@@ -153,6 +153,7 @@ public class AppointmentScreenController implements Initializable {
             LocalDateTime lastUpdate = LocalDateTime.now();
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
+            System.out.println(userID);
             int appointmentID = aID;
             DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
@@ -163,9 +164,14 @@ public class AppointmentScreenController implements Initializable {
 
     @FXML
     public void deleteButton(ActionEvent actionEvent) throws IOException {
-        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
-        DBAppointments.deleteAppointment(select);
-        appointmentsTableview.setItems(DBAppointments.getAppointments());
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Delete");
+        alert.setContentText("Do you really want to delete this appointment?");
+        if(alert.showAndWait().get() == ButtonType.OK) {
+            Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+            DBAppointments.deleteAppointment(select);
+            appointmentsTableview.setItems(DBAppointments.getAppointments());
+        }
     }
     @FXML
     public void updateButton(ActionEvent actionEvent) throws IOException {
