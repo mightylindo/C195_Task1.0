@@ -181,8 +181,62 @@ public class AppointmentScreenController implements Initializable {
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
         select.setContactID(Integer.parseInt(contactTextField.getText()));
-        DBAppointments.updateAppointment(select);
-        appointmentsTableview.setItems(DBAppointments.getAppointments());
+        select.setStart(LocalDateTime.parse(startDateAndTimeTextField.getText()));
+        boolean bhours;
+        if(select.getStart().toLocalTime().isBefore(open) || select.getStart().toLocalTime().isAfter(close)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.showAndWait();
+            bhours = false;
+        }
+        else{
+            bhours = true;
+        }
+        select.setEnd(LocalDateTime.parse(endDateAndTimeTextField.getText()));
+        if(select.getEnd().toLocalTime().isBefore(open) || select.getEnd().toLocalTime().isAfter(close)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.showAndWait();
+            bhours = false;
+        }
+        else{
+            bhours = true;
+        }
+        ObservableList<Appointments> alist = DBAppointments.getAppointments();
+        boolean noOverlap = false;
+        for(Appointments a : alist){
+            if(a.getCustomerID() == select.getCustomerID()){
+                if((select.getStart().isAfter(a.getStart()) || select.getStart().isEqual(a.getStart())) && select.getStart().isBefore(a.getEnd())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap1: Please select a different time.");
+                    alert.showAndWait();
+                }
+                else if(select.getEnd().isAfter(a.getStart()) && (select.getEnd().isBefore(a.getEnd()) || select.getEnd().isEqual(a.getEnd()))){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap2: Please select a different time.");
+                    alert.showAndWait();
+                }
+                else if((select.getStart().isBefore(a.getStart()) || select.getStart().isEqual(a.getStart())) && (select.getEnd().isAfter(a.getEnd()) || select.getEnd().isEqual(a.getEnd()))){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap3: Please select a different time.");
+                    alert.showAndWait();
+                }
+            }
+            else{
+                noOverlap = true;
+            }
+        }
+        if(noOverlap == true && bhours == true) {
+            Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
+            select.setCustomerID(customer.getCustomerID());
+            select.setLastUpdate(LocalDateTime.now());
+            select.setLastUpdatedBy(username);
+            DBAppointments.updateAppointment(select);
+            appointmentsTableview.setItems(DBAppointments.getAppointments());
+        }
     }
 
     public void selectAppointment(MouseEvent mouseEvent) {
