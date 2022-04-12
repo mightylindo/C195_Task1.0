@@ -23,6 +23,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class AppointmentScreenController implements Initializable {
@@ -56,10 +57,9 @@ public class AppointmentScreenController implements Initializable {
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
     public int aID = alist.size() + 1;
     public ToggleGroup DateRange;
+    public RadioButton allRadioButton;
     private String username;
-    //private LocalDateTime open = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,00));
     private LocalTime open = LocalTime.of(8,00);
-    //private LocalDateTime close = LocalDateTime.of(LocalDate.now(), LocalTime.of(22,00));
     private LocalTime close = LocalTime.of(22,00);
 
     public void username(String username){this.username = username;}
@@ -101,7 +101,9 @@ public class AppointmentScreenController implements Initializable {
         String location = locationTextField.getText();
         int contactID = Integer.parseInt(contactTextField.getText());
         String type = typeTextField.getText();
-        boolean bhours = false;
+        boolean bhours;
+        boolean startOK = false;
+        boolean endOK = false;
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
         if(start.toLocalTime().isBefore(open) || start.toLocalTime().isAfter(close)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -112,6 +114,9 @@ public class AppointmentScreenController implements Initializable {
         else{
             bhours = true;
         }
+        if(bhours == true){
+            startOK = true;
+        }
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
         if(end.toLocalTime().isBefore(open) || end.toLocalTime().isAfter(close)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -121,6 +126,9 @@ public class AppointmentScreenController implements Initializable {
         }
         else{
             bhours = true;
+        }
+        if(bhours == true){
+            endOK = true;
         }
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
@@ -149,7 +157,7 @@ public class AppointmentScreenController implements Initializable {
                 noOverlap = true;
             }
         }
-        if(noOverlap == true && bhours == true){ //still has some errors let the system create an appointment even though noOverlap was false.
+        if(noOverlap == true && startOK == true && endOK == true){ //still has some errors let the system create an appointment even though noOverlap was false.
             LocalDateTime createDate = LocalDateTime.now();
             String createdBy = username;
             LocalDateTime lastUpdate = LocalDateTime.now();
@@ -183,6 +191,8 @@ public class AppointmentScreenController implements Initializable {
         select.setContactID(Integer.parseInt(contactTextField.getText()));
         select.setStart(LocalDateTime.parse(startDateAndTimeTextField.getText()));
         boolean bhours;
+        boolean startOK = false;
+        boolean endOK = false;
         if(select.getStart().toLocalTime().isBefore(open) || select.getStart().toLocalTime().isAfter(close)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM.");
@@ -191,6 +201,9 @@ public class AppointmentScreenController implements Initializable {
         }
         else{
             bhours = true;
+        }
+        if(bhours == true){
+            startOK = true;
         }
         select.setEnd(LocalDateTime.parse(endDateAndTimeTextField.getText()));
         if(select.getEnd().toLocalTime().isBefore(open) || select.getEnd().toLocalTime().isAfter(close)){
@@ -201,6 +214,9 @@ public class AppointmentScreenController implements Initializable {
         }
         else{
             bhours = true;
+        }
+        if(bhours == true){
+            endOK =true;
         }
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
@@ -229,7 +245,7 @@ public class AppointmentScreenController implements Initializable {
                 noOverlap = true;
             }
         }
-        if(noOverlap == true && bhours == true) {
+        if(noOverlap == true && startOK == true && endOK == true) {
             Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
             select.setCustomerID(customer.getCustomerID());
             select.setLastUpdate(LocalDateTime.now());
@@ -258,8 +274,12 @@ public class AppointmentScreenController implements Initializable {
             ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
             ObservableList<Appointments> weekAppointments = FXCollections.observableArrayList();
             for(Appointments a : allAppointments){
-                if(a.getStart().isAfter(a.getStart().minusDays(7)) || a.getStart().isEqual(a.getStart().minusDays(7))){
-                weekAppointments.add(a);
+                LocalDateTime current = LocalDateTime.now();
+                LocalDateTime appointment = a.getStart();
+                long timeDifference = ChronoUnit.DAYS.between(current, appointment);
+                System.out.println(timeDifference);
+                if(timeDifference < 7 && timeDifference > 0){
+                        weekAppointments.add(a);
                 }
             }
             appointmentsTableview.setItems(weekAppointments);
@@ -269,12 +289,19 @@ public class AppointmentScreenController implements Initializable {
             ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
             ObservableList<Appointments> monthAppointments = FXCollections.observableArrayList();
             for(Appointments a : allAppointments){
-                if(a.getStart().isAfter(a.getStart().minusDays(31)) || a.getStart().isEqual(a.getStart().minusDays(31))){
+                LocalDateTime current = LocalDateTime.now();
+                LocalDateTime appointment = a.getStart();
+                long timeDifference = ChronoUnit.DAYS.between(current, appointment);
+                System.out.println(timeDifference);
+                if(timeDifference < 31 && timeDifference > 0){
                     monthAppointments.add(a);
                 }
             }
             appointmentsTableview.setItems(monthAppointments);
             System.out.println("Month");
+        }
+        else if(allRadioButton.isSelected()){
+            appointmentsTableview.setItems(DBAppointments.getAppointments());
         }
     }
 }

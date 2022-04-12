@@ -35,7 +35,7 @@
       <Button fx:id="updateButton" layoutX="440.0" layoutY="736.0" mnemonicParsing="false" onAction="#updateButton" text="Update" />
       <Button fx:id="deleteButton" layoutX="510.0" layoutY="736.0" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
       <Button fx:id="saveAndExitButton" layoutX="849.0" layoutY="749.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
-      <RadioButton fx:id="weeklyRadioButton" layoutX="561.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectRadioButton" selected="true" text="Weekly">
+      <RadioButton fx:id="weeklyRadioButton" layoutX="561.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectRadioButton" text="Weekly">
          <toggleGroup>
             <ToggleGroup fx:id="DateRange" />
          </toggleGroup></RadioButton>
@@ -50,5 +50,6 @@
       <TextField fx:id="endDateAndTimeTextField" layoutX="26.0" layoutY="367.0" promptText="End Date and Time" />
       <TextField fx:id="customerIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="400.0" promptText="Customer ID" />
       <TextField fx:id="userIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="434.0" promptText="User ID" />
+      <RadioButton fx:id="allRadioButton" layoutX="510.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectRadioButton" selected="true" text="All" toggleGroup="$DateRange" />
    </children>
 </AnchorPane>
