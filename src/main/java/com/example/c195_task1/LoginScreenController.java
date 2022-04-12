@@ -22,6 +22,7 @@ public class LoginScreenController implements Initializable {
     public TextField username;
     public TextField password;
     public Label zoneIDLabel;
+    public Label loginScreenLabel;
     private String userName = "";
     private String passWord = "";
     private boolean uvalid = false;
@@ -32,6 +33,7 @@ public class LoginScreenController implements Initializable {
         userName = username.getText();
         passWord = password.getText();
         uvalid = DBUsers.testUsername(userName, passWord);
+        ResourceBundle rb = ResourceBundle.getBundle("NAT", Locale.getDefault());
         //System.out.println(uvalid);
         if(uvalid == true){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
@@ -47,8 +49,9 @@ public class LoginScreenController implements Initializable {
         }
         else if(uvalid == false){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Error");
-            alert.setContentText("Username or Password incorrect, please try again.");
+            alert.setTitle(rb.getString("Login") + " " + rb.getString("Error"));
+            alert.setContentText(rb.getString("Username") + " " + rb.getString("or") + " " + rb.getString("Password") + " " + rb.getString("incorrect") + ", "
+                    + rb.getString("please") + " " + rb.getString("try") + " " + rb.getString("again"));
             alert.showAndWait();
         }
     }
@@ -57,8 +60,10 @@ public class LoginScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zoneIDLabel.setText(ZoneId.systemDefault().getId());
         //Along with the zoneID code I need to add code that displays the login in french or english depending on sys data.
-        //ResourceBundle rb = ResourceBundle.getBundle("com/example/c195_task1/NAT_" + Locale.getDefault());
+        ResourceBundle rb = ResourceBundle.getBundle("NAT", Locale.getDefault());
         System.out.println(Locale.getDefault());
+        loginButton.setText(rb.getString("Login"));
+        loginScreenLabel.setText(rb.getString("Login") + " " + rb.getString("Screen"));
        if(Locale.getDefault().equals("fr_FR")){
             System.out.println(Locale.getDefault());
        }
