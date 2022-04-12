@@ -85,9 +85,9 @@ public class DBAppointments {
     public static void updateAppointment(Appointments selectedAppointment){
         try{
             String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Location = '" +
-                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + ", Start = '" + Timestamp.valueOf(selectedAppointment.getStart()) +
+                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = '" + Timestamp.valueOf(selectedAppointment.getStart()) +
                     "', End = '" + Timestamp.valueOf(selectedAppointment.getEnd()) + "', Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
-                    + "' Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() +
+                    + "', Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() +
                     "', Contact_ID = '" + selectedAppointment.getContactID() + "' WHERE Appointment_ID = '" +
                     selectedAppointment.getAppointmentID() + "';";
             System.out.println(sqlCommand);
