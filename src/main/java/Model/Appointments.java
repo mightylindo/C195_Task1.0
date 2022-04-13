@@ -2,6 +2,7 @@ package Model;
 
 import java.security.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Locale;
 
@@ -13,6 +14,8 @@ public class Appointments {
     private String type;
     private LocalDateTime start;
     private LocalDateTime end;
+    private ZonedDateTime zstart;
+    private ZonedDateTime zend;
     private LocalDateTime createDate;
     private String createdBy;
     private LocalDateTime lastUpdate;
@@ -38,6 +41,24 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
+    public Appointments(int appointmentID, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
+                        String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
+        this.appointmentID = appointmentID;
+        //this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.zstart = start;
+        this.zend = end;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.customerID = customerID;
+        this.userID = userID;
+        this.contactID = contactID;
+    }
+
     /**
      * @return appointmentID
      */
@@ -150,4 +171,20 @@ public class Appointments {
      * @param contactID to contactID to set
      */
     public void setContactID(int contactID) {this.contactID = contactID;}
+    /**
+     * @param zstart to zstart to set
+     */
+    public void setZstart(ZonedDateTime zstart) {this.zstart = zstart;}
+    /**
+     * @return zstart
+     */
+    public ZonedDateTime getZstart() {return zstart;}
+    /**
+     * @param zend to zend to set
+     */
+    public void setZend(ZonedDateTime zend) {this.zend = zend;}
+    /**
+     * @return zend
+     */
+    public ZonedDateTime getZend() {return zend;}
 }

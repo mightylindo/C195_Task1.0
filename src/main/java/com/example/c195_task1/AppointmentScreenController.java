@@ -25,6 +25,8 @@ import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
+import static java.time.ZoneId.systemDefault;
+
 public class AppointmentScreenController implements Initializable {
     public Label titleLabel;
     public TableColumn appointmentIDColumn;
@@ -66,14 +68,33 @@ public class AppointmentScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("initialized!");
         System.out.println(aID);
-        appointmentsTableview.setItems(DBAppointments.getAppointments());
+        ObservableList<Appointments> allList = DBAppointments.getAppointments();
+        ObservableList<Appointments> zonedList = FXCollections.observableArrayList();
+        for(Appointments a : allList){
+            int aptID = a.getAppointmentID();
+            String desc = a.getDescription();
+            String loc = a.getLocation();
+            String type = a.getType();
+            int cID = a.getCustomerID();
+            int uID = a.getUserID();
+            int cont = a.getContactID();
+            LocalDateTime createDate = a.getCreateDate();
+            String created = a.getCreatedBy();
+            LocalDateTime lastUp = a.getLastUpdate();
+            String upBy = a.getLastUpdatedBy();
+            ZonedDateTime start = a.getStart().atZone(ZoneId.systemDefault());
+            ZonedDateTime end = a.getEnd().atZone(ZoneId.systemDefault());
+            Appointments z = new Appointments(aptID, desc, loc,type,start,end, createDate,created,lastUp,upBy,cID, uID, cont);
+            zonedList.add(z);
+        }
+        appointmentsTableview.setItems(zonedList);
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("Location"));
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("Start"));
-        endColumn.setCellValueFactory(new PropertyValueFactory<>("End"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("ZStart"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("ZEnd"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
         ObservableList<Customers> clist = DBCustomers.getCustomers();
