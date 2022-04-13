@@ -20,9 +20,8 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
@@ -55,18 +54,18 @@ public class AppointmentScreenController implements Initializable {
     public TextField appointmentDescriptionTextField;
     public TableView appointmentsTableview;
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
-    public int aID = alist.size() + 1;
+    public int aID = alist.size() + 2;
     public ToggleGroup DateRange;
     public RadioButton allRadioButton;
     private String username;
     private LocalTime open = LocalTime.of(8,00);
     private LocalTime close = LocalTime.of(22,00);
-
     public void username(String username){this.username = username;}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("initialized!");
+        System.out.println(aID);
         appointmentsTableview.setItems(DBAppointments.getAppointments());
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
@@ -105,9 +104,10 @@ public class AppointmentScreenController implements Initializable {
         boolean startOK = false;
         boolean endOK = false;
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
-        if(start.toLocalTime().isBefore(open) || start.toLocalTime().isAfter(close)){
+        if(start.isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"))))
+                || start.isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
             bhours = false;
         }
@@ -118,9 +118,10 @@ public class AppointmentScreenController implements Initializable {
             startOK = true;
         }
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        if(end.toLocalTime().isBefore(open) || end.toLocalTime().isAfter(close)){
+        if(end.isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"))))
+                || end.isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
             bhours = false;
         }
@@ -163,7 +164,7 @@ public class AppointmentScreenController implements Initializable {
             LocalDateTime lastUpdate = LocalDateTime.now();
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
-            int appointmentID = aID;
+            int appointmentID = aID + 1;
             DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
             aID = aID + 1;
@@ -173,11 +174,11 @@ public class AppointmentScreenController implements Initializable {
 
     @FXML
     public void deleteButton(ActionEvent actionEvent) throws IOException {
+        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete");
-        alert.setContentText("Do you really want to delete this appointment?");
+        alert.setContentText("Do you really want to delete appointment: " + select.getAppointmentID() + ", " + select.getType() + "?");
         if(alert.showAndWait().get() == ButtonType.OK) {
-            Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
             DBAppointments.deleteAppointment(select);
             appointmentsTableview.setItems(DBAppointments.getAppointments());
         }
@@ -193,9 +194,10 @@ public class AppointmentScreenController implements Initializable {
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
-        if(select.getStart().toLocalTime().isBefore(open) || select.getStart().toLocalTime().isAfter(close)){
+        if(select.getStart().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+                || select.getStart().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
             bhours = false;
         }
@@ -206,9 +208,10 @@ public class AppointmentScreenController implements Initializable {
             startOK = true;
         }
         select.setEnd(LocalDateTime.parse(endDateAndTimeTextField.getText()));
-        if(select.getEnd().toLocalTime().isBefore(open) || select.getEnd().toLocalTime().isAfter(close)){
+        if(select.getEnd().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+                || select.getEnd().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM.");
+            alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
             bhours = false;
         }
