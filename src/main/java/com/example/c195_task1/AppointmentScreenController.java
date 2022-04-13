@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -174,10 +175,12 @@ public class AppointmentScreenController implements Initializable {
             int userID = DBUsers.getUser(username);
             int appointmentID = aID + 1;
             System.out.println(zstart);
-            zstart.toInstant(); // this is doing nothing
-            System.out.println(zstart);
+            Instant istart = zstart.toInstant();
+            Timestamp zs = Timestamp.valueOf(istart.toString());
+            LocalDateTime squanch = zs.toLocalDateTime();// need to figure out how to work with this. Research Instant methods
+            System.out.println(istart);
             zstart.toLocalDateTime();
-            System.out.println(zstart);
+            System.out.println(squanch);
             zend.toInstant();
             zstart.toLocalDateTime();
             DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
