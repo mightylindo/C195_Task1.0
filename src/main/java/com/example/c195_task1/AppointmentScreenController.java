@@ -70,26 +70,7 @@ public class AppointmentScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("initialized!");
         System.out.println(aID);
-        ObservableList<Appointments> allList = DBAppointments.getAppointments();
-        ObservableList<Appointments> zonedList = FXCollections.observableArrayList();
-        for(Appointments a : allList){
-            int aptID = a.getAppointmentID();
-            String desc = a.getDescription();
-            String loc = a.getLocation();
-            String type = a.getType();
-            int cID = a.getCustomerID();
-            int uID = a.getUserID();
-            int cont = a.getContactID();
-            LocalDateTime createDate = a.getCreateDate();
-            String created = a.getCreatedBy();
-            LocalDateTime lastUp = a.getLastUpdate();
-            String upBy = a.getLastUpdatedBy();
-            ZonedDateTime start = a.getStart().atZone(ZoneId.systemDefault());
-            ZonedDateTime end = a.getEnd().atZone(ZoneId.systemDefault());
-            //Appointments z = new Appointments(aptID, desc, loc,type,start,end, createDate,created,lastUp,upBy,cID, uID, cont);
-            //zonedList.add(z);
-        }
-        appointmentsTableview.setItems(allList);
+        appointmentsTableview.setItems(DBAppointments.getAppointments());
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
@@ -192,7 +173,14 @@ public class AppointmentScreenController implements Initializable {
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
             int appointmentID = aID + 1;
-            DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
+            System.out.println(zstart);
+            zstart.toInstant(); // this is doing nothing
+            System.out.println(zstart);
+            zstart.toLocalDateTime();
+            System.out.println(zstart);
+            zend.toInstant();
+            zstart.toLocalDateTime();
+            DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
             aID = aID + 1;
         }
@@ -222,6 +210,7 @@ public class AppointmentScreenController implements Initializable {
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
+
         if(select.getStart().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
                 || select.getStart().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);

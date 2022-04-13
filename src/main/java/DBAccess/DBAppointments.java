@@ -59,8 +59,8 @@ public class DBAppointments {
             int customerID = newAppointment.getCustomerID();
             int userID = newAppointment.getUserID();
             int contactID = newAppointment.getContactID();
-            Timestamp start = Timestamp.valueOf(newAppointment.getStart());
-            Timestamp end = Timestamp.valueOf(newAppointment.getEnd());
+            Timestamp start = Timestamp.valueOf(newAppointment.getZstart().toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(newAppointment.getZend().toLocalDateTime());
             Timestamp createDate = Timestamp.valueOf(newAppointment.getCreateDate());
             String createdBy = newAppointment.getCreatedBy();
             Timestamp lastUpdate = Timestamp.valueOf(newAppointment.getLastUpdate());
