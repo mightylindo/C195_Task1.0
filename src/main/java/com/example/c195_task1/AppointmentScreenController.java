@@ -59,6 +59,8 @@ public class AppointmentScreenController implements Initializable {
     public int aID = alist.size() + 2;
     public ToggleGroup DateRange;
     public RadioButton allRadioButton;
+    public TextField titleTextField;
+    public TableColumn titleColumn;
     private String username;
     private LocalTime open = LocalTime.of(8,00);
     private LocalTime close = LocalTime.of(22,00);
@@ -84,17 +86,18 @@ public class AppointmentScreenController implements Initializable {
             String upBy = a.getLastUpdatedBy();
             ZonedDateTime start = a.getStart().atZone(ZoneId.systemDefault());
             ZonedDateTime end = a.getEnd().atZone(ZoneId.systemDefault());
-            Appointments z = new Appointments(aptID, desc, loc,type,start,end, createDate,created,lastUp,upBy,cID, uID, cont);
-            zonedList.add(z);
+            //Appointments z = new Appointments(aptID, desc, loc,type,start,end, createDate,created,lastUp,upBy,cID, uID, cont);
+            //zonedList.add(z);
         }
-        appointmentsTableview.setItems(zonedList);
+        appointmentsTableview.setItems(allList);
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("Location"));
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("ZStart"));
-        endColumn.setCellValueFactory(new PropertyValueFactory<>("ZEnd"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("Start"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("End"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
         ObservableList<Customers> clist = DBCustomers.getCustomers();
@@ -121,6 +124,7 @@ public class AppointmentScreenController implements Initializable {
         String location = locationTextField.getText();
         int contactID = Integer.parseInt(contactTextField.getText());
         String type = typeTextField.getText();
+        String title = titleTextField.getText();
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
@@ -186,7 +190,7 @@ public class AppointmentScreenController implements Initializable {
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
             int appointmentID = aID + 1;
-            DBAppointments.addAppointment(new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
+            DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
             aID = aID + 1;
         }
@@ -212,6 +216,7 @@ public class AppointmentScreenController implements Initializable {
         select.setType(typeTextField.getText());
         select.setContactID(Integer.parseInt(contactTextField.getText()));
         select.setStart(LocalDateTime.parse(startDateAndTimeTextField.getText()));
+        select.setTitle(titleTextField.getText());
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
@@ -282,6 +287,7 @@ public class AppointmentScreenController implements Initializable {
     public void selectAppointment(MouseEvent mouseEvent) {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
         appointmentIDTextField.setText(Integer.toString(select.getAppointmentID()));
+        titleTextField.setText(select.getTitle());
         appointmentDescriptionTextField.setText(select.getDescription());
         locationTextField.setText(select.getLocation());
         typeTextField.setText(select.getType());

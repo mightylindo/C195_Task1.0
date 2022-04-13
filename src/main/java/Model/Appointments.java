@@ -24,10 +24,10 @@ public class Appointments {
     private int userID;
     private int contactID;
 
-    public Appointments(int appointmentID, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate,
+    public Appointments(int appointmentID, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate,
                          String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy,int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
-        //this.title = title;
+        this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
@@ -41,10 +41,10 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
-    public Appointments(int appointmentID, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
+    public Appointments(int appointmentID, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
                         String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
-        //this.title = title;
+        this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;

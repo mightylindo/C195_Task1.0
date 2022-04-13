@@ -11,24 +11,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.AppointmentScreenController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.AppointmentScreenController">
    <children>
       <Label fx:id="titleLabel" layoutX="34.0" layoutY="53.0" text="Appointments Form">
          <font>
             <Font size="34.0" />
          </font>
       </Label>
-      <TableView fx:id="appointmentsTableview" layoutX="191.0" layoutY="100.0" onMouseClicked="#selectAppointment" prefHeight="600.0" prefWidth="800.0">
+      <TableView fx:id="appointmentsTableview" layoutX="191.0" layoutY="100.0" onMouseClicked="#selectAppointment" prefHeight="600.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="appointmentIDColumn" prefWidth="99.0" text="AppointmentID" />
-          <TableColumn fx:id="descriptionColumn" prefWidth="90.0" text="Description" />
-            <TableColumn fx:id="locationColumn" prefWidth="90.0" text="Location" />
-            <TableColumn fx:id="contactColumn" prefWidth="90.0" text="Contact" />
-            <TableColumn fx:id="typeColumn" prefWidth="90.0" text="Type" />
-            <TableColumn fx:id="startColumn" prefWidth="90.0" text="Start" />
-            <TableColumn fx:id="endColumn" prefWidth="90.0" text="End" />
-            <TableColumn fx:id="customerIDColumn" prefWidth="90.0" text="CustomerID" />
-            <TableColumn fx:id="userIDColumn" prefWidth="90.0" text="UserID" />
+          <TableColumn fx:id="appointmentIDColumn" prefWidth="53.0" text="AppointmentID" />
+          <TableColumn fx:id="descriptionColumn" prefWidth="94.0" text="Description" />
+            <TableColumn fx:id="titleColumn" prefWidth="76.0" text="Title" />
+            <TableColumn fx:id="locationColumn" prefWidth="98.0" text="Location" />
+            <TableColumn fx:id="contactColumn" prefWidth="57.0" text="Contact" />
+            <TableColumn fx:id="typeColumn" prefWidth="129.0" text="Type" />
+            <TableColumn fx:id="startColumn" prefWidth="151.0" text="Start" />
+            <TableColumn fx:id="endColumn" prefWidth="190.0" text="End" />
+            <TableColumn fx:id="customerIDColumn" prefWidth="81.0" text="CustomerID" />
+            <TableColumn fx:id="userIDColumn" prefWidth="69.0" text="UserID" />
         </columns>
       </TableView>
       <Button fx:id="addButton" layoutX="389.0" layoutY="736.0" mnemonicParsing="false" onAction="#addButton" text="Add" />
@@ -43,13 +44,14 @@
       <ComboBox fx:id="customerSelectComboBox" layoutX="25.0" layoutY="120.0" prefWidth="150.0" promptText="Select Customer" />
       <TextField fx:id="appointmentIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="152.0" promptText="Appointment ID" />
       <TextField fx:id="appointmentDescriptionTextField" layoutX="26.0" layoutY="188.0" promptText="Appointment Description" />
-      <TextField fx:id="locationTextField" layoutX="26.0" layoutY="225.0" promptText="Location" />
-      <TextField fx:id="contactTextField" layoutX="26.0" layoutY="264.0" promptText="Contact" />
-      <TextField fx:id="typeTextField" layoutX="26.0" layoutY="299.0" promptText="Type" />
-      <TextField fx:id="startDateAndTimeTextField" layoutX="26.0" layoutY="332.0" promptText="Start Date and Time" />
-      <TextField fx:id="endDateAndTimeTextField" layoutX="26.0" layoutY="367.0" promptText="End Date and Time" />
-      <TextField fx:id="customerIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="400.0" promptText="Customer ID" />
-      <TextField fx:id="userIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="434.0" promptText="User ID" />
+      <TextField fx:id="locationTextField" layoutX="26.0" layoutY="255.0" promptText="Location" />
+      <TextField fx:id="contactTextField" layoutX="26.0" layoutY="292.0" promptText="Contact" />
+      <TextField fx:id="typeTextField" layoutX="26.0" layoutY="329.0" promptText="Type" />
+      <TextField fx:id="startDateAndTimeTextField" layoutX="26.0" layoutY="365.0" promptText="Start Date and Time" />
+      <TextField fx:id="endDateAndTimeTextField" layoutX="26.0" layoutY="400.0" promptText="End Date and Time" />
+      <TextField fx:id="customerIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="434.0" promptText="Customer ID" />
+      <TextField fx:id="userIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="470.0" promptText="User ID" />
       <RadioButton fx:id="allRadioButton" layoutX="510.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectRadioButton" selected="true" text="All" toggleGroup="$DateRange" />
+      <TextField fx:id="titleTextField" layoutX="26.0" layoutY="223.0" promptText="Title" />
    </children>
 </AnchorPane>

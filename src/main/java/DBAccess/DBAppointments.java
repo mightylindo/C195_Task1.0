@@ -35,7 +35,7 @@ public class DBAppointments {
                 LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
-                Appointments a = new Appointments(appointmentID, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy,customerID, userID, contactID);
+                Appointments a = new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy,customerID, userID, contactID);
                 alist.add(a);
             }
         } catch (SQLException e) {
@@ -46,9 +46,10 @@ public class DBAppointments {
 
     public static void addAppointment(Appointments newAppointment){
         try{
-            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Description, Location, Type, Start, End, Create_Date, Created_By, " +
+            String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
                     "Last_Update, Last_Updated_By,Customer_ID, User_ID, Contact_ID) VALUES(";
             int appointmentID = newAppointment.getAppointmentID();
+            String title = newAppointment.getTitle();
             String description = newAppointment.getDescription();
             String location = newAppointment.getLocation();
             String type = newAppointment.getType();
@@ -61,7 +62,8 @@ public class DBAppointments {
             String createdBy = newAppointment.getCreatedBy();
             Timestamp lastUpdate = Timestamp.valueOf(newAppointment.getLastUpdate());
             String lastUpdatedBy = newAppointment.getLastUpdatedBy();
-            String sql = sqlCommand + "'" + appointmentID + "', '" + description + "', '" + location + "', '" + type + "', '" + start + "', '" + end + "', '"
+            String sql = sqlCommand + " '" + appointmentID + "', '" + title + "', '"
+                    + description + "', '" + location + "', '" + type + "', '" + start + "', '" + end + "', '"
                    + createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdatedBy + "', '" + customerID + "', '" + userID + "', '" + contactID + "');";
             System.out.println(sql);
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -84,7 +86,7 @@ public class DBAppointments {
 
     public static void updateAppointment(Appointments selectedAppointment){
         try{
-            String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Location = '" +
+            String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Title = '" + selectedAppointment.getTitle() + "', Location = '" +
                     selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = '" + Timestamp.valueOf(selectedAppointment.getStart()) +
                     "', End = '" + Timestamp.valueOf(selectedAppointment.getEnd()) + "', Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() +
@@ -99,7 +101,6 @@ public class DBAppointments {
     }
 
     public static void checkAppointments(){
-        System.out.println("Hello it is initialized!");
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean myAptmt = true;
         for(Appointments a : alist){
