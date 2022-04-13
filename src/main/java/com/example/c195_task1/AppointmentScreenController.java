@@ -129,8 +129,9 @@ public class AppointmentScreenController implements Initializable {
         boolean startOK = false;
         boolean endOK = false;
         LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
-        if(start.isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"))))
-                || start.isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"))))){
+        ZonedDateTime zstart = LocalDateTime.parse(startDateAndTimeTextField.getText()).atZone(ZoneId.systemDefault());
+        if(zstart.isBefore(ZonedDateTime.of(zstart.toLocalDate(), open, ZoneId.of("America/New_York")))
+                || zstart.isAfter(ZonedDateTime.of(zstart.toLocalDate(), close, ZoneId.of("America/New_York")))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
@@ -143,8 +144,9 @@ public class AppointmentScreenController implements Initializable {
             startOK = true;
         }
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        if(end.isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"))))
-                || end.isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"))))){
+        ZonedDateTime zend = LocalDateTime.parse(endDateAndTimeTextField.getText()).atZone(ZoneId.systemDefault());
+        if(zend.isBefore(ZonedDateTime.of(zend.toLocalDate(), open, ZoneId.of("America/New_York")))
+                || zend.isAfter(ZonedDateTime.of(zend.toLocalDate(), close, ZoneId.of("America/New_York")))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();

@@ -3,6 +3,7 @@ package DBAccess;
 import Database.DBConnection;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 import Model.Appointments;
@@ -31,6 +32,8 @@ public class DBAppointments {
                 int contactID = rs.getInt("Contact_ID");
                 LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+                start.atZone(ZoneId.systemDefault());
+                end.atZone(ZoneId.systemDefault());
                 String createdBy = rs.getString("Created_By");
                 LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
