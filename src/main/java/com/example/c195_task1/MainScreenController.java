@@ -46,7 +46,7 @@ public class MainScreenController{
         CustomerScreenController controller = loader.getController();
         controller.username(username);
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("C195 Task1");
         stage.setScene(scene);
         stage.show();

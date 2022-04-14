@@ -37,7 +37,7 @@ public class ReportScreenController {
         Parent root = loader.load();
         Report1Controller controller = loader.getController();
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("C195 Task1");
         stage.setScene(scene);
         stage.show();
@@ -48,7 +48,7 @@ public class ReportScreenController {
         Parent root = loader.load();
         Report2Controller controller = loader.getController();
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("C195 Task1");
         stage.setScene(scene);
         stage.show();
@@ -59,7 +59,7 @@ public class ReportScreenController {
         Parent root = loader.load();
         Report3Controller controller = loader.getController();
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("C195 Task1");
         stage.setScene(scene);
         stage.show();
