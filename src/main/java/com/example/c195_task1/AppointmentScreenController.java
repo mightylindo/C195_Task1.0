@@ -25,6 +25,7 @@ import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
+import java.util.TimerTask;
 
 import static java.time.ZoneId.systemDefault;
 
@@ -175,14 +176,14 @@ public class AppointmentScreenController implements Initializable {
             int userID = DBUsers.getUser(username);
             int appointmentID = aID + 1;
             System.out.println(zstart);
-            Instant istart = zstart.toInstant();
-            Timestamp zs = Timestamp.valueOf(istart.toString());
-            LocalDateTime squanch = zs.toLocalDateTime();// need to figure out how to work with this. Research Instant methods
+            Instant istart = zstart.toInstant().truncatedTo(ChronoUnit.MICROS);
+            LocalDateTime zs = LocalDateTime.parse(istart.toString()); // does not work
+            //LocalDateTime squanch = zs.toLocalDateTime();// need to figure out how to work with this. Research Instant methods
             System.out.println(istart);
             zstart.toLocalDateTime();
-            System.out.println(squanch);
+            System.out.println(zs);
             zend.toInstant();
-            zstart.toLocalDateTime();
+            zend.toLocalDateTime();
             DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
             aID = aID + 1;
