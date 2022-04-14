@@ -1,8 +1,7 @@
 package com.example.c195_task1;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -15,6 +14,22 @@ import java.io.IOException;
 
 public class Report1Controller {
     public Button returnButton;
+    public TreeTableView report1TableView;
+    public TreeTableColumn janColumn;
+    public TreeTableColumn febColumn;
+    public TreeTableColumn marColumn;
+    public TreeTableColumn aprilColumn;
+    public TreeTableColumn mayColumn;
+    public TreeTableColumn juneColumn;
+    public TreeTableColumn julyColumn;
+    public TreeTableColumn augColumn;
+    public TreeTableColumn sepColumn;
+    public TreeTableColumn octColumn;
+    public TreeTableColumn novColumn;
+    public TreeTableColumn decColumn;
+    public ComboBox customerComboBox;
+    public ComboBox typeComboBox;
+
     @FXML
     public void returnR1(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportsScreen.fxml"));

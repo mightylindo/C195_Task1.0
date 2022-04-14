@@ -7,12 +7,23 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class Report3Controller {
     public Button returnButton;
+    public TableView report3TableView;
+    public TableColumn customerNameColumn;
+    public TableColumn addressColumn;
+    public TableColumn stateColumn;
+    public TableColumn postalColumn;
+    public TableColumn customerIDColumn;
+    public ComboBox countryComboBox;
+
     @FXML
     public void returnR3(ActionEvent actionEvent) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportsScreen.fxml"));

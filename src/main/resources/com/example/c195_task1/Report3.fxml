@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.Report3Controller">
-    <Button fx:id="returnButton" layoutX="486.0" layoutY="740.0" mnemonicParsing="false" onAction="#returnR3"
-            text="Return"/>
-    <Label layoutX="96.0" layoutY="36.0" text="Report 3">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.Report3Controller">
+    <Button fx:id="returnButton" layoutX="574.0" layoutY="735.0" mnemonicParsing="false" onAction="#returnR3" text="Return" />
+    <Label layoutX="48.0" layoutY="25.0" text="Report 3 Customer by Country">
         <font>
-          <Font name="System Bold" size="25.0"/>
+          <Font name="System Bold" size="25.0" />
         </font>
     </Label>
-    <TableView layoutX="94.0" layoutY="77.0" prefHeight="646.0" prefWidth="835.0">
+    <TableView fx:id="report3TableView" layoutX="245.0" layoutY="77.0" prefHeight="646.0" prefWidth="835.0">
       <columns>
-          <TableColumn prefWidth="75.0" text="C1"/>
-          <TableColumn prefWidth="75.0" text="C2"/>
+          <TableColumn fx:id="customerNameColumn" prefWidth="212.0" text="Customer Name" />
+          <TableColumn fx:id="addressColumn" prefWidth="321.0" text="Address" />
+         <TableColumn fx:id="stateColumn" prefWidth="129.0" text="State" />
+         <TableColumn fx:id="postalColumn" prefWidth="95.0" text="Postal Code" />
+         <TableColumn fx:id="customerIDColumn" prefWidth="77.0" text="Customer ID" />
       </columns>
     </TableView>
+   <ComboBox fx:id="countryComboBox" layoutX="48.0" layoutY="162.0" prefWidth="150.0" promptText="Select Country" />
 </AnchorPane>
