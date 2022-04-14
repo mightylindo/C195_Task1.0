@@ -112,4 +112,19 @@ public class DBCustomers {
         }
     }
 
+    public static String getDivision(int divisionID){
+        String name = "There is no match.";
+        try{
+            String sqlCommand = "SELECT Division FROM first_level_divisions WHERE Division_ID = '" + divisionID +"';";
+            System.out.println(sqlCommand);
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sqlCommand);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                name = rs.getString("Division");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
 }

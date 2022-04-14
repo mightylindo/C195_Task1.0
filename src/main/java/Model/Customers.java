@@ -1,5 +1,8 @@
 package Model;
 
+import DBAccess.DBAppointments;
+import DBAccess.DBCustomers;
+
 import java.security.Timestamp;
 import java.sql.Time;
 import java.time.LocalDateTime;
@@ -116,5 +119,10 @@ public class Customers {
      * @param divisionID to divisionID to set
      */
     public void setDivisionID(int divisionID){this.divisionID = divisionID;}
+
+    public String getDivision(){
+        String name = DBCustomers.getDivision(divisionID);
+        return name;
+    }
 }
 

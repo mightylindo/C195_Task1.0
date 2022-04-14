@@ -47,6 +47,7 @@ public class CustomerScreenController implements Initializable {
     public ComboBox<Countries> countryComboBox;
     public ComboBox<FirstLevelDivisions> stateComboBox;
     public int countryID = 0;
+    public TableColumn stateColumn;
     private String username;
 
 
@@ -60,6 +61,7 @@ public class CustomerScreenController implements Initializable {
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("Address"));
         postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("PostalCode"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        stateColumn.setCellValueFactory(new PropertyValueFactory<>("Division"));
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         ObservableList<Countries> clist = DBCountries.getCountries();
         uniqueID = DBCustomers.getCustomers().size();
@@ -72,7 +74,7 @@ public class CustomerScreenController implements Initializable {
         String name = nameTextField.getText();
         String country = (String)countryComboBox.getSelectionModel().getSelectedItem().toString();
         String state = (String)stateComboBox.getSelectionModel().getSelectedItem().toString();
-        String address = addressTextField.getText() + ", " + state + ", " + country;
+        String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
         String phone = phoneNumberTextField.getText();
         String createdBy =  username;
