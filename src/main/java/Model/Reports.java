@@ -48,4 +48,6 @@ public class Reports {
 
     public void setType(String type){this.type = type;}
 
+    public void setStart(LocalDateTime start) {this.start = start;}
+    public LocalDateTime getStart(){return start;}
 }

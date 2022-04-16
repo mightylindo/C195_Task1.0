@@ -19,6 +19,8 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ResourceBundle;
 
 public class Report1Controller implements Initializable {
@@ -37,6 +39,20 @@ public class Report1Controller implements Initializable {
     public TableColumn novColumn;
     public TableColumn decColumn;
     public ComboBox typeComboBox;
+    int jan = 0;
+    int feb = 0;
+    int mar = 0;
+    int apr = 0;
+    int may = 0;
+    int june = 0;
+    int july = 0;
+    int aug = 0;
+    int sep = 0;
+    int oct = 0;
+    int nov = 0;
+    int dec = 0;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -95,8 +111,37 @@ public class Report1Controller implements Initializable {
             else if(count >=1 ) {
                 report1TableView.setItems(rlist);
                 for (Reports r : rlist) {
-                    //need to implement the rest of the code
+                    LocalDateTime start = r.getStart();
+                    if(start.getMonth() == Month.JANUARY){
+                       jan = jan + 1;
+                    }else if(start.getMonth() == Month.FEBRUARY){
+                        feb = feb + 1;
+                    }else if(start.getMonth() == Month.MARCH){
+                        mar = mar + 1;
+                    }else if(start.getMonth() == Month.APRIL){
+                        apr = apr + 1;
+                    }else if(start.getMonth() == Month.MAY){
+                        may = may + 1;
+                    }else if(start.getMonth() == Month.JUNE){
+                        june = june + 1;
+                    }else if(start.getMonth() == Month.JULY){
+                        july = july + 1;
+                    }else if(start.getMonth() == Month.AUGUST){
+                        aug = aug + 1;
+                    }else if(start.getMonth() == Month.SEPTEMBER){
+                        sep = sep + 1;
+                    }else if(start.getMonth() == Month.OCTOBER){
+                        oct = oct + 1;
+                    }else if(start.getMonth() == Month.NOVEMBER){
+                        nov = nov + 1;
+                    }else if(start.getMonth() == Month.DECEMBER){
+                        dec = dec + 1;
+                    }
                 }
+                janColumn.cellFactoryProperty().setValue(jan);
+                febColumn.cellFactoryProperty().setValue(feb);
+                marColumn.cellFactoryProperty().setValue(mar);
+                aprilColumn.cellFactoryProperty().setValue(apr);
             }
             else{
                 System.out.println("Something went wrong 2.");
