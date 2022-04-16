@@ -8,29 +8,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_task1.Report1Controller">
-    <TreeTableView fx:id="report1TableView" layoutX="268.0" layoutY="89.0" prefHeight="650.0" prefWidth="900.0">
+    <TableView fx:id="report1TableView" layoutX="268.0" layoutY="89.0" prefHeight="650.0" prefWidth="900.0">
       <columns>
-          <TreeTableColumn fx:id="janColumn" prefWidth="75.0" text="January" />
-          <TreeTableColumn fx:id="febColumn" prefWidth="75.0" text="Feburary" />
-         <TreeTableColumn fx:id="marColumn" prefWidth="75.0" text="March" />
-         <TreeTableColumn fx:id="aprilColumn" prefWidth="75.0" text="April" />
-         <TreeTableColumn fx:id="mayColumn" prefWidth="75.0" text="May" />
-         <TreeTableColumn fx:id="juneColumn" prefWidth="75.0" text="June" />
-         <TreeTableColumn fx:id="julyColumn" prefWidth="75.0" text="July" />
-         <TreeTableColumn fx:id="augColumn" prefWidth="75.0" text="August" />
-         <TreeTableColumn fx:id="sepColumn" prefWidth="75.0" text="September" />
-         <TreeTableColumn fx:id="octColumn" prefWidth="75.0" text="October" />
-         <TreeTableColumn fx:id="novColumn" prefWidth="75.0" text="November" />
-         <TreeTableColumn fx:id="decColumn" prefWidth="75.0" text="Decemeber" />
+          <TableColumn fx:id="janColumn" prefWidth="75.0" text="January" />
+          <TableColumn fx:id="febColumn" prefWidth="75.0" text="Feburary" />
+         <TableColumn fx:id="marColumn" prefWidth="75.0" text="March" />
+         <TableColumn fx:id="aprilColumn" prefWidth="75.0" text="April" />
+         <TableColumn fx:id="mayColumn" prefWidth="75.0" text="May" />
+         <TableColumn fx:id="juneColumn" prefWidth="75.0" text="June" />
+         <TableColumn fx:id="julyColumn" prefWidth="75.0" text="July" />
+         <TableColumn fx:id="augColumn" prefWidth="75.0" text="August" />
+         <TableColumn fx:id="sepColumn" prefWidth="75.0" text="September" />
+         <TableColumn fx:id="octColumn" prefWidth="75.0" text="October" />
+         <TableColumn fx:id="novColumn" prefWidth="75.0" text="November" />
+         <TableColumn fx:id="decColumn" prefWidth="75.0" text="Decemeber" />
       </columns>
-    </TreeTableView>
+    </TableView>
     <Label layoutX="82.0" layoutY="44.0" text="Report 1 Number of Appointments by Type and Month">
         <font>
           <Font name="System Bold" size="25.0" />
         </font>
     </Label>
     <Button fx:id="returnButton" layoutX="574.0" layoutY="748.0" mnemonicParsing="false" onAction="#returnR1" text="Return" />
-   <ComboBox fx:id="customerComboBox" layoutX="51.0" layoutY="152.0" prefWidth="150.0" promptText="Select Customer" />
-   <ComboBox fx:id="typeComboBox" layoutX="51.0" layoutY="198.0" prefWidth="150.0" promptText="Select Type" />
+   <ComboBox fx:id="typeComboBox" layoutX="64.0" layoutY="121.0" onAction="#selectType" prefWidth="150.0" promptText="Select Type" />
 </AnchorPane>

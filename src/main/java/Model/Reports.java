@@ -17,9 +17,9 @@ public class Reports {
    private String postal;
 
 
-    public Reports(String type, Customers customer){
-        this.customer = customer;
+    public Reports(String type, LocalDateTime start){
         this.type = type;
+        this.start = start;
     }
 
     public Reports(int appointmentID, String title, String type, String description, LocalDateTime start, LocalDateTime end, int customerID){
@@ -39,5 +39,13 @@ public class Reports {
         this.postal = postal;
         this.customerID = customerID;
     }
+
+    public int getCustomerID() {return customerID;}
+
+    public void setCustomerID(int customerID) {this.customerID = customerID;}
+
+    public String getType(){return type;}
+
+    public void setType(String type){this.type = type;}
 
 }
