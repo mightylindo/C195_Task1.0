@@ -27,11 +27,11 @@
          <TableColumn fx:id="customerIDColumn" prefWidth="94.0" text="Customer ID" />
       </columns>
     </TableView>
-   <RadioButton fx:id="contact1Button" layoutX="51.0" layoutY="134.0" mnemonicParsing="false" selected="true" text="Contact 1">
+   <RadioButton fx:id="contact1Button" layoutX="51.0" layoutY="134.0" mnemonicParsing="false" onAction="#contactSelected" selected="true" text="Contact 1">
       <toggleGroup>
          <ToggleGroup fx:id="contact" />
       </toggleGroup>
    </RadioButton>
-   <RadioButton fx:id="contact2Button" layoutX="51.0" layoutY="176.0" mnemonicParsing="false" text="Contact 2" toggleGroup="$contact" />
-   <RadioButton fx:id="contact3Button" layoutX="51.0" layoutY="220.0" mnemonicParsing="false" text="Contact 3" toggleGroup="$contact" />
+   <RadioButton fx:id="contact2Button" layoutX="51.0" layoutY="176.0" mnemonicParsing="false" onAction="#contactSelected" text="Contact 2" toggleGroup="$contact" />
+   <RadioButton fx:id="contact3Button" layoutX="51.0" layoutY="220.0" mnemonicParsing="false" onAction="#contactSelected" text="Contact 3" toggleGroup="$contact" />
 </AnchorPane>

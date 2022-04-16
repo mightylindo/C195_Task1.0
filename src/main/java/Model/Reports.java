@@ -125,15 +125,33 @@ public class Reports {
     public void setDec(int dec) {
         this.dec = dec;
     }
+    public int getAppointmentID(){return appointmentID;}
 
-    public int getCustomerID() {return customerID;}
+    public void setAppointmentID(int appointmentID) {this.appointmentID = appointmentID;}
 
-    public void setCustomerID(int customerID) {this.customerID = customerID;}
+    public String getTitle(){return title;}
+
+    public void setTitle(String title) {this.title = title;}
 
     public String getType(){return type;}
 
     public void setType(String type){this.type = type;}
 
+    public String getDescription(){return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
     public void setStart(LocalDateTime start) {this.start = start;}
+
     public LocalDateTime getStart(){return start;}
+
+    public void setEnd(LocalDateTime end) {this.end = end;}
+
+    public LocalDateTime getEnd(){return end;}
+
+    public int getCustomerID() {return customerID;}
+
+    public void setCustomerID(int customerID) {this.customerID = customerID;}
+
+
 }
