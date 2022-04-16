@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -39,19 +40,6 @@ public class Report1Controller implements Initializable {
     public TableColumn novColumn;
     public TableColumn decColumn;
     public ComboBox typeComboBox;
-    int jan = 0;
-    int feb = 0;
-    int mar = 0;
-    int apr = 0;
-    int may = 0;
-    int june = 0;
-    int july = 0;
-    int aug = 0;
-    int sep = 0;
-    int oct = 0;
-    int nov = 0;
-    int dec = 0;
-
 
 
     @Override
@@ -92,8 +80,57 @@ public class Report1Controller implements Initializable {
                 report1TableView.setItems(rlist);
                 System.out.println("We made it in.");
                 for (Reports r : rlist){
-
+                    LocalDateTime start = r.getStart();
+                    if(start.getMonth() == Month.JANUARY){
+                        int i = r.getJan();
+                        r.setJan(i + 1);
+                    }else if(start.getMonth() == Month.FEBRUARY){
+                        int i = r.getFeb();
+                        r.setFeb(i + 1);
+                    }else if(start.getMonth() == Month.MARCH){
+                        int i = r.getMar();
+                        r.setMar(i + 1);
+                    }else if(start.getMonth() == Month.APRIL){
+                        int i = r.getApr();
+                        r.setApr(i + 1);
+                    }else if(start.getMonth() == Month.MAY){
+                        int i = r.getMay();
+                        r.setMay(i + 1);
+                    }else if(start.getMonth() == Month.JUNE){
+                        int i = r.getJune();
+                        r.setJune(i + 1);
+                    }else if(start.getMonth() == Month.JULY){
+                        int i = r.getJuly();
+                        r.setJuly(i + 1);
+                    }else if(start.getMonth() == Month.AUGUST){
+                        int i = r.getAug();
+                        r.setAug(i + 1);
+                    }else if(start.getMonth() == Month.SEPTEMBER){
+                        int i = r.getSep();
+                        r.setSep(i + 1);
+                    }else if(start.getMonth() == Month.OCTOBER){
+                        int i = r.getOct();
+                        r.setOct(i + 1);
+                    }else if(start.getMonth() == Month.NOVEMBER){
+                        int i = r.getNov();
+                        r.setNov(i + 1);
+                    }else if(start.getMonth() == Month.DECEMBER){
+                        int i = r.getDec();
+                        r.setDec(i + 1);
+                    }
                 }
+                janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
+                febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
+                marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
+                aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
+                mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
+                juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
+                julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
+                augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
+                sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
+                octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
+                novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
+                decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
             }
             else{
                 System.out.println("Something went wrong.");
@@ -113,39 +150,61 @@ public class Report1Controller implements Initializable {
                 for (Reports r : rlist) {
                     LocalDateTime start = r.getStart();
                     if(start.getMonth() == Month.JANUARY){
-                       jan = jan + 1;
+                        int i = r.getJan();
+                        r.setJan(i + 1);
                     }else if(start.getMonth() == Month.FEBRUARY){
-                        feb = feb + 1;
+                        int i = r.getFeb();
+                        r.setFeb(i + 1);
                     }else if(start.getMonth() == Month.MARCH){
-                        mar = mar + 1;
+                        int i = r.getMar();
+                        r.setMar(i + 1);
                     }else if(start.getMonth() == Month.APRIL){
-                        apr = apr + 1;
+                        int i = r.getApr();
+                        r.setApr(i + 1);
                     }else if(start.getMonth() == Month.MAY){
-                        may = may + 1;
+                        int i = r.getMay();
+                        r.setMay(i + 1);
                     }else if(start.getMonth() == Month.JUNE){
-                        june = june + 1;
+                        int i = r.getJune();
+                        r.setJune(i + 1);
                     }else if(start.getMonth() == Month.JULY){
-                        july = july + 1;
+                        int i = r.getJuly();
+                        r.setJuly(i + 1);
                     }else if(start.getMonth() == Month.AUGUST){
-                        aug = aug + 1;
+                        int i = r.getAug();
+                        r.setAug(i + 1);
                     }else if(start.getMonth() == Month.SEPTEMBER){
-                        sep = sep + 1;
+                        int i = r.getSep();
+                        r.setSep(i + 1);
                     }else if(start.getMonth() == Month.OCTOBER){
-                        oct = oct + 1;
+                        int i = r.getOct();
+                        r.setOct(i + 1);
                     }else if(start.getMonth() == Month.NOVEMBER){
-                        nov = nov + 1;
+                        int i = r.getNov();
+                        r.setNov(i + 1);
                     }else if(start.getMonth() == Month.DECEMBER){
-                        dec = dec + 1;
+                        int i = r.getDec();
+                        r.setDec(i + 1);
                     }
                 }
-                janColumn.cellFactoryProperty().setValue(jan);
-                febColumn.cellFactoryProperty().setValue(feb);
-                marColumn.cellFactoryProperty().setValue(mar);
-                aprilColumn.cellFactoryProperty().setValue(apr);
+                janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
+                febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
+                marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
+                aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
+                mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
+                juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
+                julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
+                augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
+                sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
+                octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
+                novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
+                decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
+
             }
             else{
                 System.out.println("Something went wrong 2.");
             }
+
         }
         else if(type == "Disciplinary"){
             ObservableList<Reports> rlist = DBReports.getReport1(type);
@@ -159,13 +218,63 @@ public class Report1Controller implements Initializable {
             else if(count >=1 ) {
                 report1TableView.setItems(rlist);
                 for (Reports r : rlist) {
-                    //need to implement the rest of the code
+                    LocalDateTime start = r.getStart();
+                    if(start.getMonth() == Month.JANUARY){
+                        int i = r.getJan();
+                        r.setJan(i + 1);
+                    }else if(start.getMonth() == Month.FEBRUARY){
+                        int i = r.getFeb();
+                        r.setFeb(i + 1);
+                    }else if(start.getMonth() == Month.MARCH){
+                        int i = r.getMar();
+                        r.setMar(i + 1);
+                    }else if(start.getMonth() == Month.APRIL){
+                        int i = r.getApr();
+                        r.setApr(i + 1);
+                    }else if(start.getMonth() == Month.MAY){
+                        int i = r.getMay();
+                        r.setMay(i + 1);
+                    }else if(start.getMonth() == Month.JUNE){
+                        int i = r.getJune();
+                        r.setJune(i + 1);
+                    }else if(start.getMonth() == Month.JULY){
+                        int i = r.getJuly();
+                        r.setJuly(i + 1);
+                    }else if(start.getMonth() == Month.AUGUST){
+                        int i = r.getAug();
+                        r.setAug(i + 1);
+                    }else if(start.getMonth() == Month.SEPTEMBER){
+                        int i = r.getSep();
+                        r.setSep(i + 1);
+                    }else if(start.getMonth() == Month.OCTOBER){
+                        int i = r.getOct();
+                        r.setOct(i + 1);
+                    }else if(start.getMonth() == Month.NOVEMBER){
+                        int i = r.getNov();
+                        r.setNov(i + 1);
+                    }else if(start.getMonth() == Month.DECEMBER){
+                        int i = r.getDec();
+                        r.setDec(i + 1);
+                    }
                 }
+                janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
+                febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
+                marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
+                aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
+                mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
+                juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
+                julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
+                augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
+                sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
+                octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
+                novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
+                decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
             }
             else{
                 System.out.println("Something went wrong 3.");
             }
         }
+
         else{
            System.out.println("whoops");
         }
