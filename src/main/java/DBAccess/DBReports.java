@@ -52,4 +52,25 @@ public class DBReports {
         return alist;
     }
 
+    public static ObservableList<Reports> getReport3(int country){
+        ObservableList<Reports> alist = FXCollections.observableArrayList();
+        try{
+            String sql = "SELECT Customers.Customer_Name, Customers.Address, Customers.Postal_Code, Customers.Customer_ID, First_Level_Divisions.Division FROM Customers" +
+                    " INNER JOIN First_Level_Divisions ON Customers.Division_ID = First_Level_Divisions.Division_ID WHERE First_Level_Divisions.Country_ID = '" + country + "';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                String name = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String state = rs.getString("Division");
+                String postal = rs.getString("Postal_Code");
+                int cID = rs.getInt("Customer_ID");
+                Reports r = new Reports(name, address, state, postal, cID);
+                alist.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alist;
+    }
 }

@@ -5,7 +5,6 @@ import java.time.Month;
 
 public class Reports {
    private String type;
-   private Customers customer;
    private int appointmentID;
    private String title;
    private String description;
@@ -153,5 +152,19 @@ public class Reports {
 
     public void setCustomerID(int customerID) {this.customerID = customerID;}
 
+    public String getCustomerName() {return customerName;}
 
+    public void setCustomerName(String customerName) {this.customerName = customerName;}
+
+    public String getAddress(){return address;}
+
+    public void setAddress(String address) {this.address = address;}
+
+    public String getState() {return state;}
+
+    public void setState(String state) {this.state = state;}
+
+    public String getPostal(){return postal;}
+
+    public void setPostal(String postal) {this.postal = postal;}
 }
