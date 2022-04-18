@@ -11,9 +11,15 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -33,8 +39,13 @@ public class LoginScreenController implements Initializable {
         userName = username.getText();
         passWord = password.getText();
         uvalid = DBUsers.testUsername(userName, passWord);
+        File file = new File("login_activity.txt");
+        FileWriter fw = new FileWriter(file,true);
+        PrintWriter pw = new PrintWriter(fw);
         ResourceBundle rb = ResourceBundle.getBundle("NAT", Locale.getDefault());
         if(uvalid == true){
+            pw.println(userName + " " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Success");
+            pw.close();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
             MainScreenController controller = loader.getController();
@@ -47,6 +58,8 @@ public class LoginScreenController implements Initializable {
             DBAppointments.checkAppointments();
         }
         else if(uvalid == false){
+            pw.println(userName + " " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Failure");
+            pw.close();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(rb.getString("Login") + " " + rb.getString("Error"));
             alert.setContentText(rb.getString("Username") + " " + rb.getString("or") + " " + rb.getString("Password") + " " + rb.getString("incorrect") + ", "
