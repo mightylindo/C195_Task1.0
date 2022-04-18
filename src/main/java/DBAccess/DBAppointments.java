@@ -5,7 +5,10 @@ import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import Model.Appointments;
 import javafx.collections.FXCollections;
@@ -33,13 +36,13 @@ public class DBAppointments {
                 int contactID = rs.getInt("Contact_ID");
                 LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-                start.atZone(ZoneId.systemDefault());
-                end.atZone(ZoneId.systemDefault());
+                ZonedDateTime zstart = start.atZone(ZoneId.systemDefault());
+                ZonedDateTime zend =end.atZone(ZoneId.systemDefault());
                 String createdBy = rs.getString("Created_By");
                 LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
-                Appointments a = new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy,customerID, userID, contactID);
+                Appointments a = new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy,customerID, userID, contactID);
                 alist.add(a);
             }
         } catch (SQLException e) {
@@ -60,8 +63,8 @@ public class DBAppointments {
             int customerID = newAppointment.getCustomerID();
             int userID = newAppointment.getUserID();
             int contactID = newAppointment.getContactID();
-            Timestamp start = Timestamp.valueOf(newAppointment.getZstart().toLocalDateTime());
-            Timestamp end = Timestamp.valueOf(newAppointment.getZend().toLocalDateTime());
+            Timestamp start = Timestamp.valueOf(newAppointment.getStart().toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(newAppointment.getEnd().toLocalDateTime());
             Timestamp createDate = Timestamp.valueOf(newAppointment.getCreateDate());
             String createdBy = newAppointment.getCreatedBy();
             Timestamp lastUpdate = Timestamp.valueOf(newAppointment.getLastUpdate());
@@ -91,8 +94,8 @@ public class DBAppointments {
     public static void updateAppointment(Appointments selectedAppointment){
         try{
             String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Title = '" + selectedAppointment.getTitle() + "', Location = '" +
-                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = '" + Timestamp.valueOf(selectedAppointment.getStart()) +
-                    "', End = '" + Timestamp.valueOf(selectedAppointment.getEnd()) + "', Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
+                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = '" + Timestamp.valueOf(selectedAppointment.getStart().toLocalDateTime()) +
+                    "', End = '" + Timestamp.valueOf(selectedAppointment.getEnd().toLocalDateTime()) + "', Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() +
                     "', Contact_ID = '" + selectedAppointment.getContactID() + "' WHERE Appointment_ID = '" +
                     selectedAppointment.getAppointmentID() + "';";
@@ -109,7 +112,7 @@ public class DBAppointments {
         boolean myAptmt = true;
         for(Appointments a : alist){
             LocalDateTime currentTime = LocalDateTime.now();
-            LocalDateTime startTime = a.getStart();
+            LocalDateTime startTime = a.getStart().toLocalDateTime();
             long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
             System.out.println(timeDifference);
             if(timeDifference < 15 && timeDifference >= 0){

@@ -74,7 +74,7 @@ public class AppointmentScreenController implements Initializable {
         ObservableList<Appointments> aAppointments = FXCollections.observableArrayList();
         for(Appointments a : allAppointments){
             LocalDateTime current = LocalDateTime.now();
-            LocalDateTime appointment = a.getStart();
+            ZonedDateTime appointment = a.getStart();
             long timeDifference = ChronoUnit.DAYS.between(current, appointment);
             if(timeDifference < days && timeDifference > 0){
                 aAppointments.add(a);
@@ -100,7 +100,8 @@ public class AppointmentScreenController implements Initializable {
                     alert.setContentText("Appointment Overlap2: Please select a different time.");
                     alert.showAndWait();
                 }
-                else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart())) && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
+                else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart()))
+                        && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap3: Please select a different time.");
@@ -158,10 +159,13 @@ public class AppointmentScreenController implements Initializable {
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
-        LocalDateTime start = LocalDateTime.parse(startDateAndTimeTextField.getText());
-        ZonedDateTime zstart = LocalDateTime.parse(startDateAndTimeTextField.getText()).atZone(ZoneId.systemDefault());
-        if(zstart.isBefore(ZonedDateTime.of(zstart.toLocalDate(), open, ZoneId.of("America/New_York")))
-                || zstart.isAfter(ZonedDateTime.of(zstart.toLocalDate(), close, ZoneId.of("America/New_York")))){
+        LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
+        ZonedDateTime start = s.atZone(ZoneId.systemDefault());
+        ZonedDateTime openz = ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"));
+        System.out.println(start);
+        System.out.println(openz);
+        ZonedDateTime closez = ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"));
+        if(start.isBefore(openz) || start.isAfter((closez))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
@@ -174,10 +178,9 @@ public class AppointmentScreenController implements Initializable {
             startOK = true;
         }
         bhours = false;
-        LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        ZonedDateTime zend = LocalDateTime.parse(endDateAndTimeTextField.getText()).atZone(ZoneId.systemDefault());
-        if(zend.isBefore(ZonedDateTime.of(zend.toLocalDate(), open, ZoneId.of("America/New_York")))
-                || zend.isAfter(ZonedDateTime.of(zend.toLocalDate(), close, ZoneId.of("America/New_York")))){
+        LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
+        ZonedDateTime end = e.atZone(ZoneId.systemDefault());
+        if(end.isBefore((openz)) || end.isAfter((closez))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
@@ -196,7 +199,7 @@ public class AppointmentScreenController implements Initializable {
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
             int appointmentID = aID + 1;
-            DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
+            DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
             aID = aID + 1;
         }
@@ -221,13 +224,13 @@ public class AppointmentScreenController implements Initializable {
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
         select.setContactID(Integer.parseInt(contactTextField.getText()));
-        select.setStart(LocalDateTime.parse(startDateAndTimeTextField.getText()));
+        select.setStart(ZonedDateTime.parse(startDateAndTimeTextField.getText()));
         select.setTitle(titleTextField.getText());
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
-        if(select.getStart().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
-                || select.getStart().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
+        if(select.getStart().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+                || select.getStart().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
@@ -240,9 +243,9 @@ public class AppointmentScreenController implements Initializable {
             startOK = true;
         }
         bhours = false;
-        select.setEnd(LocalDateTime.parse(endDateAndTimeTextField.getText()));
-        if(select.getEnd().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
-                || select.getEnd().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
+        select.setEnd(ZonedDateTime.parse(endDateAndTimeTextField.getText()));
+        if(select.getEnd().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+                || select.getEnd().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();

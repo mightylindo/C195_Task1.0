@@ -2,7 +2,9 @@ package Model;
 
 import java.security.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,10 +14,10 @@ public class Appointments {
     private String description;
     private String location;
     private String type;
-    private LocalDateTime start;
-    private LocalDateTime end;
-    private ZonedDateTime zstart;
-    private ZonedDateTime zend;
+    //private LocalDateTime start;
+    //private LocalDateTime end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private LocalDateTime createDate;
     private String createdBy;
     private LocalDateTime lastUpdate;
@@ -24,7 +26,7 @@ public class Appointments {
     private int userID;
     private int contactID;
 
-    public Appointments(int appointmentID, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate,
+    public Appointments(int appointmentID, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
                          String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy,int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
@@ -41,6 +43,7 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
+    /**
     public Appointments(int appointmentID, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
                         String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
@@ -58,7 +61,7 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
-
+    */
     /**
      * @return appointmentID
      */
@@ -102,19 +105,23 @@ public class Appointments {
     /**
      * @return start
      */
-    public LocalDateTime getStart() {return start;}
+    public ZonedDateTime getStart() {
+        start.truncatedTo(ChronoUnit.MINUTES);
+        return start;}
     /**
      * @param start to start to set
      */
-    public void setStart(LocalDateTime start) {this.start = start;}
+    public void setStart(ZonedDateTime start) {this.start = start;}
     /**
      * @return end
      */
-    public LocalDateTime getEnd() {return end;}
+    public ZonedDateTime getEnd() {
+        end.truncatedTo(ChronoUnit.MINUTES);
+        return end;}
     /**
      * @param end to end to set
      */
-    public void setEnd(LocalDateTime end) {this.end = end;}
+    public void setEnd(ZonedDateTime end) {this.end = end;}
     /**
      * @return createDate
      */
@@ -173,18 +180,19 @@ public class Appointments {
     public void setContactID(int contactID) {this.contactID = contactID;}
     /**
      * @param zstart to zstart to set
-     */
+
     public void setZstart(ZonedDateTime zstart) {this.zstart = zstart;}
     /**
      * @return zstart
-     */
+
     public ZonedDateTime getZstart() {return zstart;}
     /**
      * @param zend to zend to set
-     */
+
     public void setZend(ZonedDateTime zend) {this.zend = zend;}
     /**
      * @return zend
-     */
+
     public ZonedDateTime getZend() {return zend;}
+    */
 }
