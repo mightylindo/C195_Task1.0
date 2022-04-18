@@ -105,9 +105,7 @@ public class Appointments {
     /**
      * @return start
      */
-    public ZonedDateTime getStart() {
-        start.truncatedTo(ChronoUnit.MINUTES);
-        return start;}
+    public ZonedDateTime getStart() {return start;}
     /**
      * @param start to start to set
      */
@@ -115,9 +113,7 @@ public class Appointments {
     /**
      * @return end
      */
-    public ZonedDateTime getEnd() {
-        end.truncatedTo(ChronoUnit.MINUTES);
-        return end;}
+    public ZonedDateTime getEnd() {return end;}
     /**
      * @param end to end to set
      */
