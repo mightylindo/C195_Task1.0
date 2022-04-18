@@ -83,11 +83,11 @@ public class AppointmentScreenController implements Initializable {
         return aAppointments;
     };
 
-    HoursTestInterface lambdaHours = (start, end, id)-> {
+    HoursTestInterface lambdaHours = (start, end, cID, id)-> {
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
         for(Appointments a : alist){
-            if(a.getCustomerID() == id){
+            if(a.getCustomerID() == cID && a.getAppointmentID() != id){
                 if((start.isAfter(a.getStart()) || start.isEqual(a.getStart())) && start.isBefore(a.getEnd())){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     noOverlap = false;
@@ -173,6 +173,7 @@ public class AppointmentScreenController implements Initializable {
         if(bhours == true){
             startOK = true;
         }
+        bhours = false;
         LocalDateTime end = LocalDateTime.parse(endDateAndTimeTextField.getText());
         ZonedDateTime zend = LocalDateTime.parse(endDateAndTimeTextField.getText()).atZone(ZoneId.systemDefault());
         if(zend.isBefore(ZonedDateTime.of(zend.toLocalDate(), open, ZoneId.of("America/New_York")))
@@ -180,7 +181,6 @@ public class AppointmentScreenController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
-            bhours = false;
         }
         else{
             bhours = true;
@@ -188,7 +188,7 @@ public class AppointmentScreenController implements Initializable {
         if(bhours == true){
             endOK = true;
         }
-        boolean noOverlap = lambdaHours.checkHours(start, end, customerID);
+        boolean noOverlap = lambdaHours.checkHours(start, end, customerID, aID+1);
         if(noOverlap == true && startOK == true && endOK == true){ //still has some errors let the system create an appointment even though noOverlap was false.
             LocalDateTime createDate = LocalDateTime.now();
             String createdBy = username;
@@ -226,7 +226,6 @@ public class AppointmentScreenController implements Initializable {
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
-
         if(select.getStart().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
                 || select.getStart().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -240,21 +239,21 @@ public class AppointmentScreenController implements Initializable {
         if(bhours == true){
             startOK = true;
         }
+        bhours = false;
         select.setEnd(LocalDateTime.parse(endDateAndTimeTextField.getText()));
         if(select.getEnd().isBefore(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
                 || select.getEnd().isAfter(ChronoLocalDateTime.from(ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
-            bhours = false;
         }
         else{
             bhours = true;
         }
         if(bhours == true){
-            endOK =true;
+            endOK = true;
         }
-        boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID());
+        boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID(), select.getAppointmentID());
         if(noOverlap == true && startOK == true && endOK == true) {
             Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
             select.setCustomerID(customer.getCustomerID());

@@ -4,5 +4,5 @@ import java.time.LocalDateTime;
 @FunctionalInterface
 public interface HoursTestInterface {
 
-    boolean checkHours(LocalDateTime start, LocalDateTime end, int id);
+    boolean checkHours(LocalDateTime start, LocalDateTime end, int cID, int id);
 }
