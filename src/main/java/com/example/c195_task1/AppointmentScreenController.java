@@ -23,6 +23,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
@@ -80,6 +81,37 @@ public class AppointmentScreenController implements Initializable {
             }
         }
         return aAppointments;
+    };
+
+    HoursTestInterface lambdaHours = (start, end, id)-> {
+        ObservableList<Appointments> alist = DBAppointments.getAppointments();
+        boolean noOverlap = false;
+        for(Appointments a : alist){
+            if(a.getCustomerID() == id){
+                if((start.isAfter(a.getStart()) || start.isEqual(a.getStart())) && start.isBefore(a.getEnd())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap1: Please select a different time.");
+                    alert.showAndWait();
+                }
+                else if(end.isAfter(a.getStart()) && (end.isBefore(a.getEnd()) || end.isEqual(a.getEnd()))){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap2: Please select a different time.");
+                    alert.showAndWait();
+                }
+                else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart())) && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    noOverlap = false;
+                    alert.setContentText("Appointment Overlap3: Please select a different time.");
+                    alert.showAndWait();
+                }
+            }
+            else{
+                noOverlap = true;
+            }
+        }
+        return noOverlap;
     };
 
     @Override
@@ -156,33 +188,7 @@ public class AppointmentScreenController implements Initializable {
         if(bhours == true){
             endOK = true;
         }
-        ObservableList<Appointments> alist = DBAppointments.getAppointments();
-        boolean noOverlap = false;
-        for(Appointments a : alist){
-            if(a.getCustomerID() == customerID){
-                if((start.isAfter(a.getStart()) || start.isEqual(a.getStart())) && start.isBefore(a.getEnd())){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    noOverlap = false;
-                    alert.setContentText("Appointment Overlap1: Please select a different time.");
-                    alert.showAndWait();
-                }
-                else if(end.isAfter(a.getStart()) && (end.isBefore(a.getEnd()) || end.isEqual(a.getEnd()))){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    noOverlap = false;
-                    alert.setContentText("Appointment Overlap2: Please select a different time.");
-                    alert.showAndWait();
-                }
-                else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart())) && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    noOverlap = false;
-                    alert.setContentText("Appointment Overlap3: Please select a different time.");
-                    alert.showAndWait();
-                }
-            }
-            else{
-                noOverlap = true;
-            }
-        }
+        boolean noOverlap = lambdaHours.checkHours(start, end, customerID);
         if(noOverlap == true && startOK == true && endOK == true){ //still has some errors let the system create an appointment even though noOverlap was false.
             LocalDateTime createDate = LocalDateTime.now();
             String createdBy = username;
@@ -190,15 +196,6 @@ public class AppointmentScreenController implements Initializable {
             String lastUpdatedBy = username;
             int userID = DBUsers.getUser(username);
             int appointmentID = aID + 1;
-            System.out.println(zstart);
-            Instant istart = zstart.toInstant().truncatedTo(ChronoUnit.MICROS);
-            LocalDateTime zs = LocalDateTime.parse(istart.toString()); // does not work
-            //LocalDateTime squanch = zs.toLocalDateTime();// need to figure out how to work with this. Research Instant methods
-            System.out.println(istart);
-            zstart.toLocalDateTime();
-            System.out.println(zs);
-            zend.toInstant();
-            zend.toLocalDateTime();
             DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
             appointmentsTableview.setItems(DBAppointments.getAppointments());
             aID = aID + 1;
@@ -257,33 +254,7 @@ public class AppointmentScreenController implements Initializable {
         if(bhours == true){
             endOK =true;
         }
-        ObservableList<Appointments> alist = DBAppointments.getAppointments();
-        boolean noOverlap = false;
-        for(Appointments a : alist){
-            if(a.getCustomerID() == select.getCustomerID()){
-                if((select.getStart().isAfter(a.getStart()) || select.getStart().isEqual(a.getStart())) && select.getStart().isBefore(a.getEnd())){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    noOverlap = false;
-                    alert.setContentText("Appointment Overlap1: Please select a different time.");
-                    alert.showAndWait();
-                }
-                else if(select.getEnd().isAfter(a.getStart()) && (select.getEnd().isBefore(a.getEnd()) || select.getEnd().isEqual(a.getEnd()))){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    noOverlap = false;
-                    alert.setContentText("Appointment Overlap2: Please select a different time.");
-                    alert.showAndWait();
-                }
-                else if((select.getStart().isBefore(a.getStart()) || select.getStart().isEqual(a.getStart())) && (select.getEnd().isAfter(a.getEnd()) || select.getEnd().isEqual(a.getEnd()))){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    noOverlap = false;
-                    alert.setContentText("Appointment Overlap3: Please select a different time.");
-                    alert.showAndWait();
-                }
-            }
-            else{
-                noOverlap = true;
-            }
-        }
+        boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID());
         if(noOverlap == true && startOK == true && endOK == true) {
             Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
             select.setCustomerID(customer.getCustomerID());
@@ -304,7 +275,9 @@ public class AppointmentScreenController implements Initializable {
         contactTextField.setText(Integer.toString(select.getContactID()));
         customerIDTextField.setText(Integer.toString(select.getCustomerID()));
         userIDTextField.setText(Integer.toString(select.getUserID()));
-        // startDateAndTimeTextField.setText; //Need to figure out the formatter to get this to work
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        startDateAndTimeTextField.setText(select.getStart().format(dtf));
+        endDateAndTimeTextField.setText((select.getEnd().format(dtf)));
         Customers c = DBCustomers.getSpecificCustomer(select.getCustomerID());
         customerSelectComboBox.setValue(c);
     }
