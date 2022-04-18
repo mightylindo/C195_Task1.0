@@ -44,7 +44,7 @@ public class LoginScreenController implements Initializable {
         PrintWriter pw = new PrintWriter(fw);
         ResourceBundle rb = ResourceBundle.getBundle("NAT", Locale.getDefault());
         if(uvalid == true){
-            pw.println(userName + " " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Success");
+            pw.println("User: " + userName + " attempted login at: " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Login Successful");
             pw.close();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
@@ -58,7 +58,7 @@ public class LoginScreenController implements Initializable {
             DBAppointments.checkAppointments();
         }
         else if(uvalid == false){
-            pw.println(userName + " " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Failure");
+            pw.println("User: " + userName + " attempted login at: " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Login Failed");
             pw.close();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(rb.getString("Login") + " " + rb.getString("Error"));

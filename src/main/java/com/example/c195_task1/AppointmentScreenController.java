@@ -68,6 +68,20 @@ public class AppointmentScreenController implements Initializable {
     private LocalTime close = LocalTime.of(22,00);
     public void username(String username){this.username = username;}
 
+    ScheduleInterface lambdaAppointments = days -> {
+        ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
+        ObservableList<Appointments> aAppointments = FXCollections.observableArrayList();
+        for(Appointments a : allAppointments){
+            LocalDateTime current = LocalDateTime.now();
+            LocalDateTime appointment = a.getStart();
+            long timeDifference = ChronoUnit.DAYS.between(current, appointment);
+            if(timeDifference < days && timeDifference > 0){
+                aAppointments.add(a);
+            }
+        }
+        return aAppointments;
+    };
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("initialized!");
@@ -85,6 +99,7 @@ public class AppointmentScreenController implements Initializable {
         userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
         ObservableList<Customers> clist = DBCustomers.getCustomers();
         customerSelectComboBox.setItems(clist);
+
     }
 
     @FXML
@@ -296,33 +311,11 @@ public class AppointmentScreenController implements Initializable {
 
     public void selectRadioButton(ActionEvent actionEvent) {
         if(weeklyRadioButton.isSelected()){
-            ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
-            ObservableList<Appointments> weekAppointments = FXCollections.observableArrayList();
-            for(Appointments a : allAppointments){
-                LocalDateTime current = LocalDateTime.now();
-                LocalDateTime appointment = a.getStart();
-                long timeDifference = ChronoUnit.DAYS.between(current, appointment);
-                System.out.println(timeDifference);
-                if(timeDifference < 7 && timeDifference > 0){
-                        weekAppointments.add(a);
-                }
-            }
-            appointmentsTableview.setItems(weekAppointments);
+            appointmentsTableview.setItems(lambdaAppointments.addAppointments(7));
             System.out.println("Week");
         }
         else if(monthlyRadioButton.isSelected()){
-            ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
-            ObservableList<Appointments> monthAppointments = FXCollections.observableArrayList();
-            for(Appointments a : allAppointments){
-                LocalDateTime current = LocalDateTime.now();
-                LocalDateTime appointment = a.getStart();
-                long timeDifference = ChronoUnit.DAYS.between(current, appointment);
-                System.out.println(timeDifference);
-                if(timeDifference < 31 && timeDifference > 0){
-                    monthAppointments.add(a);
-                }
-            }
-            appointmentsTableview.setItems(monthAppointments);
+            appointmentsTableview.setItems(lambdaAppointments.addAppointments(31));
             System.out.println("Month");
         }
         else if(allRadioButton.isSelected()){
