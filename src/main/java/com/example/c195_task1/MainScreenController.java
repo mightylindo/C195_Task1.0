@@ -26,19 +26,16 @@ import java.util.ResourceBundle;
 public class MainScreenController{
     private String username;
 
-
+    /**
+     * Catches the username from the login screen and sets String username
+     * @param username
+     */
     public void username(String username){this.username = username;}
-
-    @FXML
-    public void test(ActionEvent actionEvent){
-        /**
-        getUser()
-            System.out.println("UserID: " + u.getUserID()+ " UserName: " + u.getUserName() + " Password: " + u.getPassword() + " Created By: " + u.getCreateBy() +" Last Update By: " +
-                    u.getLastUpdatedBy());
-        }
-         **/
-    }
-
+    /**
+     * This method is called when customers button is clicked. It then loads the customer screen and passes the username.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void customer(ActionEvent actionEvent) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerScreen.fxml"));
@@ -51,7 +48,11 @@ public class MainScreenController{
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * This method is called when appointments button is clicked. It then loads the appointment screen and passes the username.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void appointments(ActionEvent actionEvent) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentScreen.fxml"));
@@ -65,6 +66,11 @@ public class MainScreenController{
         stage.show();
     }
 
+    /**
+     * This method is called when reports button is clicked. It then loads the reports screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void reports(ActionEvent actionEvent) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportsScreen.fxml"));

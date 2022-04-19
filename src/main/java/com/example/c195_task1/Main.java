@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    /**
+     * This starts the program
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
@@ -21,6 +26,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main method
+     * @param args
+     */
     public static void main(String[] args) {
         DBConnection.startConnection();
         launch();

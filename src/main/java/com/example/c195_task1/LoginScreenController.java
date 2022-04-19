@@ -34,6 +34,14 @@ public class LoginScreenController implements Initializable {
     private boolean uvalid = false;
     private boolean check = false;
 
+    /**
+     * This method is called when the user clicks the login button.
+     * The method takes the text from the username and password textfields. It then tests them using DBUsers.testUsername.
+     * If uvalid comes back true then the printwriter writes the data into the login tracker and then loads the main screen and passes the username to the main screen.
+     * If false it writes to the login tracker and then prompts the user that the username or password is incorrect.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void loginClicked(ActionEvent actionEvent) throws IOException {
         userName = username.getText();
@@ -68,6 +76,11 @@ public class LoginScreenController implements Initializable {
         }
     }
 
+    /**
+     * This method initializes the login screen and changes the zoneID label based on the system default. It also translates the page based on the default.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zoneIDLabel.setText(ZoneId.systemDefault().getId());

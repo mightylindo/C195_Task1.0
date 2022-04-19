@@ -21,6 +21,10 @@ public class DBConnection {
     private static final String username = "sqlUser";
     public static Connection conn = null;
 
+    /**
+     * starts the connection the database.
+     * @return conn
+     */
     public static Connection startConnection(){
         try{
            Class.forName(MYSQLJDBCDriver);
@@ -36,6 +40,9 @@ public class DBConnection {
         return conn;
     }
 
+    /**
+     * closes the connection to the database.
+     */
     public static void closeConnection(){
         try{
             conn.close();
@@ -46,6 +53,9 @@ public class DBConnection {
         }
     }
 
+    /**
+     * @return conn
+     */
     public static Connection getConnection() {
         return conn;
     }
