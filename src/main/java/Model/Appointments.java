@@ -14,8 +14,6 @@ public class Appointments {
     private String description;
     private String location;
     private String type;
-    //private LocalDateTime start;
-    //private LocalDateTime end;
     private ZonedDateTime start;
     private ZonedDateTime end;
     private LocalDateTime createDate;
@@ -26,6 +24,23 @@ public class Appointments {
     private int userID;
     private int contactID;
 
+    /**
+     * This is a constructor to create a new appointments object based on the parameters.
+     * @param appointmentID
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param customerID
+     * @param userID
+     * @param contactID
+     */
     public Appointments(int appointmentID, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
                          String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy,int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
@@ -43,25 +58,6 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
-    /**
-    public Appointments(int appointmentID, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, LocalDateTime createDate,
-                        String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
-        this.appointmentID = appointmentID;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.type = type;
-        this.zstart = start;
-        this.zend = end;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.customerID = customerID;
-        this.userID = userID;
-        this.contactID = contactID;
-    }
-    */
     /**
      * @return appointmentID
      */
@@ -174,21 +170,4 @@ public class Appointments {
      * @param contactID to contactID to set
      */
     public void setContactID(int contactID) {this.contactID = contactID;}
-    /**
-     * @param zstart to zstart to set
-
-    public void setZstart(ZonedDateTime zstart) {this.zstart = zstart;}
-    /**
-     * @return zstart
-
-    public ZonedDateTime getZstart() {return zstart;}
-    /**
-     * @param zend to zend to set
-
-    public void setZend(ZonedDateTime zend) {this.zend = zend;}
-    /**
-     * @return zend
-
-    public ZonedDateTime getZend() {return zend;}
-    */
 }

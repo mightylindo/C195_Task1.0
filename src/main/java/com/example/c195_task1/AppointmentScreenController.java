@@ -67,8 +67,19 @@ public class AppointmentScreenController implements Initializable {
     private String username;
     private LocalTime open = LocalTime.of(8,00);
     private LocalTime close = LocalTime.of(22,00);
+
+    /**
+     * This method catches the username and sets the username String.
+     * @param username
+     */
     public void username(String username){this.username = username;}
 
+    /**
+     * This lambda expression is used to select all the appointments based on the number of days input.
+     * This lambda is currently used by the radio buttons to select all appointments within the week or month.
+     * By using a lambda we can add other buttons easily such as quarterly or yearly, and we just use the lambda with different number of days.
+     * This lambda returns a list of appointments.
+     */
     ScheduleInterface lambdaAppointments = days -> {
         ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
         ObservableList<Appointments> aAppointments = FXCollections.observableArrayList();
@@ -82,7 +93,12 @@ public class AppointmentScreenController implements Initializable {
         }
         return aAppointments;
     };
-
+    /**
+     * This lambda expression takes a start, end, customerID, and appointmentID, and it determines if there is an overlap in the start and end times between all the appointments.
+     * This lambda is used by both the add and update appointments methods.
+     * This lambda allows us to reuse the same code and decrease the overall clutter of the add and update methods.
+     * This lambda returns a boolean.
+     */
     HoursTestInterface lambdaHours = (start, end, cID, id)-> {
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
@@ -115,10 +131,14 @@ public class AppointmentScreenController implements Initializable {
         return noOverlap;
     };
 
+    /**
+     * This method initializes the appointments screen. It sets the items for the appointments tableview as well as it sets the customer combobox with all the customers in the database.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("initialized!");
-        System.out.println(aID);
         appointmentsTableview.setItems(DBAppointments.getAppointments());
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentID"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -132,9 +152,13 @@ public class AppointmentScreenController implements Initializable {
         userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
         ObservableList<Customers> clist = DBCustomers.getCustomers();
         customerSelectComboBox.setItems(clist);
-
     }
 
+    /**
+     * This method is called when the user clicks on the save and exit button. This method loads the main screen and passes the username back.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
@@ -147,6 +171,15 @@ public class AppointmentScreenController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * This method is called when the user clicks on the add button. This method creates a new appointment object and passes it to DBAppointments.addAppointment method,
+     * so it can be added to the database.
+     * This method also checks that the proposed start and end are within business hours, and also checks that there are no overlaps.
+     * After passing the appointments object to the database, the method then resets the tableview and iterates the appointmentID.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void addButton(ActionEvent actionEvent) throws IOException{
         Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
@@ -206,6 +239,12 @@ public class AppointmentScreenController implements Initializable {
 
     }
 
+    /**
+     * This method is called when the user clicks the delete button. It prompts the user asking if they really want to delete it.
+     * Once ok is clicked the appointment is deleted by DBAppointments.deleteAppointment. The method then resets the tableview.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void deleteButton(ActionEvent actionEvent) throws IOException {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
@@ -217,6 +256,15 @@ public class AppointmentScreenController implements Initializable {
             appointmentsTableview.setItems(DBAppointments.getAppointments());
         }
     }
+
+    /**
+     * This method is called when the user clicks on the update button. This method updates an existing appointment object that was selected, and passes it to DBAppointments.updateAppointment method,
+     * so it can be updated in the database.
+     *This method also checks that the proposed start and end are within business hours, and also checks that there are no overlaps.
+     *After passing the appointments object to the database, the method then resets the tableview and iterates the appointmentID.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void updateButton(ActionEvent actionEvent) throws IOException {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
@@ -267,6 +315,10 @@ public class AppointmentScreenController implements Initializable {
         }
     }
 
+    /**
+     * This method is called when an appointment is selected from the tableview. It sets the textfields and combobox based on the values in the selected appointment.
+     * @param mouseEvent
+     */
     public void selectAppointment(MouseEvent mouseEvent) {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
         appointmentIDTextField.setText(Integer.toString(select.getAppointmentID()));
@@ -284,6 +336,11 @@ public class AppointmentScreenController implements Initializable {
         customerSelectComboBox.setValue(c);
     }
 
+    /**
+     * This method is called when the user clicks on the radio buttons. Depending on the select button it pulls all appointments, or calls the lambda expression for the week or month
+     * and resets the tableview to show appointments that fall within the day range.
+     * @param actionEvent
+     */
     public void selectRadioButton(ActionEvent actionEvent) {
         if(weeklyRadioButton.isSelected()){
             appointmentsTableview.setItems(lambdaAppointments.addAppointments(7));

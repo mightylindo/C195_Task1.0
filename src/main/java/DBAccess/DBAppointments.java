@@ -17,6 +17,10 @@ import javafx.scene.control.Alert;
 
 public class DBAppointments {
 
+    /**
+     * This method returns an ObserverableList of Appointments by selecting all appointments from the database.
+     * @return alist
+     */
     public static ObservableList<Appointments> getAppointments() {
         ObservableList<Appointments> alist = FXCollections.observableArrayList();
 
@@ -51,6 +55,10 @@ public class DBAppointments {
         return alist;
     }
 
+    /**
+     * This method adds a new appointment to the database. An appointments object is passed in and then the objects values are inserted into the appointments table in the database.
+     * @param newAppointment
+     */
     public static void addAppointment(Appointments newAppointment){
         try{
             String sqlCommand = "INSERT INTO Appointments(Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
@@ -91,6 +99,11 @@ public class DBAppointments {
         }
     }
 
+    /**
+     * This method updates a specific appointment in the database. An appointments object is passed in and the values in the database are overritten by the new values
+     * for a specific appointment based on the appointmentID.
+     * @param selectedAppointment
+     */
     public static void updateAppointment(Appointments selectedAppointment){
         try{
             String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Title = '" + selectedAppointment.getTitle() + "', Location = '" +
@@ -107,6 +120,10 @@ public class DBAppointments {
         }
     }
 
+    /**
+     * This method is called when the user logs in. It checks if there is any appointment within 15 minutes and provides a prompt wiht the appointmentID and start time if there is.
+     * If there is no appointment a prompt appears stating such.
+     */
     public static void checkAppointments(){
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean myAptmt = true;
