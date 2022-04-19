@@ -78,10 +78,12 @@ public class DBAppointments {
             Timestamp lastUpdate = Timestamp.valueOf(newAppointment.getLastUpdate());
             String lastUpdatedBy = newAppointment.getLastUpdatedBy();
             String sql = sqlCommand + " '" + appointmentID + "', '" + title + "', '"
-                    + description + "', '" + location + "', '" + type + "', '" + start + "', '" + end + "', '"
+                    + description + "', '" + location + "', '" + type + "', " + "?" + ", " + "?" + ", '"
                    + createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdatedBy + "', '" + customerID + "', '" + userID + "', '" + contactID + "');";
             System.out.println(sql);
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setTimestamp(1, start);
+            ps.setTimestamp(2, end);
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
