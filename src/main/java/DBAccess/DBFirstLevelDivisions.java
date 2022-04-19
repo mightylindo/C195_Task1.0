@@ -8,6 +8,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DBFirstLevelDivisions {
+
+    public static int getDivisionID(String Division){
+        int division = 0;
+        try{
+            String sql = "SELECT Division_ID FROM First_Level_Divisions WHERE Division = '" + Division +"';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while ((rs.next())){
+                division = rs.getInt("Division_ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return division;
+    }
+
     public static  ObservableList<FirstLevelDivisions> getFirstLevel1(){
         ObservableList<FirstLevelDivisions> clist = FXCollections.observableArrayList();
 

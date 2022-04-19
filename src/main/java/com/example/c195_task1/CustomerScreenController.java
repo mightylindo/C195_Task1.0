@@ -40,7 +40,6 @@ public class CustomerScreenController implements Initializable {
     public TextField customerIDTextField;
     public Button addButton;
     public static int uniqueID;
-    public static int division;
     public Button saveAndExitButton;
     public Button updateButton;
     public Button deleteButton;
@@ -82,7 +81,7 @@ public class CustomerScreenController implements Initializable {
         String lastUpdatedBy = username;
         LocalDateTime lastUpdate = LocalDateTime.now();
         int customerID = uniqueID + 1;
-        division = stateComboBox.getSelectionModel().getSelectedIndex() + 1;
+        int division = DBFirstLevelDivisions.getDivisionID(stateComboBox.getSelectionModel().getSelectedItem().toString());
         DBCustomers.addCustomer(new Customers(customerID, name, address, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdatedBy, division));
         customerTable.setItems(DBCustomers.getCustomers());
         uniqueID = uniqueID +1;
@@ -139,7 +138,7 @@ public class CustomerScreenController implements Initializable {
         select.setPhone(phoneNumberTextField.getText());
         select.setLastUpdate(LocalDateTime.now());
         select.setLastUpdatedBy(username);
-        select.setDivisionID(division = stateComboBox.getSelectionModel().getSelectedIndex() + 1);
+        select.setDivisionID(DBFirstLevelDivisions.getDivisionID(stateComboBox.getSelectionModel().getSelectedItem().toString()));
         DBCustomers.updateCustomer(select);
         customerTable.setItems((DBCustomers.getCustomers()));
     }
