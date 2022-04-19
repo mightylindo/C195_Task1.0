@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * This class is used to control the customer screen and implements and handles all the user input.
+ */
 public class CustomerScreenController implements Initializable {
     public TableView customerTable;
     public TableColumn nameColumn;
@@ -49,9 +52,17 @@ public class CustomerScreenController implements Initializable {
     public TableColumn stateColumn;
     private String username;
 
-
+    /**
+     * This method catches the username from the main screen.
+     * @param username is used to set the String username.
+     */
     public void username(String username){this.username = username;}
 
+    /**
+     * This method initializes the customer screen. This method sets the customer table and fills the countries combobox.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Initialized");
@@ -67,7 +78,13 @@ public class CustomerScreenController implements Initializable {
         System.out.println(uniqueID);
         countryComboBox.setItems(clist);
     }
-    
+
+    /**
+     * This method occurs when the user clicks the add button. This method will gather information from the textfields and comboboxes as well as grabbing localdatetimes for createdate and lastupdate.
+     * The method then takes this information and it creates a new customer object using the DBCustomers.addcustomer method. It then resets the customer Table and iterates on the unique ID.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void Add(ActionEvent actionEvent) throws IOException {
         String name = nameTextField.getText();
@@ -87,6 +104,13 @@ public class CustomerScreenController implements Initializable {
         uniqueID = uniqueID +1;
     }
 
+    /**
+     * This method is activated by the user clicking the delete button. Upon clicking ok on the warning it gets customer information by selecting one from the table.
+     * The method then looks at all the appointments in the database and compares the customer id of the selected customer against it. If a matches is found it will prompt the user that an appointment
+     * exists, and asks if they want to delete it. Once they ok the deletion it will delete any appointments for that customer and then it will delete the customer. Afterwards it resets the tableview.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void delete(ActionEvent actionEvent) throws IOException {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -129,6 +153,12 @@ public class CustomerScreenController implements Initializable {
 
     }
 
+    /**
+     * This method updates a selected customer once the user clicks the update button. The method sets the customer information based on the textfields and the comboboxes. It then updates the database
+     * by calling the DBCustomers.updatecustomer method. The method then resets the tableview.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void update(ActionEvent actionEvent) throws IOException {
         Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
@@ -143,6 +173,11 @@ public class CustomerScreenController implements Initializable {
         customerTable.setItems((DBCustomers.getCustomers()));
     }
 
+    /**
+     * This method is called when the user clicks the save and exit button. This method loads the mainscreen and passes the username back.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
@@ -156,6 +191,10 @@ public class CustomerScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This method is called whenever the user clicks on a customer in the tableview. This method grabs the information from the selected customer and sets the text of the textfields.
+     * @param mouseEvent
+     */
     public void select(MouseEvent mouseEvent) {
         Customers select = (Customers)customerTable.getSelectionModel().getSelectedItem();
         customerIDTextField.setText(Integer.toString(select.getCustomerID()));
@@ -165,6 +204,11 @@ public class CustomerScreenController implements Initializable {
         phoneNumberTextField.setText(select.getPhone());
     }
 
+    /**
+     * This method is called when the user clicks on the first level divisions combobox. This prompts an alert if the user hasn't selected a country. If a country is selected it then gets a list of
+     * First Level Divisions for the country selected. It then sets the first level division combo box with the list of first level divisions for the country selected.
+     * @param actionEvent
+     */
     public void divisions(MouseEvent actionEvent) {
         if(countryID == 0){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -189,6 +233,11 @@ public class CustomerScreenController implements Initializable {
         }
     }
 
+    /**
+     * This method is called when the user clicks on the country combobox. This method updates the countries ID based on the selected country in the country combobox. This country ID is used by the
+     * divisions method to let the method know which country was selected.
+     * @param actionEvent
+     */
     public void selectedCountry(ActionEvent actionEvent) {
         Countries select = (Countries) countryComboBox.getSelectionModel().getSelectedItem();
         countryID = select.getCountryID();

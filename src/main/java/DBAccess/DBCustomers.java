@@ -9,6 +9,11 @@ import javafx.collections.ObservableList;
 
 public class DBCustomers {
 
+    /**
+     *
+     * @param customerID needed to select a specific customer
+     * @return a Customer object assuming that a customer exists in the database with a matching customerID
+     */
     public static Customers getSpecificCustomer(int customerID){
         try{
             String sql = "SELECT * FROM Customers WHERE  Customer_ID = '" + customerID + "';";
@@ -35,6 +40,10 @@ public class DBCustomers {
         return null;
     }
 
+    /**
+     * No parameters this method gets all customers in the database.
+     * @return an ObservableList of all Customers in the database.
+     */
     public static ObservableList<Customers> getCustomers(){
         ObservableList<Customers> clist = FXCollections.observableArrayList();
 
@@ -63,6 +72,11 @@ public class DBCustomers {
 
         return clist;
     }
+
+    /**
+     * This method doesn't have a return type, instead it inserts a customer into the database.
+     * @param newCustomer object is inserted into the database with values from the newCustomer matching values in the database.
+     */
     public static void addCustomer(Customers newCustomer){
 
         try {
@@ -87,6 +101,11 @@ public class DBCustomers {
         }
 
     }
+
+    /**
+     * This method has no return type, it instead removes a customer from the database.
+     * @param selectedCustomer is deleted from the database based on the selectedCustomer's customerID.
+     */
     public static void deleteCustomer(Customers selectedCustomer){
 
         try{
@@ -98,6 +117,11 @@ public class DBCustomers {
             e.printStackTrace();
         }
     }
+
+    /**
+     * This method is used to update a customer in the database.
+     * @param selectedCustomer is updated and the previous values of the selected customer are overwritten by the new values.
+     */
     public static void updateCustomer(Customers selectedCustomer){
 
         try{
@@ -112,6 +136,11 @@ public class DBCustomers {
         }
     }
 
+    /**
+     * This method gets the division name based on a specific division ID.
+     * @param divisionID this is used to select a specific division based on the ID.
+     * @return name a String that contains the division's name.
+     */
     public static String getDivision(int divisionID){
         String name = "There is no match.";
         try{

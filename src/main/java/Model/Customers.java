@@ -21,6 +21,19 @@ public class Customers {
     private String lastUpdatedBy;
     private int divisionID;
 
+    /**
+     *  This is a constructor method that creates a new customers object based on the provided parameters.
+     * @param customerID
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionID
+     */
     public Customers(int customerID, String customerName, String address, String postalCode, String phone, LocalDateTime createDate,
                      String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionID){
         this.customerID = customerID;
@@ -120,6 +133,10 @@ public class Customers {
      */
     public void setDivisionID(int divisionID){this.divisionID = divisionID;}
 
+    /**
+     *
+     * @return the name of the division based on the customers divisionID
+     */
     public String getDivision(){
         String name = DBCustomers.getDivision(divisionID);
         return name;
