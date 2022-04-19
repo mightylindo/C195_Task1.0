@@ -5,6 +5,12 @@ public class Contacts {
     private String contactName;
     private String email;
 
+    /**
+     * This is a constructor to create a new contact based on contactID, contactName, and email. Currently not used.
+     * @param contactID
+     * @param contactName
+     * @param email
+     */
     public Contacts(int contactID, String contactName, String email){
         this.contactID = contactID;
         this.contactName = contactName;

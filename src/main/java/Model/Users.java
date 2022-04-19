@@ -2,17 +2,26 @@ package Model;
 
 
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Users {
     private int userID;
     private String userName;
     private String password;
-    private Date createDate;
+    private LocalDateTime createDate;
     private String createBy;
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
 
+    /**
+     * This method is a constructor to create a new user. Currently not used.
+     * @param userID
+     * @param userName
+     * @param password
+     * @param createBy
+     * @param lastUpdatedBy
+     */
     public Users(int userID, String userName, String password, String createBy, String lastUpdatedBy){
         this.userID = userID;
         this.userName = userName;
@@ -25,7 +34,6 @@ public class Users {
     /**
      * @return the userID
      */
-
     public int getUserID(){return userID;}
     /**
      * @param userID the userID to set
@@ -50,11 +58,11 @@ public class Users {
     /**
      * @return the createDate
      */
-    public Date getCreateDate(){return createDate;}
+    public LocalDateTime getCreateDate(){return createDate;}
     /**
      * @param createDate to createDate to set
      */
-    public void setCreateDate(Date createDate){this.createDate = createDate;}
+    public void setCreateDate(LocalDateTime createDate){this.createDate = createDate;}
     /**
      * @return the createBy
      */
@@ -66,11 +74,11 @@ public class Users {
     /**
      * @return the lastUpdate
      */
-    public Timestamp getLastUpdate(){return lastUpdate;}
+    public LocalDateTime getLastUpdate(){return lastUpdate;}
     /**
      * @param lastUpdate to lastUpdate to set
      */
-    public void setLastUpdate(Timestamp lastUpdate){this.lastUpdate = lastUpdate;}
+    public void setLastUpdate(LocalDateTime lastUpdate){this.lastUpdate = lastUpdate;}
     /**
      * @return the lastUpdatedBy
      */

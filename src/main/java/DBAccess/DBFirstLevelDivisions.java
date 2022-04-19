@@ -8,7 +8,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class DBFirstLevelDivisions {
-
+    /**
+     * This method takes a string division and selects a divisionID from the database based on the division name. It then returns that divisionID.
+     * @param Division
+     * @return division
+     */
     public static int getDivisionID(String Division){
         int division = 0;
         try{
@@ -24,6 +28,10 @@ public class DBFirstLevelDivisions {
         return division;
     }
 
+    /**
+     * This method returns an observable list of first level divisions based on the countryID.
+     * @return clist
+     */
     public static  ObservableList<FirstLevelDivisions> getFirstLevel1(){
         ObservableList<FirstLevelDivisions> clist = FXCollections.observableArrayList();
 
@@ -45,6 +53,10 @@ public class DBFirstLevelDivisions {
     return clist;
     }
 
+    /**
+     * This method returns an observable list of first level divisions based on the countryID.
+     * @return clist
+     */
     public static  ObservableList<FirstLevelDivisions> getFirstLevel2(){
         ObservableList<FirstLevelDivisions> clist = FXCollections.observableArrayList();
 
@@ -66,6 +78,10 @@ public class DBFirstLevelDivisions {
         return clist;
     }
 
+    /**
+     * This method returns an observable list of first level divisions based on the countryID.
+     * @return clist
+     */
     public static  ObservableList<FirstLevelDivisions> getFirstLevel3(){
         ObservableList<FirstLevelDivisions> clist = FXCollections.observableArrayList();
 

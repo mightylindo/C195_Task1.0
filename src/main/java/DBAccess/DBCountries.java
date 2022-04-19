@@ -9,7 +9,10 @@ import javafx.collections.ObservableList;
 
 
 public class DBCountries {
-
+    /**
+     * This method pulls all countries from the database and puts them in an observable list of countries which it then returns.
+     * @return clist
+     */
     public static ObservableList<Countries> getCountries(){
         ObservableList<Countries> clist = FXCollections.observableArrayList();
 

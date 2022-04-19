@@ -10,6 +10,11 @@ import javafx.fxml.FXML;
 
 public class DBUsers {
 
+    /**
+     * This method takes a string username and gets a customer from the database based on the username and returns a userID.
+     * @param userName
+     * @return userID
+     */
     public static int getUser(String userName){
         int userID = 0;
         try {
@@ -25,6 +30,10 @@ public class DBUsers {
         return userID;
     }
 
+    /**
+     * This method returns an ObservableList of Users. This pulls all users from the database and adds them to the list which it then returns.
+     * @return ulist
+     */
     public static ObservableList<Users> getUsers(){
         ObservableList<Users> ulist = FXCollections.observableArrayList();
         try{
@@ -46,6 +55,13 @@ public class DBUsers {
         return ulist;
     }
 
+    /**
+     * This method tests a username and password combination. The method selects a user from the database based on the username. It then tests that the username and password match and returns
+     * a true value.
+     * @param username
+     * @param password
+     * @return valid
+     */
     public static boolean testUsername(String username, String password) {
         boolean valid = false;
         try {
