@@ -74,12 +74,6 @@ public class AppointmentScreenController implements Initializable {
      */
     public void username(String username){this.username = username;}
 
-    /**
-     * This lambda expression is used to select all the appointments based on the number of days input.
-     * This lambda is currently used by the radio buttons to select all appointments within the week or month.
-     * By using a lambda we can add other buttons easily such as quarterly or yearly, and we just use the lambda with different number of days.
-     * This lambda returns a list of appointments.
-     */
     ScheduleInterface lambdaAppointments = days -> {
         ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
         ObservableList<Appointments> aAppointments = FXCollections.observableArrayList();
@@ -93,12 +87,7 @@ public class AppointmentScreenController implements Initializable {
         }
         return aAppointments;
     };
-    /**
-     * This lambda expression takes a start, end, customerID, and appointmentID, and it determines if there is an overlap in the start and end times between all the appointments.
-     * This lambda is used by both the add and update appointments methods.
-     * This lambda allows us to reuse the same code and decrease the overall clutter of the add and update methods.
-     * This lambda returns a boolean.
-     */
+
     HoursTestInterface lambdaHours = (start, end, cID, id)-> {
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
@@ -272,7 +261,8 @@ public class AppointmentScreenController implements Initializable {
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
         select.setContactID(Integer.parseInt(contactTextField.getText()));
-        select.setStart(ZonedDateTime.parse(startDateAndTimeTextField.getText()));
+        LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
+        select.setStart(s.atZone(ZoneId.systemDefault()));
         select.setTitle(titleTextField.getText());
         boolean bhours;
         boolean startOK = false;
@@ -291,7 +281,8 @@ public class AppointmentScreenController implements Initializable {
             startOK = true;
         }
         bhours = false;
-        select.setEnd(ZonedDateTime.parse(endDateAndTimeTextField.getText()));
+        LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
+        select.setEnd(e.atZone(ZoneId.systemDefault()));
         if(select.getEnd().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
                 || select.getEnd().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);

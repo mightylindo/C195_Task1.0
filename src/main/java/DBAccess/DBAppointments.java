@@ -108,14 +108,18 @@ public class DBAppointments {
      */
     public static void updateAppointment(Appointments selectedAppointment){
         try{
+            Timestamp start = Timestamp.valueOf(selectedAppointment.getStart().toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(selectedAppointment.getEnd().toLocalDateTime());
             String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Title = '" + selectedAppointment.getTitle() + "', Location = '" +
-                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = '" + Timestamp.valueOf(selectedAppointment.getStart().toLocalDateTime()) +
-                    "', End = '" + Timestamp.valueOf(selectedAppointment.getEnd().toLocalDateTime()) + "', Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
+                    selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = ?"  +
+                    ", End = ?" +  ", Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
                     + "', Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() +
                     "', Contact_ID = '" + selectedAppointment.getContactID() + "' WHERE Appointment_ID = '" +
                     selectedAppointment.getAppointmentID() + "';";
             System.out.println(sqlCommand);
             PreparedStatement ps =DBConnection.getConnection().prepareStatement(sqlCommand);
+            ps.setTimestamp(1, start);
+            ps.setTimestamp(2, end);
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
