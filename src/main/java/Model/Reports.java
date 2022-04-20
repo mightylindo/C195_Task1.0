@@ -40,6 +40,38 @@ public class Reports {
 
     /**
      * This is an overloaded constructor for the reports object that takes the below parameters.
+     * @param type
+     * @param jan
+     * @param feb
+     * @param mar
+     * @param apr
+     * @param may
+     * @param june
+     * @param july
+     * @param aug
+     * @param sep
+     * @param oct
+     * @param nov
+     * @param dec
+     */
+    public Reports(String type, int jan, int feb, int mar, int apr, int may, int june, int july, int aug, int sep, int oct, int nov, int dec){
+        this.type = type;
+        this.jan = jan;
+        this.feb = feb;
+        this.mar = mar;
+        this.apr = apr;
+        this.may = may;
+        this.june = june;
+        this.july = july;
+        this.aug = aug;
+        this.sep = sep;
+        this.oct = oct;
+        this.nov = nov;
+        this.dec = dec;
+    }
+
+    /**
+     * This is an overloaded constructor for the reports object that takes the below parameters.
      * @param appointmentID
      * @param title
      * @param type

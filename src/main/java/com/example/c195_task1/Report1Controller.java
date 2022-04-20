@@ -1,6 +1,8 @@
 package com.example.c195_task1;
+import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import DBAccess.DBReports;
+import Model.Appointments;
 import Model.Customers;
 import Model.Reports;
 import javafx.collections.FXCollections;
@@ -40,22 +42,75 @@ public class Report1Controller implements Initializable {
     public TableColumn novColumn;
     public TableColumn decColumn;
     public ComboBox typeComboBox;
+    public TableColumn typeColumn;
+
 
     /**
-     * This method initializes the report 1 screen
+     * This lambda expression is used to count all appointments by type.
+     * It counts up each month as it gets a hit.
+     * It was necessary to use a lambda expression, so I could reset the month counters for each type.
+     */
+    MonthCounterInterface lambdaCounter = (type)->{
+        ObservableList<Reports> rlist = DBReports.getReport1(type);
+        int rjan = 0;
+        int rfeb = 0;
+        int rmar = 0;
+        int rapr = 0;
+        int rmay = 0;
+        int rjune = 0;
+        int rjuly = 0;
+        int raug = 0;
+        int rsep = 0;
+        int roct = 0;
+        int rnov = 0;
+        int rdec = 0;
+        for (Reports r : rlist) {
+            LocalDateTime start = r.getStart();
+            if (start.getMonth() == Month.JANUARY) {
+                rjan = rjan + 1;
+            } else if (start.getMonth() == Month.FEBRUARY) {
+                rfeb= rfeb +1;
+            } else if (start.getMonth() == Month.MARCH) {
+                rmar= rmar+1;
+            } else if (start.getMonth() == Month.APRIL) {
+                rapr= rapr +1;
+            } else if (start.getMonth() == Month.MAY) {
+                rmay= rmay+1;
+            } else if (start.getMonth() == Month.JUNE) {
+                rjune=rjune +1;
+            } else if (start.getMonth() == Month.JULY) {
+                rjuly=rjuly+1;
+            } else if (start.getMonth() == Month.AUGUST) {
+                raug=raug+1;
+            } else if (start.getMonth() == Month.SEPTEMBER) {
+                rsep=rsep+1;
+            } else if (start.getMonth() == Month.OCTOBER) {
+                roct=roct+1;
+            } else if (start.getMonth() == Month.NOVEMBER) {
+                rnov=rnov+1;
+            } else if (start.getMonth() == Month.DECEMBER) {
+                rdec=rdec+1;
+            }
+        }
+        Reports compiled = new Reports(type, rjan, rfeb, rmar, rapr, rmay, rjune, rjuly, raug, rsep, roct, rnov, rdec);
+        return compiled;
+    };
+    /**
+     * This method initializes the report 1 screen.
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Intitalized!");
-        ObservableList<String> tlist = FXCollections.observableArrayList();
-        tlist.add("Meeting");
-        tlist.add("Interview");
-        tlist.add("Disciplinary");
-        typeComboBox.setItems(tlist);
+        selectType();
     }
 
+    /**
+     * This method is called when the user clicks on the return button and it loads the reports screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void returnR1(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportsScreen.fxml"));
@@ -68,219 +123,41 @@ public class Report1Controller implements Initializable {
         stage.show();
     }
 
-    public void selectType(ActionEvent actionEvent) {
-        String type = typeComboBox.getSelectionModel().getSelectedItem().toString();
-        if(type == "Meeting"){
-            ObservableList<Reports> rlist = DBReports.getReport1(type);
-            int count = rlist.size();
-            System.out.println(count);
-            if(count == 0){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("No " + type + " Appointments");
-                alert.setContentText("There are no appointments of type: " + type + ". Please select another type.");
-                alert.showAndWait();
-            }
-            else if(count >=1 ) {
-                report1TableView.setItems(rlist);
-                System.out.println("We made it in.");
-                for (Reports r : rlist){
-                    LocalDateTime start = r.getStart();
-                    if(start.getMonth() == Month.JANUARY){
-                        int i = r.getJan();
-                        r.setJan(i + 1);
-                    }else if(start.getMonth() == Month.FEBRUARY){
-                        int i = r.getFeb();
-                        r.setFeb(i + 1);
-                    }else if(start.getMonth() == Month.MARCH){
-                        int i = r.getMar();
-                        r.setMar(i + 1);
-                    }else if(start.getMonth() == Month.APRIL){
-                        int i = r.getApr();
-                        r.setApr(i + 1);
-                    }else if(start.getMonth() == Month.MAY){
-                        int i = r.getMay();
-                        r.setMay(i + 1);
-                    }else if(start.getMonth() == Month.JUNE){
-                        int i = r.getJune();
-                        r.setJune(i + 1);
-                    }else if(start.getMonth() == Month.JULY){
-                        int i = r.getJuly();
-                        r.setJuly(i + 1);
-                    }else if(start.getMonth() == Month.AUGUST){
-                        int i = r.getAug();
-                        r.setAug(i + 1);
-                    }else if(start.getMonth() == Month.SEPTEMBER){
-                        int i = r.getSep();
-                        r.setSep(i + 1);
-                    }else if(start.getMonth() == Month.OCTOBER){
-                        int i = r.getOct();
-                        r.setOct(i + 1);
-                    }else if(start.getMonth() == Month.NOVEMBER){
-                        int i = r.getNov();
-                        r.setNov(i + 1);
-                    }else if(start.getMonth() == Month.DECEMBER){
-                        int i = r.getDec();
-                        r.setDec(i + 1);
-                    }
+    /**
+     * This method is called by the initialize method. It goes through all the appointments and aggregates them into a single Report objects by type. The method then sets the tableview based
+     * on an observable list of reports that contains the aggregated reports.
+     */
+    public void selectType() {
+        ObservableList<Appointments> allApt = DBAppointments.getAppointments();
+        ObservableList<Reports> comlist = FXCollections.observableArrayList();
+        boolean flag = true;
+        for(Appointments a : allApt) {
+            flag = true;
+            String type = a.getType();
+            Reports check = lambdaCounter.getCounted(type);
+            for(Reports r : comlist){
+                String test = r.getType();
+                if(type.equals(test)){
+                    flag = false;
                 }
-                janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
-                febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
-                marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
-                aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
-                mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
-                juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
-                julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
-                augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
-                sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
-                octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
-                novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
-                decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
             }
-            else{
-                System.out.println("Something went wrong.");
+            if(flag == true){
+                comlist.add(check);
             }
         }
-        else if(type == "Interview"){
-            ObservableList<Reports> rlist = DBReports.getReport1(type);
-            int count = rlist.size();
-            if(count == 0){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("No " + type + " Appointments");
-                alert.setContentText("There are no appointments of type: " + type + ". Please select another type.");
-                alert.showAndWait();
-            }
-            else if(count >=1 ) {
-                report1TableView.setItems(rlist);
-                for (Reports r : rlist) {
-                    LocalDateTime start = r.getStart();
-                    if(start.getMonth() == Month.JANUARY){
-                        int i = r.getJan();
-                        r.setJan(i + 1);
-                    }else if(start.getMonth() == Month.FEBRUARY){
-                        int i = r.getFeb();
-                        r.setFeb(i + 1);
-                    }else if(start.getMonth() == Month.MARCH){
-                        int i = r.getMar();
-                        r.setMar(i + 1);
-                    }else if(start.getMonth() == Month.APRIL){
-                        int i = r.getApr();
-                        r.setApr(i + 1);
-                    }else if(start.getMonth() == Month.MAY){
-                        int i = r.getMay();
-                        r.setMay(i + 1);
-                    }else if(start.getMonth() == Month.JUNE){
-                        int i = r.getJune();
-                        r.setJune(i + 1);
-                    }else if(start.getMonth() == Month.JULY){
-                        int i = r.getJuly();
-                        r.setJuly(i + 1);
-                    }else if(start.getMonth() == Month.AUGUST){
-                        int i = r.getAug();
-                        r.setAug(i + 1);
-                    }else if(start.getMonth() == Month.SEPTEMBER){
-                        int i = r.getSep();
-                        r.setSep(i + 1);
-                    }else if(start.getMonth() == Month.OCTOBER){
-                        int i = r.getOct();
-                        r.setOct(i + 1);
-                    }else if(start.getMonth() == Month.NOVEMBER){
-                        int i = r.getNov();
-                        r.setNov(i + 1);
-                    }else if(start.getMonth() == Month.DECEMBER){
-                        int i = r.getDec();
-                        r.setDec(i + 1);
-                    }
-                }
-                janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
-                febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
-                marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
-                aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
-                mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
-                juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
-                julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
-                augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
-                sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
-                octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
-                novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
-                decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
-
-            }
-            else{
-                System.out.println("Something went wrong 2.");
-            }
-
-        }
-        else if(type == "Disciplinary"){
-            ObservableList<Reports> rlist = DBReports.getReport1(type);
-            int count = rlist.size();
-            if(count == 0){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("No " + type + " Appointments");
-                alert.setContentText("There are no appointments of type: " + type + ". Please select another type.");
-                alert.showAndWait();
-            }
-            else if(count >=1 ) {
-                report1TableView.setItems(rlist);
-                for (Reports r : rlist) {
-                    LocalDateTime start = r.getStart();
-                    if(start.getMonth() == Month.JANUARY){
-                        int i = r.getJan();
-                        r.setJan(i + 1);
-                    }else if(start.getMonth() == Month.FEBRUARY){
-                        int i = r.getFeb();
-                        r.setFeb(i + 1);
-                    }else if(start.getMonth() == Month.MARCH){
-                        int i = r.getMar();
-                        r.setMar(i + 1);
-                    }else if(start.getMonth() == Month.APRIL){
-                        int i = r.getApr();
-                        r.setApr(i + 1);
-                    }else if(start.getMonth() == Month.MAY){
-                        int i = r.getMay();
-                        r.setMay(i + 1);
-                    }else if(start.getMonth() == Month.JUNE){
-                        int i = r.getJune();
-                        r.setJune(i + 1);
-                    }else if(start.getMonth() == Month.JULY){
-                        int i = r.getJuly();
-                        r.setJuly(i + 1);
-                    }else if(start.getMonth() == Month.AUGUST){
-                        int i = r.getAug();
-                        r.setAug(i + 1);
-                    }else if(start.getMonth() == Month.SEPTEMBER){
-                        int i = r.getSep();
-                        r.setSep(i + 1);
-                    }else if(start.getMonth() == Month.OCTOBER){
-                        int i = r.getOct();
-                        r.setOct(i + 1);
-                    }else if(start.getMonth() == Month.NOVEMBER){
-                        int i = r.getNov();
-                        r.setNov(i + 1);
-                    }else if(start.getMonth() == Month.DECEMBER){
-                        int i = r.getDec();
-                        r.setDec(i + 1);
-                    }
-                }
-                janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
-                febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
-                marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
-                aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
-                mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
-                juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
-                julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
-                augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
-                sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
-                octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
-                novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
-                decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
-            }
-            else{
-                System.out.println("Something went wrong 3.");
-            }
-        }
-
-        else{
-           System.out.println("whoops");
-        }
+        report1TableView.setItems(comlist);
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        janColumn.setCellValueFactory(new PropertyValueFactory<>("Jan"));
+        febColumn.setCellValueFactory(new PropertyValueFactory<>("Feb"));
+        marColumn.setCellValueFactory(new PropertyValueFactory<>("Mar"));
+        aprilColumn.setCellValueFactory(new PropertyValueFactory<>("Apr"));
+        mayColumn.setCellValueFactory(new PropertyValueFactory<>("May"));
+        juneColumn.setCellValueFactory(new PropertyValueFactory<>("June"));
+        julyColumn.setCellValueFactory(new PropertyValueFactory<>("July"));
+        augColumn.setCellValueFactory(new PropertyValueFactory<>("Aug"));
+        sepColumn.setCellValueFactory(new PropertyValueFactory<>("Sep"));
+        octColumn.setCellValueFactory(new PropertyValueFactory<>("Oct"));
+        novColumn.setCellValueFactory(new PropertyValueFactory<>("Nov"));
+        decColumn.setCellValueFactory(new PropertyValueFactory<>("Dec"));
     }
 }
