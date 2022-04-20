@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
@@ -181,53 +182,58 @@ public class AppointmentScreenController implements Initializable {
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
-        LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
-        ZonedDateTime start = s.atZone(ZoneId.systemDefault());
-        ZonedDateTime openz = ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"));
-        ZonedDateTime closez = ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"));
-        if(start.isBefore(openz) || start.isAfter((closez))){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
-            alert.showAndWait();
+        try {
+            LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
+            ZonedDateTime start = s.atZone(ZoneId.systemDefault());
+            ZonedDateTime openz = ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"));
+            ZonedDateTime closez = ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"));
+            if (start.isBefore(openz) || start.isAfter((closez))) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
+                alert.showAndWait();
+                bhours = false;
+            } else {
+                bhours = true;
+            }
+            if (bhours == true) {
+                startOK = true;
+            }
             bhours = false;
-        }
-        else{
-            bhours = true;
-        }
-        if(bhours == true){
-            startOK = true;
-        }
-        bhours = false;
-        LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        ZonedDateTime end = e.atZone(ZoneId.systemDefault());
-        if(start.isAfter(end)){
+            LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
+            ZonedDateTime end = e.atZone(ZoneId.systemDefault());
+            if (start.isAfter(end)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("End time is before Start time. Please correct.");
+                alert.showAndWait();
+            } else if (end.isBefore((openz)) || end.isAfter((closez))) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
+                alert.showAndWait();
+            } else {
+                bhours = true;
+            }
+            if (bhours == true) {
+                endOK = true;
+            }
+            boolean noOverlap = lambdaHours.checkHours(start, end, customerID, aID + 1);
+
+            if (noOverlap == true && startOK == true && endOK == true) { //still has some errors let the system create an appointment even though noOverlap was false.
+                LocalDateTime createDate = LocalDateTime.now();
+                String createdBy = username;
+                LocalDateTime lastUpdate = LocalDateTime.now();
+                String lastUpdatedBy = username;
+                int userID = DBUsers.getUser(username);
+                int appointmentID = aID + 1;
+                DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID));
+                appointmentsTableview.setItems(DBAppointments.getAppointments());
+                aID = aID + 1;
+            }
+        }catch (DateTimeParseException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("End time is before Start time. Please correct.");
+            alert.setContentText("Please enter Date and Time in the following format: YYYY-MM-DDTHH:MM");
             alert.showAndWait();
         }
-        else if(end.isBefore((openz)) || end.isAfter((closez))){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
-            alert.showAndWait();
-        }
-        else{
-            bhours = true;
-        }
-        if(bhours == true){
-            endOK = true;
-        }
-        boolean noOverlap = lambdaHours.checkHours(start, end, customerID, aID+1);
-        if(noOverlap == true && startOK == true && endOK == true){ //still has some errors let the system create an appointment even though noOverlap was false.
-            LocalDateTime createDate = LocalDateTime.now();
-            String createdBy = username;
-            LocalDateTime lastUpdate = LocalDateTime.now();
-            String lastUpdatedBy = username;
-            int userID = DBUsers.getUser(username);
-            int appointmentID = aID + 1;
-            DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID , userID, contactID));
-            appointmentsTableview.setItems(DBAppointments.getAppointments());
-            aID = aID + 1;
-        }
+
 
     }
 
@@ -263,54 +269,57 @@ public class AppointmentScreenController implements Initializable {
         select.setDescription(appointmentDescriptionTextField.getText());
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
-        select.setContactID(Integer.parseInt(contactTextField.getText()));
-        LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
-        select.setStart(s.atZone(ZoneId.systemDefault()));
-        select.setTitle(titleTextField.getText());
-        boolean bhours;
-        boolean startOK = false;
-        boolean endOK = false;
-        if(select.getStart().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
-                || select.getStart().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
-            alert.showAndWait();
+        try {
+            select.setContactID(Integer.parseInt(contactTextField.getText()));
+            LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
+            select.setStart(s.atZone(ZoneId.systemDefault()));
+            select.setTitle(titleTextField.getText());
+            boolean bhours;
+            boolean startOK = false;
+            boolean endOK = false;
+            if (select.getStart().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+                    || select.getStart().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Appointment start outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
+                alert.showAndWait();
+                bhours = false;
+            } else {
+                bhours = true;
+            }
+            if (bhours == true) {
+                startOK = true;
+            }
             bhours = false;
-        }
-        else{
-            bhours = true;
-        }
-        if(bhours == true){
-            startOK = true;
-        }
-        bhours = false;
-        LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
-        select.setEnd(e.atZone(ZoneId.systemDefault()));
-        if(select.getStart().isAfter(select.getEnd())){
+            LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
+            select.setEnd(e.atZone(ZoneId.systemDefault()));
+            if (select.getStart().isAfter(select.getEnd())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("End time is before Start time. Please correct.");
+                alert.showAndWait();
+            } else if (select.getEnd().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+                    || select.getEnd().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
+                alert.showAndWait();
+            } else {
+                bhours = true;
+            }
+            if (bhours == true) {
+                endOK = true;
+            }
+            boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID(), select.getAppointmentID());
+            if (noOverlap == true && startOK == true && endOK == true) {
+                Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
+                select.setCustomerID(customer.getCustomerID());
+                select.setLastUpdate(LocalDateTime.now());
+                select.setLastUpdatedBy(username);
+                DBAppointments.updateAppointment(select);
+                appointmentsTableview.setItems(DBAppointments.getAppointments());
+            }
+        }catch (DateTimeParseException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("End time is before Start time. Please correct.");
+            alert.setContentText("Please enter Date and Time in the following format: YYYY-MM-DDTHH:MM");
             alert.showAndWait();
-        }
-        else if(select.getEnd().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
-                || select.getEnd().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
-            alert.showAndWait();
-        }
-        else{
-            bhours = true;
-        }
-        if(bhours == true){
-            endOK = true;
-        }
-        boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID(), select.getAppointmentID());
-        if(noOverlap == true && startOK == true && endOK == true) {
-            Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
-            select.setCustomerID(customer.getCustomerID());
-            select.setLastUpdate(LocalDateTime.now());
-            select.setLastUpdatedBy(username);
-            DBAppointments.updateAppointment(select);
-            appointmentsTableview.setItems(DBAppointments.getAppointments());
         }
     }
 
