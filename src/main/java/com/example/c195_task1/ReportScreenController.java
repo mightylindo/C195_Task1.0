@@ -20,6 +20,11 @@ public class ReportScreenController {
     public Button saveAndExitButton;
 
 
+    /**
+     * This method is called when save and exit button is clicked. It then loads the main screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void saveAndExit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
@@ -31,6 +36,11 @@ public class ReportScreenController {
         stage.setScene(scene);
         stage.show();
     }
+    /**
+     * This method is called when report1 button is clicked. It then loads the report1 screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void report1(ActionEvent actionEvent) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Report1.fxml"));
@@ -42,7 +52,11 @@ public class ReportScreenController {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * This method is called when report2 button is clicked. It then loads the report1 screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void report2(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Report2.fxml"));
         Parent root = loader.load();
@@ -53,7 +67,11 @@ public class ReportScreenController {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * This method is called when report3 button is clicked. It then loads the report1 screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void report3(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Report3.fxml"));
         Parent root = loader.load();

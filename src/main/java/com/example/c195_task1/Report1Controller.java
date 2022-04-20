@@ -41,7 +41,11 @@ public class Report1Controller implements Initializable {
     public TableColumn decColumn;
     public ComboBox typeComboBox;
 
-
+    /**
+     * This method initializes the report 1 screen
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Intitalized!");

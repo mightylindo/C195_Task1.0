@@ -29,6 +29,11 @@ public class Report3Controller implements Initializable {
     public RadioButton canadaButton;
     public ToggleGroup countries;
 
+    /**
+     * This method initializes the report 3 screen, and sets the tableview.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Initialized");
@@ -40,6 +45,11 @@ public class Report3Controller implements Initializable {
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
     }
 
+    /**
+     * This method is called when the return button is clicked, and loads the report screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void returnR3(ActionEvent actionEvent) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportsScreen.fxml"));
@@ -52,6 +62,10 @@ public class Report3Controller implements Initializable {
             stage.show();
     }
 
+    /**
+     * This method is called when the country radio button is clicked. This will reset the tableview to only show customers from that country.
+     * @param actionEvent
+     */
     public void countrySelected(ActionEvent actionEvent) {
         if(usaButton.isSelected()){
             report3TableView.setItems(DBReports.getReport3(1));

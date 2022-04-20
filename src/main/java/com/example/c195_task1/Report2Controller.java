@@ -31,6 +31,11 @@ public class Report2Controller implements Initializable {
     public RadioButton contact2Button;
     public RadioButton contact3Button;
 
+    /**
+     * This method initializes the Report 2 screen and sets the tableview.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
        System.out.println("Init");
@@ -44,6 +49,11 @@ public class Report2Controller implements Initializable {
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
     }
 
+    /**
+     * This method is called when the user clicks the return button and loads the report screen.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     public void returnR2(ActionEvent actionEvent) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportsScreen.fxml"));
@@ -56,6 +66,10 @@ public class Report2Controller implements Initializable {
             stage.show();
     }
 
+    /**
+     * This method is called when a contact radio button is selected and resets the tableview based on the selected contact.
+     * @param actionEvent
+     */
     public void contactSelected(ActionEvent actionEvent) {
         if(contact1Button.isSelected()){
             scheduleTableView.setItems(DBReports.getReport2(1));
