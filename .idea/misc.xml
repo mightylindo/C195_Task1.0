@@ -3,6 +3,11 @@
   <component name="ExcludeFromValidation">
     <file url="file://$PROJECT_DIR$/src/main/java/com/example/c195_task1/AppointmentScreenController.java" />
   </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$PATH_TO_FX$" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

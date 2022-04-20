@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
@@ -177,6 +178,11 @@ public class AppointmentScreenController implements Initializable {
         String description = appointmentDescriptionTextField.getText();
         String location = locationTextField.getText();
         int contactID = Integer.parseInt(contactTextField.getText());
+        if(contactID <1 || contactID>3){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Please select a contact between 1-3");
+            alert.showAndWait();
+        }
         String type = typeTextField.getText();
         String title = titleTextField.getText();
         boolean bhours;
@@ -270,7 +276,12 @@ public class AppointmentScreenController implements Initializable {
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
         try {
-            select.setContactID(Integer.parseInt(contactTextField.getText()));
+        select.setContactID(Integer.parseInt(contactTextField.getText()));
+        if(Integer.parseInt(contactTextField.getText() )<1 || Integer.parseInt(contactTextField.getText())>3) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Please select a contact between 1-3");
+            alert.showAndWait();
+        }
             LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
             select.setStart(s.atZone(ZoneId.systemDefault()));
             select.setTitle(titleTextField.getText());
