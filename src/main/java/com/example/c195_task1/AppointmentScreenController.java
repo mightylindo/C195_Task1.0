@@ -184,8 +184,6 @@ public class AppointmentScreenController implements Initializable {
         LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
         ZonedDateTime start = s.atZone(ZoneId.systemDefault());
         ZonedDateTime openz = ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"));
-        System.out.println(start);
-        System.out.println(openz);
         ZonedDateTime closez = ZonedDateTime.of(start.toLocalDate(), close, ZoneId.of("America/New_York"));
         if(start.isBefore(openz) || start.isAfter((closez))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -202,7 +200,12 @@ public class AppointmentScreenController implements Initializable {
         bhours = false;
         LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
         ZonedDateTime end = e.atZone(ZoneId.systemDefault());
-        if(end.isBefore((openz)) || end.isAfter((closez))){
+        if(start.isAfter(end)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("End time is before Start time. Please correct.");
+            alert.showAndWait();
+        }
+        else if(end.isBefore((openz)) || end.isAfter((closez))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
             alert.showAndWait();
@@ -283,7 +286,12 @@ public class AppointmentScreenController implements Initializable {
         bhours = false;
         LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
         select.setEnd(e.atZone(ZoneId.systemDefault()));
-        if(select.getEnd().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
+        if(select.getStart().isAfter(select.getEnd())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("End time is before Start time. Please correct.");
+            alert.showAndWait();
+        }
+        else if(select.getEnd().isBefore((ZonedDateTime.of(select.getEnd().toLocalDate(), open, ZoneId.of("America/New_York"))))
                 || select.getEnd().isAfter((ZonedDateTime.of(select.getEnd().toLocalDate(), close, ZoneId.of("America/New_York"))))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Appointment end outside business hours. Please select hours within the hours of 8AM and 10PM EST.");
