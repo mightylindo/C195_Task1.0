@@ -87,6 +87,8 @@ public class LoginScreenController implements Initializable {
         ResourceBundle rb = ResourceBundle.getBundle("NAT", Locale.getDefault());
         loginButton.setText(rb.getString("Login"));
         loginScreenLabel.setText(rb.getString("Login") + " " + rb.getString("Screen"));
+        username.setText(rb.getString("Username"));
+        password.setText(rb.getString("Password"));
     }
 }
 
