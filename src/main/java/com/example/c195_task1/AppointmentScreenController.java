@@ -1,9 +1,11 @@
 package com.example.c195_task1;
 
 import DBAccess.DBAppointments;
+import DBAccess.DBContacts;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
 import Model.Appointments;
+import Model.Contacts;
 import Model.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,7 +54,6 @@ public class AppointmentScreenController implements Initializable {
     public ComboBox customerSelectComboBox;
     public TextField appointmentIDTextField;
     public TextField locationTextField;
-    public TextField contactTextField;
     public TextField startDateAndTimeTextField;
     public TextField endDateAndTimeTextField;
     public TextField customerIDTextField;
@@ -61,11 +62,12 @@ public class AppointmentScreenController implements Initializable {
     public TextField appointmentDescriptionTextField;
     public TableView appointmentsTableview;
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
-    public int aID = alist.size() + 2;
+    public static int aID;
     public ToggleGroup DateRange;
     public RadioButton allRadioButton;
     public TextField titleTextField;
     public TableColumn titleColumn;
+    public ComboBox contactComboBox;
     private String username;
     private LocalTime open = LocalTime.of(8,00);
     private LocalTime close = LocalTime.of(22,00);
@@ -135,7 +137,7 @@ public class AppointmentScreenController implements Initializable {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("Location"));
-        contactColumn.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("ContactName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
         startColumn.setCellValueFactory(new PropertyValueFactory<>("Start"));
         endColumn.setCellValueFactory(new PropertyValueFactory<>("End"));
@@ -143,6 +145,9 @@ public class AppointmentScreenController implements Initializable {
         userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
         ObservableList<Customers> clist = DBCustomers.getCustomers();
         customerSelectComboBox.setItems(clist);
+        ObservableList<Contacts> contact = DBContacts.getContacts();
+        contactComboBox.setItems(contact);
+        aID = DBAppointments.getAppointments().size();
     }
 
     /**
@@ -177,12 +182,7 @@ public class AppointmentScreenController implements Initializable {
         int customerID = customer.getCustomerID();
         String description = appointmentDescriptionTextField.getText();
         String location = locationTextField.getText();
-        int contactID = Integer.parseInt(contactTextField.getText());
-        if(contactID <1 || contactID>3){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Please select a contact between 1-3");
-            alert.showAndWait();
-        }
+        int contactID = (contactComboBox.getSelectionModel().getSelectedIndex() + 1);
         String type = typeTextField.getText();
         String title = titleTextField.getText();
         boolean bhours;
@@ -271,17 +271,11 @@ public class AppointmentScreenController implements Initializable {
      */
     @FXML
     public void updateButton(ActionEvent actionEvent) throws IOException {
+        try {
         Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
         select.setDescription(appointmentDescriptionTextField.getText());
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
-        try {
-        select.setContactID(Integer.parseInt(contactTextField.getText()));
-        if(Integer.parseInt(contactTextField.getText() )<1 || Integer.parseInt(contactTextField.getText())>3) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Please select a contact between 1-3");
-            alert.showAndWait();
-        }
             LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
             select.setStart(s.atZone(ZoneId.systemDefault()));
             select.setTitle(titleTextField.getText());
@@ -320,6 +314,8 @@ public class AppointmentScreenController implements Initializable {
             }
             boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID(), select.getAppointmentID());
             if (noOverlap == true && startOK == true && endOK == true) {
+                Contacts contact = (Contacts) contactComboBox.getSelectionModel().getSelectedItem();
+                select.setContactID(contact.getContactID());
                 Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
                 select.setCustomerID(customer.getCustomerID());
                 select.setLastUpdate(LocalDateTime.now());
@@ -330,6 +326,10 @@ public class AppointmentScreenController implements Initializable {
         }catch (DateTimeParseException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Please enter Date and Time in the following format: YYYY-MM-DDTHH:MM");
+            alert.showAndWait();
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Nothing updated, please select which appointment you would like to update.");
             alert.showAndWait();
         }
     }
@@ -345,7 +345,8 @@ public class AppointmentScreenController implements Initializable {
         appointmentDescriptionTextField.setText(select.getDescription());
         locationTextField.setText(select.getLocation());
         typeTextField.setText(select.getType());
-        contactTextField.setText(Integer.toString(select.getContactID()));
+        Contacts contact = DBContacts.getSpecificContact(select.getContactID());
+        contactComboBox.setValue(contact);
         customerIDTextField.setText(Integer.toString(select.getCustomerID()));
         userIDTextField.setText(Integer.toString(select.getUserID()));
         DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;

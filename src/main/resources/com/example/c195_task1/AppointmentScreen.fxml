@@ -24,8 +24,8 @@
           <TableColumn fx:id="descriptionColumn" prefWidth="94.0" text="Description" />
             <TableColumn fx:id="titleColumn" prefWidth="76.0" text="Title" />
             <TableColumn fx:id="locationColumn" prefWidth="98.0" text="Location" />
-            <TableColumn fx:id="contactColumn" prefWidth="57.0" text="Contact" />
-            <TableColumn fx:id="typeColumn" prefWidth="129.0" text="Type" />
+            <TableColumn fx:id="contactColumn" prefWidth="86.0" text="Contact" />
+            <TableColumn fx:id="typeColumn" prefWidth="100.0" text="Type" />
             <TableColumn fx:id="startColumn" prefWidth="151.0" text="Start" />
             <TableColumn fx:id="endColumn" prefWidth="190.0" text="End" />
             <TableColumn fx:id="customerIDColumn" prefWidth="81.0" text="CustomerID" />
@@ -45,7 +45,6 @@
       <TextField fx:id="appointmentIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="152.0" promptText="Appointment ID" />
       <TextField fx:id="appointmentDescriptionTextField" layoutX="26.0" layoutY="188.0" promptText="Appointment Description" />
       <TextField fx:id="locationTextField" layoutX="26.0" layoutY="255.0" promptText="Location" />
-      <TextField fx:id="contactTextField" layoutX="26.0" layoutY="292.0" promptText="Contact" />
       <TextField fx:id="typeTextField" layoutX="26.0" layoutY="329.0" promptText="Type" />
       <TextField fx:id="startDateAndTimeTextField" layoutX="26.0" layoutY="365.0" promptText="Start Date and Time" />
       <TextField fx:id="endDateAndTimeTextField" layoutX="26.0" layoutY="400.0" promptText="End Date and Time" />
@@ -53,5 +52,6 @@
       <TextField fx:id="userIDTextField" disable="true" editable="false" layoutX="26.0" layoutY="470.0" promptText="User ID" />
       <RadioButton fx:id="allRadioButton" layoutX="510.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectRadioButton" selected="true" text="All" toggleGroup="$DateRange" />
       <TextField fx:id="titleTextField" layoutX="26.0" layoutY="223.0" promptText="Title" />
+      <ComboBox fx:id="contactComboBox" layoutX="26.0" layoutY="290.0" prefWidth="150.0" promptText="Select Contact" />
    </children>
 </AnchorPane>

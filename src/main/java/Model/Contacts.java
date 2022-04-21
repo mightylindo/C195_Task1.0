@@ -16,6 +16,13 @@ public class Contacts {
         this.contactName = contactName;
         this.email = email;
     }
+
+    /**
+     * This is an override so the contacts name appears in the comboBox
+     * @return contactName
+     */
+    @Override
+    public String toString(){return contactName;}
     /**
      * @return contactID
      */

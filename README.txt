@@ -10,6 +10,7 @@ IDE:IntelliJ IDEA 2021.3 (Community Edition)
     VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
     Kotlin: 213-1.5.10-release-949-IJ5744.223
     JDK:11.0.11
+    JavaFX: javafx-base:11.0.2
 
 Directions:
 Step1: Run the program

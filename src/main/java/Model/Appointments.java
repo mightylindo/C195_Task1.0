@@ -1,5 +1,7 @@
 package Model;
 
+import DBAccess.DBContacts;
+
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -170,4 +172,13 @@ public class Appointments {
      * @param contactID to contactID to set
      */
     public void setContactID(int contactID) {this.contactID = contactID;}
+
+    /**
+     * This method returns the contact name based on the contact ID
+     * @return contactName
+     */
+    public String getContactName(){
+        String contactName = DBContacts.getContactName(contactID);
+        return contactName;
+    }
 }
