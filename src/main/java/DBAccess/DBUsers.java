@@ -75,7 +75,7 @@ public class DBUsers {
                 String createBy = rs.getString("Created_By");
                 String lastUpdateBy = rs.getString("Last_Updated_By");
                 Users u = new Users(userID, userName, passWord, createBy, lastUpdateBy);
-                if (u.getUserName().contains(username) && u.getPassword().contains(password)) {
+                if (u.getUserName().contentEquals(username) && u.getPassword().contentEquals(password)) {
                     valid = true;
                 }
             }
