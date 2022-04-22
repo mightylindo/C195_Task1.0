@@ -147,7 +147,12 @@ public class AppointmentScreenController implements Initializable {
         customerSelectComboBox.setItems(clist);
         ObservableList<Contacts> contact = DBContacts.getContacts();
         contactComboBox.setItems(contact);
-        aID = DBAppointments.getAppointments().size();
+        ObservableList<Appointments> appointments = DBAppointments.getAppointments();
+        for(Appointments a : appointments){
+            aID = a.getAppointmentID();
+        }
+        aID = aID + 1;
+        System.out.println(aID);
     }
 
     /**
@@ -182,13 +187,20 @@ public class AppointmentScreenController implements Initializable {
         int customerID = customer.getCustomerID();
         String description = appointmentDescriptionTextField.getText();
         String location = locationTextField.getText();
-        int contactID = (contactComboBox.getSelectionModel().getSelectedIndex() + 1);
         String type = typeTextField.getText();
         String title = titleTextField.getText();
         boolean bhours;
         boolean startOK = false;
         boolean endOK = false;
+        boolean contact = true;
         try {
+            int contactID = (contactComboBox.getSelectionModel().getSelectedIndex() + 1);
+            if(contactID == 0){
+                contact = false;
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Please select a contact");
+                alert.showAndWait();
+            }
             LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
             ZonedDateTime start = s.atZone(ZoneId.systemDefault());
             ZonedDateTime openz = ZonedDateTime.of(start.toLocalDate(), open, ZoneId.of("America/New_York"));
@@ -221,15 +233,15 @@ public class AppointmentScreenController implements Initializable {
             if (bhours == true) {
                 endOK = true;
             }
-            boolean noOverlap = lambdaHours.checkHours(start, end, customerID, aID + 1);
+            boolean noOverlap = lambdaHours.checkHours(start, end, customerID, aID);
 
-            if (noOverlap == true && startOK == true && endOK == true) { //still has some errors let the system create an appointment even though noOverlap was false.
+            if (noOverlap == true && startOK == true && endOK == true && contact == true) { //still has some errors let the system create an appointment even though noOverlap was false.
                 LocalDateTime createDate = LocalDateTime.now();
                 String createdBy = username;
                 LocalDateTime lastUpdate = LocalDateTime.now();
                 String lastUpdatedBy = username;
                 int userID = DBUsers.getUser(username);
-                int appointmentID = aID + 1;
+                int appointmentID = aID;
                 DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID));
                 appointmentsTableview.setItems(DBAppointments.getAppointments());
                 aID = aID + 1;
@@ -258,6 +270,7 @@ public class AppointmentScreenController implements Initializable {
         if(alert.showAndWait().get() == ButtonType.OK) {
             DBAppointments.deleteAppointment(select);
             appointmentsTableview.setItems(DBAppointments.getAppointments());
+
         }
     }
 
@@ -345,8 +358,6 @@ public class AppointmentScreenController implements Initializable {
         appointmentDescriptionTextField.setText(select.getDescription());
         locationTextField.setText(select.getLocation());
         typeTextField.setText(select.getType());
-        Contacts contact = DBContacts.getSpecificContact(select.getContactID());
-        contactComboBox.setValue(contact);
         customerIDTextField.setText(Integer.toString(select.getCustomerID()));
         userIDTextField.setText(Integer.toString(select.getUserID()));
         DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -354,6 +365,8 @@ public class AppointmentScreenController implements Initializable {
         endDateAndTimeTextField.setText((select.getEnd().format(dtf)));
         Customers c = DBCustomers.getSpecificCustomer(select.getCustomerID());
         customerSelectComboBox.setValue(c);
+        Contacts contact = DBContacts.getSpecificContact(select.getContactID());
+        contactComboBox.setValue(contact);
     }
 
     /**

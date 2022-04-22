@@ -59,12 +59,12 @@ public class DBContacts {
             String sql = "SELECT * FROM Contacts WHERE Contact_ID = '" +contactID + "';";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-               int cID = rs.getInt("Contact_ID");
-               String name = rs.getString("Contact_Name");
-               String email = rs.getString("Email");
-               Contacts c = new Contacts(cID, name, email);
-               return c;
+            while(rs.next()) {
+                int cID = rs.getInt("Contact_ID");
+                String name = rs.getString("Contact_Name");
+                String email = rs.getString("Email");
+                Contacts c = new Contacts(cID, name, email);
+                return c;
             }
         } catch (SQLException e) {
             e.printStackTrace();
