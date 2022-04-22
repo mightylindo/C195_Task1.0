@@ -133,11 +133,14 @@ public class DBAppointments {
     public static void checkAppointments(){
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean myAptmt = true;
+        int count = 0;
+        int size = alist.size();
         for(Appointments a : alist){
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime startTime = a.getStart().toLocalDateTime();
             long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
             System.out.println(timeDifference);
+            count = count +1;
             if(timeDifference < 15 && timeDifference >= 0){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Appointment Imminent");
@@ -149,7 +152,7 @@ public class DBAppointments {
                 myAptmt = false;
             }
         }
-        if(myAptmt == false) {
+        if(myAptmt == false && count == size) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No Appointment Imminent");
             alert.setContentText("No Appointments within 15 Minutes.");
