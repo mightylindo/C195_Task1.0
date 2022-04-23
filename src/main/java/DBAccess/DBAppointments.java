@@ -18,6 +18,43 @@ import javafx.scene.control.Alert;
 public class DBAppointments {
 
     /**
+     * This getAppointments method is used to get just the appointments for a specific user. It takes in a userID and it returns an observable list of all that users appointments.
+     * @param userID
+     * @return Observable List of appointments for a specific user
+     */
+    public static ObservableList<Appointments> getAppointments(int userID) {
+        ObservableList<Appointments> alist = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT * FROM Appointments WHERE User_ID ='" + userID +"';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentID = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                int customerID = rs.getInt("Customer_ID");
+                int user = rs.getInt("User_ID");
+                int contactID = rs.getInt("Contact_ID");
+                LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+                ZonedDateTime zstart = start.atZone(ZoneId.systemDefault());
+                ZonedDateTime zend =end.atZone(ZoneId.systemDefault());
+                String createdBy = rs.getString("Created_By");
+                LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
+                LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
+                Appointments a = new Appointments(appointmentID, title, description, location, type, zstart, zend, createDate, createdBy, lastUpdate, lastUpdatedBy,customerID, user, contactID);
+                alist.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alist;
+    }
+    /**
      * This method returns an ObserverableList of Appointments by selecting all appointments from the database.
      * @return alist
      */
@@ -113,8 +150,8 @@ public class DBAppointments {
             String sqlCommand = "UPDATE Appointments SET Description = '" + selectedAppointment.getDescription() + "', Title = '" + selectedAppointment.getTitle() + "', Location = '" +
                     selectedAppointment.getLocation() + "', Type = '" +selectedAppointment.getType() + "', Start = ?"  +
                     ", End = ?" +  ", Last_Update = '" + Timestamp.valueOf(LocalDateTime.now())
-                    + "', Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() +
-                    "', Contact_ID = '" + selectedAppointment.getContactID() + "' WHERE Appointment_ID = '" +
+                    + "', Last_Updated_By = '" + selectedAppointment.getLastUpdatedBy() + "', Customer_ID = '" + selectedAppointment.getCustomerID() + "', User_ID = '"
+                    + selectedAppointment.getUserID() + "', Contact_ID = '" + selectedAppointment.getContactID() + "' WHERE Appointment_ID = '" +
                     selectedAppointment.getAppointmentID() + "';";
             System.out.println(sqlCommand);
             PreparedStatement ps =DBConnection.getConnection().prepareStatement(sqlCommand);
@@ -123,40 +160,6 @@ public class DBAppointments {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * This method is called when the user logs in. It checks if there is any appointment within 15 minutes and provides a prompt wiht the appointmentID and start time if there is.
-     * If there is no appointment a prompt appears stating such.
-     */
-    public static void checkAppointments(){
-        ObservableList<Appointments> alist = DBAppointments.getAppointments();
-        boolean myAptmt = true;
-        int count = 0;
-        int size = alist.size();
-        for(Appointments a : alist){
-            LocalDateTime currentTime = LocalDateTime.now();
-            LocalDateTime startTime = a.getStart().toLocalDateTime();
-            long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
-            System.out.println(timeDifference);
-            count = count +1;
-            if(timeDifference < 15 && timeDifference >= 0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Appointment Imminent");
-                alert.setContentText("Appointment: " + a.getAppointmentID() + " starts at: " + a.getStart());
-                alert.showAndWait();
-                myAptmt = true;
-            }
-            else{
-                myAptmt = false;
-            }
-        }
-        if(myAptmt == false && count == size) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No Appointment Imminent");
-            alert.setContentText("No Appointments within 15 Minutes.");
-            alert.showAndWait();
         }
     }
 }

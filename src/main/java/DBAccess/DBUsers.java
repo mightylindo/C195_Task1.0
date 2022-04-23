@@ -10,12 +10,31 @@ import javafx.fxml.FXML;
 
 public class DBUsers {
 
+    public static Users getUser(int userID){
+        try {
+            String sql = "Select * FROM users WHERE User_ID ='" + userID + "';";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int ID = rs.getInt("User_ID");
+                String userName = rs.getString("User_Name");
+                String password = rs.getString("Password");
+                String createBy = rs.getString("Created_By");
+                String lastUpdateBy = rs.getString("Last_Updated_By");
+                Users u = new Users(userID, userName, password, createBy, lastUpdateBy);
+                return u;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * This method takes a string username and gets a customer from the database based on the username and returns a userID.
      * @param userName
      * @return userID
      */
-    public static int getUser(String userName){
+    public static int getUserID(String userName){
         int userID = 0;
         try {
             String sql = "Select * FROM users WHERE User_Name ='" + userName + "';";
@@ -75,7 +94,7 @@ public class DBUsers {
                 String createBy = rs.getString("Created_By");
                 String lastUpdateBy = rs.getString("Last_Updated_By");
                 Users u = new Users(userID, userName, passWord, createBy, lastUpdateBy);
-                if (u.getUserName().contentEquals(username) && u.getPassword().contentEquals(password)) {
+                if (u.getUserName().equals(username) && u.getPassword().equals(password)) {
                     valid = true;
                 }
             }

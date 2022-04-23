@@ -2,6 +2,10 @@ package com.example.c195_task1;
 
 import Model.Reports;
 import javafx.collections.ObservableList;
+
+/**
+ *
+ */
 @FunctionalInterface
 public interface MonthCounterInterface {
 

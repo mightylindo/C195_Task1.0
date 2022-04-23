@@ -2,6 +2,8 @@ package com.example.c195_task1;
 
 import DBAccess.DBAppointments;
 import DBAccess.DBUsers;
+import Model.Appointments;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,9 +53,10 @@ public class LoginScreenController implements Initializable {
         FileWriter fw = new FileWriter(file,true);
         PrintWriter pw = new PrintWriter(fw);
         ResourceBundle rb = ResourceBundle.getBundle("NAT", Locale.getDefault());
-        if(uvalid == true){
+        if(uvalid){
             pw.println("User: " + userName + " attempted login at: " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Login Successful");
             pw.close();
+            checkAppointments(userName);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
             Parent root = loader.load();
             MainScreenController controller = loader.getController();
@@ -63,9 +66,8 @@ public class LoginScreenController implements Initializable {
             stage.setTitle("C195 Task1");
             stage.setScene(scene);
             stage.show();
-            DBAppointments.checkAppointments();
         }
-        else if(uvalid == false){
+        else{
             pw.println("User: " + userName + " attempted login at: " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + " Login Failed");
             pw.close();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -89,6 +91,40 @@ public class LoginScreenController implements Initializable {
         loginScreenLabel.setText(rb.getString("Login") + " " + rb.getString("Screen"));
         username.setText(rb.getString("Username"));
         password.setText(rb.getString("Password"));
+    }
+
+    /**
+     * This method is called when the user logs in. It checks if there is any appointments for the logged in user within 15 minutes and provides a prompt
+     * with the appointmentID and start time if there is.
+     * If there is no appointment a prompt appears stating such.
+     */
+    public static void checkAppointments(String userName){
+        int userID = DBUsers.getUserID(userName);
+        ObservableList<Appointments> alist = DBAppointments.getAppointments(userID);
+        boolean myAptmt = true;
+        int count = 0;
+        int size = alist.size();
+        for(Appointments a : alist){
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime startTime = a.getStart().toLocalDateTime();
+            long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
+            System.out.println(timeDifference);
+            count = count +1;
+            if(timeDifference < 15 && timeDifference >= 0){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Appointment Imminent");
+                alert.setContentText("Appointment: " + a.getAppointmentID() + " starts at: " + a.getStart());
+                alert.showAndWait();
+                myAptmt = true;
+                return;
+            }
+
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("No Appointment Imminent");
+        alert.setContentText("No Appointments within 15 Minutes.");
+        alert.showAndWait();
+
     }
 }
 
