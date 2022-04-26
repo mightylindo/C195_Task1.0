@@ -99,7 +99,7 @@ public class AppointmentScreenController implements Initializable {
      */
     HoursTestInterface lambdaHours = (start, end, cID, id)-> {
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
-        boolean noOverlap = false;
+        boolean noOverlap = true;
         for(Appointments a : alist){
             if(a.getCustomerID() == cID && a.getAppointmentID() != id){
                 if((start.isAfter(a.getStart()) || start.isEqual(a.getStart())) && start.isBefore(a.getEnd())){
@@ -107,14 +107,14 @@ public class AppointmentScreenController implements Initializable {
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap1: Please select a different time.");
                     alert.showAndWait();
-                    //return noOverlap;
+                    return noOverlap;
                 }
                 else if(end.isAfter(a.getStart()) && (end.isBefore(a.getEnd()) || end.isEqual(a.getEnd()))){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap2: Please select a different time.");
                     alert.showAndWait();
-                    //return noOverlap;
+                    return noOverlap;
                 }
                 else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart()))
                         && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
@@ -122,11 +122,8 @@ public class AppointmentScreenController implements Initializable {
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap3: Please select a different time.");
                     alert.showAndWait();
-                    //return noOverlap;
+                    return noOverlap;
                 }
-            }
-            else{
-                noOverlap = true;
             }
         }
         return noOverlap;

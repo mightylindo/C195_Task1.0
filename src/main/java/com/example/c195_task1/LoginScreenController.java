@@ -108,7 +108,6 @@ public class LoginScreenController implements Initializable {
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime startTime = a.getStart().toLocalDateTime();
             long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
-            System.out.println(timeDifference);
             count = count +1;
             if(timeDifference < 15 && timeDifference >= 0){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
