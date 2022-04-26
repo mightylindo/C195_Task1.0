@@ -2,18 +2,17 @@ package com.example.c195_task1;
 
 import Model.Appointments;
 import javafx.collections.ObservableList;
+
+/**
+ * This Interface is used to implement the addAppointment function, which is called by the Lambda Expression LambdaAppointments.
+ */
 @FunctionalInterface
 public interface ScheduleInterface {
 
     /**
-     *
-     *  This lambda expression is used to select all the appointments based on the number of days input.
-     *  This lambda is currently used by the radio buttons to select all appointments within the week or month.
-     *  By using a lambda we can add other buttons easily such as quarterly or yearly, and we just use the lambda with different number of days.
-     *  This lambda returns a list of appointments.
-     *
+     * This method is implemented by the LambdaAppointments expression in the Appointment Screen Controller. It takes in an int, and it returns an Observable List of appointments.
      * @param days the number of days to sort by
-     * @return ObservableList<Appointments></Appointments>
+     * @return ObservableList<Appointments></Appointments> which the system uses to update the tableview display.
      */
     ObservableList<Appointments> addAppointments(int days);
 

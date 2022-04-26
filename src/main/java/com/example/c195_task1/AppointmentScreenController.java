@@ -7,6 +7,7 @@ import DBAccess.DBUsers;
 import Model.Appointments;
 import Model.Contacts;
 import Model.Customers;
+import Model.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,21 +23,15 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Timestamp;
 import java.time.*;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
-import java.util.TimerTask;
-
-import static java.time.ZoneId.systemDefault;
 
 public class AppointmentScreenController implements Initializable {
     public Label titleLabel;
-    public TableColumn appointmentIDColumn;
+    public TableColumn<Object, Object> appointmentIDColumn;
     public TableColumn descriptionColumn;
     public TableColumn locationColumn;
     public TableColumn contactColumn;
@@ -51,23 +46,22 @@ public class AppointmentScreenController implements Initializable {
     public Button saveAndExitButton;
     public RadioButton weeklyRadioButton;
     public RadioButton monthlyRadioButton;
-    public ComboBox customerSelectComboBox;
+    public ComboBox<Customers> customerSelectComboBox;
     public TextField appointmentIDTextField;
     public TextField locationTextField;
     public TextField startDateAndTimeTextField;
     public TextField endDateAndTimeTextField;
-    public TextField customerIDTextField;
-    public TextField userIDTextField;
     public TextField typeTextField;
     public TextField appointmentDescriptionTextField;
-    public TableView appointmentsTableview;
+    public TableView<Appointments> appointmentsTableview;
     public ObservableList<Appointments> alist = DBAppointments.getAppointments();
     public static int aID;
     public ToggleGroup DateRange;
     public RadioButton allRadioButton;
     public TextField titleTextField;
     public TableColumn titleColumn;
-    public ComboBox contactComboBox;
+    public ComboBox<Contacts> contactComboBox;
+    public ComboBox<Users> userComboBox;
     private String username;
     private LocalTime open = LocalTime.of(8,00);
     private LocalTime close = LocalTime.of(22,00);
@@ -78,6 +72,12 @@ public class AppointmentScreenController implements Initializable {
      */
     public void username(String username){this.username = username;}
 
+    /**
+     *  This lambda expression is used to select all the appointments based on the number of days input.
+     *  This lambda is currently used by the radio buttons to select all appointments within the week or month.
+     *  By using a lambda we can add other buttons easily such as quarterly or yearly, and we just use the lambda with different number of days.
+     *  This lambda returns a list of appointments.
+     */
     ScheduleInterface lambdaAppointments = days -> {
         ObservableList<Appointments> allAppointments = DBAppointments.getAppointments();
         ObservableList<Appointments> aAppointments = FXCollections.observableArrayList();
@@ -91,7 +91,12 @@ public class AppointmentScreenController implements Initializable {
         }
         return aAppointments;
     };
-
+    /**
+     * This lambda expression takes a start, end, customerID, and appointmentID, and it determines if there is an overlap in the start and end times between all the appointments.
+     * This lambda is used by both the add and update appointments methods.
+     * This lambda allows us to reuse the same code and decrease the overall clutter of the add and update methods.
+     * This lambda returns a boolean which is used by the add or update buttons, so it knows whether ,or not to commit the hours to the database.
+     */
     HoursTestInterface lambdaHours = (start, end, cID, id)-> {
         ObservableList<Appointments> alist = DBAppointments.getAppointments();
         boolean noOverlap = false;
@@ -102,12 +107,14 @@ public class AppointmentScreenController implements Initializable {
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap1: Please select a different time.");
                     alert.showAndWait();
+                    //return noOverlap;
                 }
                 else if(end.isAfter(a.getStart()) && (end.isBefore(a.getEnd()) || end.isEqual(a.getEnd()))){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap2: Please select a different time.");
                     alert.showAndWait();
+                    //return noOverlap;
                 }
                 else if((start.isBefore(a.getStart()) || start.isEqual(a.getStart()))
                         && (end.isAfter(a.getEnd()) || end.isEqual(a.getEnd()))){
@@ -115,6 +122,7 @@ public class AppointmentScreenController implements Initializable {
                     noOverlap = false;
                     alert.setContentText("Appointment Overlap3: Please select a different time.");
                     alert.showAndWait();
+                    //return noOverlap;
                 }
             }
             else{
@@ -148,6 +156,8 @@ public class AppointmentScreenController implements Initializable {
         ObservableList<Contacts> contact = DBContacts.getContacts();
         contactComboBox.setItems(contact);
         ObservableList<Appointments> appointments = DBAppointments.getAppointments();
+        ObservableList<Users> ulist = DBUsers.getUsers();
+        userComboBox.setItems(ulist);
         for(Appointments a : appointments){
             aID = a.getAppointmentID();
         }
@@ -183,7 +193,7 @@ public class AppointmentScreenController implements Initializable {
      */
     @FXML
     public void addButton(ActionEvent actionEvent) throws IOException{
-        Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
+        Customers customer = customerSelectComboBox.getSelectionModel().getSelectedItem();
         int customerID = customer.getCustomerID();
         String description = appointmentDescriptionTextField.getText();
         String location = locationTextField.getText();
@@ -213,7 +223,7 @@ public class AppointmentScreenController implements Initializable {
             } else {
                 bhours = true;
             }
-            if (bhours == true) {
+            if (bhours) {
                 startOK = true;
             }
             bhours = false;
@@ -230,17 +240,18 @@ public class AppointmentScreenController implements Initializable {
             } else {
                 bhours = true;
             }
-            if (bhours == true) {
+            if (bhours) {
                 endOK = true;
             }
             boolean noOverlap = lambdaHours.checkHours(start, end, customerID, aID);
 
-            if (noOverlap == true && startOK == true && endOK == true && contact == true) { //still has some errors let the system create an appointment even though noOverlap was false.
+            if (noOverlap && startOK && endOK && contact) { //still has some errors let the system create an appointment even though noOverlap was false.
                 LocalDateTime createDate = LocalDateTime.now();
                 String createdBy = username;
                 LocalDateTime lastUpdate = LocalDateTime.now();
                 String lastUpdatedBy = username;
-                int userID = DBUsers.getUser(username);
+                Users user = userComboBox.getSelectionModel().getSelectedItem();
+                int userID = user.getUserID();
                 int appointmentID = aID;
                 DBAppointments.addAppointment(new Appointments(appointmentID, title, description, location, type, start, end, createDate, createdBy, lastUpdate, lastUpdatedBy, customerID, userID, contactID));
                 appointmentsTableview.setItems(DBAppointments.getAppointments());
@@ -263,7 +274,7 @@ public class AppointmentScreenController implements Initializable {
      */
     @FXML
     public void deleteButton(ActionEvent actionEvent) throws IOException {
-        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+        Appointments select = appointmentsTableview.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete");
         alert.setContentText("Do you really want to delete appointment: " + select.getAppointmentID() + ", " + select.getType() + "?");
@@ -285,12 +296,14 @@ public class AppointmentScreenController implements Initializable {
     @FXML
     public void updateButton(ActionEvent actionEvent) throws IOException {
         try {
-        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+        Appointments select = appointmentsTableview.getSelectionModel().getSelectedItem();
         select.setDescription(appointmentDescriptionTextField.getText());
         select.setLocation(locationTextField.getText());
         select.setType(typeTextField.getText());
             LocalDateTime s = LocalDateTime.parse(startDateAndTimeTextField.getText());
             select.setStart(s.atZone(ZoneId.systemDefault()));
+            LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
+            select.setEnd(e.atZone(ZoneId.systemDefault()));
             select.setTitle(titleTextField.getText());
             boolean bhours;
             boolean startOK = false;
@@ -304,12 +317,10 @@ public class AppointmentScreenController implements Initializable {
             } else {
                 bhours = true;
             }
-            if (bhours == true) {
+            if (bhours) {
                 startOK = true;
             }
             bhours = false;
-            LocalDateTime e = LocalDateTime.parse(endDateAndTimeTextField.getText());
-            select.setEnd(e.atZone(ZoneId.systemDefault()));
             if (select.getStart().isAfter(select.getEnd())) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText("End time is before Start time. Please correct.");
@@ -322,15 +333,17 @@ public class AppointmentScreenController implements Initializable {
             } else {
                 bhours = true;
             }
-            if (bhours == true) {
+            if (bhours) {
                 endOK = true;
             }
             boolean noOverlap = lambdaHours.checkHours(select.getStart(), select.getEnd(), select.getCustomerID(), select.getAppointmentID());
-            if (noOverlap == true && startOK == true && endOK == true) {
-                Contacts contact = (Contacts) contactComboBox.getSelectionModel().getSelectedItem();
+            if (noOverlap  && startOK  && endOK ) {
+                Contacts contact = contactComboBox.getSelectionModel().getSelectedItem();
                 select.setContactID(contact.getContactID());
-                Customers customer = (Customers) customerSelectComboBox.getSelectionModel().getSelectedItem();
+                Customers customer = customerSelectComboBox.getSelectionModel().getSelectedItem();
                 select.setCustomerID(customer.getCustomerID());
+                Users user = userComboBox.getSelectionModel().getSelectedItem();
+                select.setUserID(user.getUserID());
                 select.setLastUpdate(LocalDateTime.now());
                 select.setLastUpdatedBy(username);
                 DBAppointments.updateAppointment(select);
@@ -352,14 +365,14 @@ public class AppointmentScreenController implements Initializable {
      * @param mouseEvent
      */
     public void selectAppointment(MouseEvent mouseEvent) {
-        Appointments select = (Appointments) appointmentsTableview.getSelectionModel().getSelectedItem();
+        Appointments select = appointmentsTableview.getSelectionModel().getSelectedItem();
         appointmentIDTextField.setText(Integer.toString(select.getAppointmentID()));
         titleTextField.setText(select.getTitle());
         appointmentDescriptionTextField.setText(select.getDescription());
         locationTextField.setText(select.getLocation());
         typeTextField.setText(select.getType());
-        customerIDTextField.setText(Integer.toString(select.getCustomerID()));
-        userIDTextField.setText(Integer.toString(select.getUserID()));
+        Users s = DBUsers.getUser(select.getUserID());
+        userComboBox.setValue(s);
         DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         startDateAndTimeTextField.setText(select.getStart().format(dtf));
         endDateAndTimeTextField.setText((select.getEnd().format(dtf)));

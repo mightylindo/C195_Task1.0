@@ -25,7 +25,7 @@
     <TextField fx:id="postalCodeTextField" layoutX="92.0" layoutY="204.0" promptText="Postal Code" text="Postal Code" />
     <TextField fx:id="phoneNumberTextField" layoutX="92.0" layoutY="237.0" promptText="Phone Number" text="Phone Number" />
     <TextField fx:id="customerIDTextField" disable="true" layoutX="92.0" layoutY="102.0" text="Customer ID" />
-    <Button fx:id="saveAndExitButton" layoutX="850.0" layoutY="747.0" mnemonicParsing="false" onAction="#saveAndExit" text="Save and Exit" />
+    <Button fx:id="saveAndExitButton" layoutX="850.0" layoutY="747.0" mnemonicParsing="false" onAction="#saveAndExit" text="Return" />
     <Button fx:id="deleteButton" layoutX="629.0" layoutY="734.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
     <Button fx:id="addButton" layoutX="468.0" layoutY="734.0" mnemonicParsing="false" onAction="#Add" prefHeight="25.0" prefWidth="38.0" text="Add" />
     <Button fx:id="updateButton" layoutX="541.0" layoutY="734.0" mnemonicParsing="false" onAction="#update" text="Update" />

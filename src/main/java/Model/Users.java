@@ -31,6 +31,13 @@ public class Users {
         //this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
     }
+
+    /**
+     * This is an override so that the username is displayed in a combobox.
+     * @return String username
+     */
+    @Override
+    public String toString(){return userName;}
     /**
      * @return the userID
      */
